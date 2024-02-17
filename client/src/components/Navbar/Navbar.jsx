@@ -26,7 +26,7 @@ const Navigation = () => {
 			link: '/speaking',
 		},
 		{
-			name: 'Settings',
+			name: 'settings',
 			icon: 'settings',
 			dis: 'translate-x-64',
 			link: '/setting',
