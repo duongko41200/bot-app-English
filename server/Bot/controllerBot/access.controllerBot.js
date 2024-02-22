@@ -1,21 +1,25 @@
 
 const axios = require('axios');
-const Tutorial = require('../CONTANT/tutorial');
+const { Tutorial } = require('../CONTANT/tutorial');
 const registrationInfo = {
 	name: '',
 	email: '',
 	password: '',
 };
-
+const web_link = 'https://5fd9-58-186-177-26.ngrok-free.app';
 const signUpHandle = (bot) => {
 	bot.command('signup', (ctx) => {
-		ctx.telegram.sendMessage(ctx.chat.id, Tutorial.signUp);
-		console.log('chat id:', ctx.chat.id, ctx.from);
+		// ctx.telegram.sendMessage(ctx.chat.id, Tutorial.signUp);
+		ctx.reply(`${Tutorial.signUp}`, {
+			reply_markup: {
+				keyboard: [[{ text: 'Đăng ký', web_app: { url: `${web_link}/signup` } }]],
+			},
+		})
 	});
 
 
 	// DIỀN THÔNG TIN ĐĂNG KÝ
-	bot.command('name', (ctx) => {
+	bot.command('name', (ctx) => {kjtr5   
 		let input = ctx.message.text;
 		let inputArr = input.split(' ');
 		let message = '';

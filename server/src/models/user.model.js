@@ -45,6 +45,7 @@ const userSchema = new Schema(
 
 			default: false,
 		},
+		//ngày hết hạn
 		roles: {
 			type: Array,
 			default: [],

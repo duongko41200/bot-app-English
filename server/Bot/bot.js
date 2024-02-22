@@ -13,11 +13,11 @@ axios.defaults.headers = {
 
 
 
-const web_link = 'https://d009-58-187-153-101.ngrok-free.app';
+const web_link = 'https://5fd9-58-186-177-26.ngrok-free.app';
 
 const tutorialMessage = `
 	Đây là danh sách các câu lệnh
-	/stat - Hiên thị các danh sách sử dụng bot
+	/start - Hiên thị các danh sách sử dụng bot
 	/signup - đăng ký sử dụng app
 `;
 
