@@ -3,7 +3,7 @@ const axios = require('axios');
 const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
 const bot = new Telegraf(TOKEN);
 const {signUpHandle} = require('./controllerBot/access.controllerBot')
-const { LocalStorage } = require('node-localstorage');
+// const { LocalStorage } = require('node-localstorage');
 
 // Tạo một kho lưu trữ local với đường dẫn tạm thời
 // const localStorage = new LocalStorage('./scratch');
@@ -14,7 +14,7 @@ axios.defaults.headers = {
 };
 
 
-
+bot.telegram.setWebhook(`https://bot-app-english.vercel.app/webhook/${TOKEN}`)
 
 const web_link = 'https://bot-app-english.vercel.app/';
 
