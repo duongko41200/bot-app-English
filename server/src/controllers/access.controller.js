@@ -5,7 +5,7 @@ const {
 	OK,
 	CREATED,
 	SuccessResponse,
-} = require('../core/success.response.js');
+} = require('../cores/success.response.js');
 
 class AccessController {
 	handleRefreshToken = async (req, res, next) => {
