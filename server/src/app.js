@@ -6,12 +6,9 @@ const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
+const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
+const bot = new Telegraf(TOKEN);
 
-// const bot = require('../Bot/bot');
-
-// app.post(`/webhook/${TOKEN}`, (req, res) => {
-//     bot.handleUpdate(req.body, res);
-// });
 
 app.use(cors());
 //init middleware
@@ -21,6 +18,11 @@ app.use(compression());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post(`/webhook/${TOKEN}`, (req, res) => {
+    bot.handleUpdate(req.body, res);
+});
+
 
 // init db
 require('./dbs/init.mongodb');
