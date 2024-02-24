@@ -84,7 +84,7 @@ const setupBot = () => {
 		ctx.reply(message);
 	});
 
-	// bot.launch();
+	bot.launch();
 
 	return bot;
 };

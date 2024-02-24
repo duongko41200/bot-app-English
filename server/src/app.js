@@ -18,10 +18,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/webhook', (req, res) => {
-	console.log('Received a request from Telegram:', req.body);
-    bot.handleUpdate(req.body, res);
-});
+app.post('https://api.telegram.org/bot6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0/setWebHook?url=https://bot-app-english.vercel.app'
+);
 
 
 // init db
