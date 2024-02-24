@@ -6,12 +6,9 @@ const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
-const { Telegraf } = require('telegraf');
-const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
-const bot = new Telegraf(TOKEN);
+const { setupBot } = require('../Bot/bot');
 
-
-
+const bot = setupBot();
 app.use(cors());
 //init middleware
 app.use(morgan('dev'));
@@ -21,8 +18,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-app.post(`/webhook/${TOKEN}`, (req, res) => {
+app.post('/webhook', (req, res) => {
     bot.handleUpdate(req.body, res);
 });
 
@@ -47,8 +43,8 @@ app.use((err, req, res, next) => {
 	return res.status(statusCode).json({
 		status: 'err',
 		code: statusCode,
-		stack:err.stack,
-		message: err.message || 'Internal Server Error'
+		stack: err.stack,
+		message: err.message || 'Internal Server Error',
 	});
 });
 module.exports = app;
