@@ -9,7 +9,7 @@ const {
 	BadRequestError,
 	AuthFailureError,
 	ForbiddenError,
-} = require('../core/Error.response.js');
+} = require('../core/Error.response');
 const { findByEmail } = require('./user.service');
 const keytokenModel = require('../models/keytoken.model');
 // const { LocalStorage } = require('node-localstorage');
