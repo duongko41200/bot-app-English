@@ -5,7 +5,7 @@ const { asyncHandle } = require('../helpers/asyncHandle');
 const {
 	AuthFailureError,
 	NotFoundError,
-} = require('../core/Error.response');
+} = require('../core/Error.response.js');
 const { findByUserId } = require('../services/keyToken.service');
 
 const HEADER = {
