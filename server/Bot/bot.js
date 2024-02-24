@@ -16,7 +16,7 @@ axios.defaults.headers = {
 
 
 
-const web_link = 'https://0a01-58-186-177-26.ngrok-free.app';
+const web_link = 'https://bot-app-english.vercel.app/';
 
 const tutorialMessage = `
 	Đây là danh sách các câu lệnh

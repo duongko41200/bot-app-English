@@ -6,7 +6,7 @@ const registrationInfo = {
 	email: '',
 	password: '',
 };
-const web_link = 'https://0a01-58-186-177-26.ngrok-free.app';
+const web_link = 'https://bot-app-english.vercel.app/';
 const signUpHandle = (bot) => {
 	bot.command('signup', (ctx) => {
 		// ctx.telegram.sendMessage(ctx.chat.id, Tutorial.signUp);
@@ -101,7 +101,7 @@ const signUpHandle = (bot) => {
 		};
 		const signUp = await axios
 			.post(
-				`http://localhost:3052/v1/api/shop/signup`,
+				`https://bot-app-english.vercel.app/signup`,
 				{
 					name: registrationInfo.name,
 					email: registrationInfo.email,
