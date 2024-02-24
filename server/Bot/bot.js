@@ -3,7 +3,10 @@ const axios = require('axios');
 const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
 const bot = new Telegraf(TOKEN);
 const {signUpHandle} = require('./controllerBot/access.controllerBot')
+const { LocalStorage } = require('node-localstorage');
 
+// Tạo một kho lưu trữ local với đường dẫn tạm thời
+const localStorage = new LocalStorage('./scratch');
 axios.defaults.headers = {
 	'Cache-Control': 'no-cache',
 	Pragma: 'no-cache',
@@ -13,7 +16,7 @@ axios.defaults.headers = {
 
 
 
-const web_link = 'https://5fd9-58-186-177-26.ngrok-free.app';
+const web_link = 'https://0a01-58-186-177-26.ngrok-free.app';
 
 const tutorialMessage = `
 	Đây là danh sách các câu lệnh
@@ -27,13 +30,17 @@ const tutorialMessage = `
 // 	console.log(ctx);
 // 	next();
 // });
-bot.start((ctx) =>
+bot.start((ctx) => {
+	// Gửi tin nhắn và thiết lập nút web_app
 	ctx.reply(`${tutorialMessage}`, {
-		reply_markup: {
-			keyboard: [[{ text: 'web app', web_app: { url: web_link } }]],
-		},
-	})
-);
+	  reply_markup: {
+		keyboard: [[{ text: 'web app', web_app: { url: web_link } }]],
+	  },
+	});
+  
+	// Lưu idTelegram vào localStorage
+	// localStorage.setItem('idTelegram', ctx.from.id.toString());
+  });
 
 //access bot
 signUpHandle(bot)

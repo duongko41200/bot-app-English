@@ -4,7 +4,8 @@ const apiUrl = '/v1/api';
 
 const axios = axiosBase.create({
 	// This is development host
-	baseURL: process.env.VUE_APP_BASE_URL,
+	baseURL: import.meta.env.APP_BASE_URL,
+	timeout: 10000,
 	// headers: {
 	// 	'x-api-key': process.env.VUE_APP_API_KEY,
 	// 	'x-client-id': window.sessionStorage.getItem('userId'),

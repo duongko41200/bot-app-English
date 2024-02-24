@@ -6,7 +6,7 @@ const registrationInfo = {
 	email: '',
 	password: '',
 };
-const web_link = 'https://5fd9-58-186-177-26.ngrok-free.app';
+const web_link = 'https://0a01-58-186-177-26.ngrok-free.app';
 const signUpHandle = (bot) => {
 	bot.command('signup', (ctx) => {
 		// ctx.telegram.sendMessage(ctx.chat.id, Tutorial.signUp);

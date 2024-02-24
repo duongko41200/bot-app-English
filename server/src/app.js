@@ -1,11 +1,14 @@
 const compression = require('compression');
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
 
+
+app.use(cors());
 //init middleware
 app.use(morgan('dev'));
 app.use(helmet());
