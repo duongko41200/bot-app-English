@@ -47,6 +47,11 @@ const setupBot = () => {
 		// localStorage.setItem('idTelegram', ctx.from.id.toString());
 	});
 
+	bot.use((ctx, next) => {
+        console.log('Received a message:', ctx.message);
+        return next();
+    });
+
 	//access bot
 	signUpHandle(bot);
 

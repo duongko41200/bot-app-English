@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/webhook', (req, res) => {
+	console.log('Received a request from Telegram:', req.body);
     bot.handleUpdate(req.body, res);
 });
 
