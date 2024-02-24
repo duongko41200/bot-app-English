@@ -12,6 +12,10 @@ const {
 } = require('../core/Error.response');
 const { findByEmail } = require('./user.service');
 const keytokenModel = require('../models/keytoken.model');
+// const { LocalStorage } = require('node-localstorage');
+
+// Tạo một kho lưu trữ local với đường dẫn tạm thời
+// const localStorage = new LocalStorage('./scratch');
 
 const RoleApp = {
 	USER: 'USER',
@@ -200,6 +204,7 @@ class AccessService {
 	};
 
 	static signUp = async ({ name, email, password }) => {
+
 		//step1: CHECK EMAIL EXIST?
 		const holeUser = await userModel.find({ email }).lean();
 		// console.log({ holeUser });
@@ -213,6 +218,7 @@ class AccessService {
 			email,
 			password: passwordHash,
 			roles: [RoleApp.USER],
+			// idTelegram:localStorage.getItem('idTelegram')
 		});
 
 		if (newShop) {

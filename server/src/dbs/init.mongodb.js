@@ -1,9 +1,19 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const {db:{host, port,name}} = require('../configs/config.mongodb')
+const { db: { host, port, name } } = require('../configs/config.mongodb')
 
-const connectString = `mongodb://${host}:${port}/${name}`;
+
+let connectString =''
+
+if (process.env.NODE_ENV === 'dev') {
+	connectString = `mongodb://${host}:${port}/${name}`;
+} else {
+	connectString = process.env.MONGO_URL_PRO;
+}
+
+
+
 console.log(connectString)
 const {countConnect} = require("../helpers/check.connect")
 
