@@ -14,7 +14,6 @@ axios.defaults.headers = {
 };
 
 
-bot.telegram.setWebhook(`https://bot-app-english.vercel.app/webhook/${TOKEN}`)
 
 const web_link = 'https://bot-app-english.vercel.app/';
 
@@ -78,4 +77,8 @@ bot.command('echo', (ctx) => {
 	ctx.reply(message);
 });
 
-bot.launch();
+// bot.launch();
+
+bot.launch({ polling: true })
+
+module.exports = bot;

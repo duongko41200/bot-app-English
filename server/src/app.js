@@ -7,13 +7,11 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
 
-const { Telegraf } = require('telegraf');
-const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
-const bot = new Telegraf(TOKEN);
+// const bot = require('../Bot/bot');
 
-app.post(`/webhook/${TOKEN}`, (req, res) => {
-    bot.handleUpdate(req.body, res);
-});
+// app.post(`/webhook/${TOKEN}`, (req, res) => {
+//     bot.handleUpdate(req.body, res);
+// });
 
 app.use(cors());
 //init middleware
