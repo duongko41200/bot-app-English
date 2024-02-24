@@ -6,7 +6,7 @@ const {signUpHandle} = require('./controllerBot/access.controllerBot')
 const { LocalStorage } = require('node-localstorage');
 
 // Tạo một kho lưu trữ local với đường dẫn tạm thời
-const localStorage = new LocalStorage('./scratch');
+// const localStorage = new LocalStorage('./scratch');
 axios.defaults.headers = {
 	'Cache-Control': 'no-cache',
 	Pragma: 'no-cache',
