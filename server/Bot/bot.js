@@ -80,6 +80,4 @@ bot.command('echo', (ctx) => {
 
 bot.launch();
 
-// bot.launch({ polling: true })
 
-// module.exports = bot;

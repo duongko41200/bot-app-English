@@ -6,11 +6,11 @@ const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
-// const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
-// const bot = new Telegraf(TOKEN);
+const { Telegraf } = require('telegraf');
+const TOKEN = '6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0';
+const bot = new Telegraf(TOKEN);
 
 
-// bot.telegram.setWebhook(`https://bot-app-english.vercel.app/webhook/${TOKEN}`)
 
 app.use(cors());
 //init middleware
@@ -21,7 +21,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(await bot.createWebhook({ domain: "https://bot-app-english.vercel.app" }));
 
 app.post(`/webhook/${TOKEN}`, (req, res) => {
     bot.handleUpdate(req.body, res);
