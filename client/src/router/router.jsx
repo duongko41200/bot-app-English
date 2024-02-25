@@ -9,6 +9,7 @@ import CheckList from '../pages/Review/CkeckList/CheckList';
 import PenddingCheck from '../pages/Review/PenddingCheck/PenddingCheck';
 import SignUp from '../pages/SignUp/SignUp';
 import { createBrowserRouter } from 'react-router-dom';
+import SignIn from "../pages/Login/SignIn"
 
 const routes = [
 	{
@@ -31,6 +32,7 @@ const routes = [
 		],
 	},
 	{ path: '/signup', element: <SignUp /> },
+	{ path: '/login', element: <SignIn /> },
 ];
 
 const router = createBrowserRouter(routes);

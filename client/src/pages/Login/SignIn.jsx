@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import './SignUp.css';
-import AccessService from '../../services/API/access.service';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState } from 'react';
+import "./SignIn.css";
 import {
 	useNavigation,
 	useNavigate,
 	NavLink,
 	Navigate,
 } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
 
-function SignUp() {
-	const navigate = useNavigate();
-	const [formValues, setFormValues] = useState({
+function SignIn() {
+  const [formValues, setFormValues] = useState({
 		name: '',
 		email: '',
 		password: '',
@@ -25,41 +21,27 @@ function SignUp() {
 			[name]: value,
 		});
 	};
-	const onSignUp = async () => {
-		try {
-			const createUser = await AccessService.signUp({
-				name: formValues.name,
-				email: formValues.email,
-				password: formValues.password,
-			});
-			navigate('/login');
+	// const onSignUp = async () => {
+	// 	try {
+	// 		const createUser = await AccessService.signUp({
+	// 			name: formValues.name,
+	// 			email: formValues.email,
+	// 			password: formValues.password,
+	// 		});
 
-			console.log('new user:', createUser);
-		} catch (error) {
-			console.log({ error });
-		}
-	};
-
-	useEffect(() => {
-		console.log(import.meta.env);
-	}, []);
+	// 		console.log('new user:', createUser);
+	// 	} catch (error) {
+	// 		console.log({ error });
+	// 	}
+	// };
 	return (
 		<>
 			<div className="container sign-up-mode">
 				<div className="forms-container">
 					<div className="signin-signup">
-						<div action="#" className="form sign-up-form">
-							<h2 className="title">Sign up</h2>
-							<div className="input-field">
-								<i className="fas fa-user"></i>
-								<input
-									type="text"
-									name="name"
-									value={formValues.name}
-									onChange={handleInputChange}
-									placeholder="Username"
-								/>
-							</div>
+						<div  className=" form sign-up-form">
+							<h2 className="title">Sign In</h2>
+
 							<div className="input-field">
 								<i className="fas fa-envelope"></i>
 								<input
@@ -80,14 +62,9 @@ function SignUp() {
 									placeholder="Password"
 								/>
 							</div>
-							<div className="input-field">
-								<i className="fas fa-lock"></i>
-								<input type="password" placeholder="Comfirm Password" />
-							</div>
 							<div
 								className="btn flex justify-center items-center"
 								style={{ pointerEvents: 'auto' }}
-								onClick={onSignUp}
 							>
 								<div>Submit</div>
 							</div>
@@ -105,11 +82,11 @@ function SignUp() {
 							</p>
 							<div className="flex justify-center">
 								<NavLink
-									to="/login"
-									className="btn w-fit h-fit p-2 form transparent"
+									to="/signup"
+									className="btn w-fit h-fit  form form-padding transparent"
 									id="sign-in-btn"
 								>
-									Sign in
+									<div className='w-fit'>Sign Up</div>
 								</NavLink>
 							</div>
 						</div>
@@ -120,4 +97,4 @@ function SignUp() {
 	);
 }
 
-export default SignUp;
+export default SignIn;
