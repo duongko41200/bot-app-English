@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './SignUp.css';
 import AccessService from '../../services/API/access.service';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, Toaster } from 'react-hot-toast';
 import {
 	useNavigation,
 	useNavigate,
@@ -31,6 +31,20 @@ function SignUp() {
 				name: formValues.name,
 				email: formValues.email,
 				password: formValues.password,
+			});
+			toast.success('Đăng ký thành công', {
+				duration: 4000,
+				position: 'top-center',
+
+				// Styling
+				style: {},
+				className: '',
+
+				// Aria
+				ariaProps: {
+					role: 'status',
+					'aria-live': 'polite',
+				},
 			});
 			navigate('/login');
 
@@ -115,6 +129,7 @@ function SignUp() {
 						</div>
 					</div>
 				</div>
+				<Toaster />
 			</div>
 		</>
 	);

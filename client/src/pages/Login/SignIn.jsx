@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import "./SignIn.css";
+import { toast, Toaster } from 'react-hot-toast';
+import AccessService from '../../services/API/access.service';
+import 'react-toastify/dist/ReactToastify.css';
+import './SignIn.css';
 import {
 	useNavigation,
 	useNavigate,
@@ -8,7 +11,8 @@ import {
 } from 'react-router-dom';
 
 function SignIn() {
-  const [formValues, setFormValues] = useState({
+	const navigate = useNavigate();
+	const [formValues, setFormValues] = useState({
 		name: '',
 		email: '',
 		password: '',
@@ -21,26 +25,116 @@ function SignIn() {
 			[name]: value,
 		});
 	};
-	// const onSignUp = async () => {
-	// 	try {
-	// 		const createUser = await AccessService.signUp({
-	// 			name: formValues.name,
-	// 			email: formValues.email,
-	// 			password: formValues.password,
-	// 		});
 
-	// 		console.log('new user:', createUser);
-	// 	} catch (error) {
-	// 		console.log({ error });
-	// 	}
-	// };
+	const onLogin = async () => {
+		try {
+			const [res, err] = await AccessService.login({
+				email: formValues.email,
+				password: formValues.password,
+			});
+			console.log("createUser:", res)
+
+			if (err && err.message.includes('not registered')) {
+				toast.error(`Tài khoản không tồn tại`, {
+					duration: 4000,
+					position: 'top-right',
+		
+					// Styling
+					style: {},
+					className: '',
+		
+					// Aria
+					ariaProps: {
+						role: 'status',
+						'aria-live': 'polite',
+					},
+				});
+				return;
+			}
+
+			if (err && err.message.includes('Authentication failed')) {
+				toast.error(`Mật khẩu không chính xác `, {
+					duration: 4000,
+					position: 'top-right',
+		
+					// Styling
+					style: {},
+					className: '',
+		
+					// Aria
+					ariaProps: {
+						role: 'status',
+						'aria-live': 'polite',
+					},
+				});
+				return;
+			}
+
+			if (err) {
+				toast.error(`Hãy thử đăng nhập lại xem `, {
+					duration: 4000,
+					position: 'top-right',
+		
+					// Styling
+					style: {},
+					className: '',
+		
+					// Aria
+					ariaProps: {
+						role: 'status',
+						'aria-live': 'polite',
+					},
+				});
+				return;
+			}
+				toast.success('chào mừng bạn đến với pikachu', {
+					duration: 4000,
+					position: 'top-right',
+		
+					// Styling
+					style: {},
+					className: '',
+		
+					// Aria
+					ariaProps: {
+						role: 'status',
+						'aria-live': 'polite',
+					},
+				});
+	
+				localStorage.setItem('userId', res.metadata?.user?._id);
+				localStorage.setItem('accessToken', res.metadata?.tokens?.accessToken);
+				localStorage.setItem('refreshToken', res.metadata?.tokens?.refreshToken);
+		
+				navigate('/');
+			
+		} catch (error) {
+			toast.error(`${error}`, {
+				duration: 4000,
+				position: 'top-right',
+	
+				// Styling
+				style: {},
+				className: '',
+	
+				// Aria
+				ariaProps: {
+					role: 'status',
+					'aria-live': 'polite',
+				},
+			});
+			console.log({ error });
+		}
+	};
 	return (
 		<>
 			<div className="container sign-up-mode">
 				<div className="forms-container">
 					<div className="signin-signup">
-						<div  className=" form sign-up-form">
-							<h2 className="title">Sign In</h2>
+						<div className=" form sign-up-form">
+							<h2 className="title">
+								Sign In
+							</h2>
 
 							<div className="input-field">
 								<i className="fas fa-envelope"></i>
@@ -65,6 +159,7 @@ function SignIn() {
 							<div
 								className="btn flex justify-center items-center"
 								style={{ pointerEvents: 'auto' }}
+								onClick={onLogin}
 							>
 								<div>Submit</div>
 							</div>
@@ -86,12 +181,13 @@ function SignIn() {
 									className="btn w-fit h-fit  form form-padding transparent"
 									id="sign-in-btn"
 								>
-									<div className='w-fit'>Sign Up</div>
+									<div className="w-fit">Sign Up</div>
 								</NavLink>
 							</div>
 						</div>
 					</div>
 				</div>
+				<Toaster />
 			</div>
 		</>
 	);

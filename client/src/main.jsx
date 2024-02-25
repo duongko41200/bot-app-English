@@ -6,8 +6,10 @@ import './index.css';
 import Router from './router/router';
 
 ReactDOM.render(
+	
 
-		<RouterProvider router={Router} />
+	<RouterProvider router={Router} />
+	
 	,
 	document.getElementById('root')
 );

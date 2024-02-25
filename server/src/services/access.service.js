@@ -170,7 +170,7 @@ class AccessService {
 
 		//2
 		const match = await bcrypt.compare(password, foundShop.password);
-		if (!match) throw new AuthFailureError('Authentication error');
+		if (!match) throw new AuthFailureError('Authentication failed');
 
 		//3
 		//create pivateKey, publicKey
@@ -195,7 +195,7 @@ class AccessService {
 		});
 
 		return {
-			shop: getIntoData({
+			user: getIntoData({
 				fileds: ['_id', 'name', 'email'],
 				object: foundShop,
 			}),
@@ -255,7 +255,7 @@ class AccessService {
 
 			return {
 
-					shop: getIntoData({
+					user: getIntoData({
 						fileds: ['_id', 'name', 'email'],
 						object: newShop,
 					}),

@@ -2,11 +2,11 @@ import ApiService from './api.service';
 
 const serviceURL = 'access';
 const AccessService = {
-	login({ emailOrUsername, password }) {
+	login({ email, password }) {
 		return ApiService.post(
 			`${serviceURL}/login`,
 			{
-				emailOrUsername: emailOrUsername,
+				email: email,
 				password: password,
 			},
 			{
