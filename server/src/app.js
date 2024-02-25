@@ -6,9 +6,7 @@ const { default: helmet } = require('helmet');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
-const { setupBot } = require('../Bot/bot');
 
-const bot = setupBot();
 app.use(cors());
 //init middleware
 app.use(morgan('dev'));
@@ -18,8 +16,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('https://api.telegram.org/bot6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0/setWebHook?url=https://bot-app-english.vercel.app'
-);
+// app.post('https://api.telegram.org/bot6893164702:AAEPdDlqfEy20Np_goXO7R-9cqAgfelPys0/setWebHook?url=https://bot-app-english.vercel.app'
+// );
 
 
 // init db
