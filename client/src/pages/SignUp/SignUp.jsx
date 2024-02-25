@@ -7,11 +7,15 @@ import {
 	useNavigate,
 	NavLink,
 	Navigate,
+	useParams,
 } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
+	const { id } = useParams();
 	const navigate = useNavigate();
+
+	const [idTele, setIdTele] = useState('');
 	const [formValues, setFormValues] = useState({
 		name: '',
 		email: '',
@@ -31,6 +35,7 @@ function SignUp() {
 				name: formValues.name,
 				email: formValues.email,
 				password: formValues.password,
+				idTelegram:idTele
 			});
 			toast.success('Đăng ký thành công', {
 				duration: 4000,
@@ -55,7 +60,21 @@ function SignUp() {
 	};
 
 	useEffect(() => {
-		console.log(import.meta.env);
+		// Lấy URL hiện tại
+		const currentUrl = window.location.href;
+
+		// Tạo một đối tượng URL từ URL hiện tại
+		const url = new URL(currentUrl);
+
+		// Lấy đối tượng URLSearchParams từ query string của URL
+		const searchParams = new URLSearchParams(url.search);
+
+		// Lấy giá trị của tham số 'id'
+		const id = searchParams.get('id');
+		if (id) {
+			setIdTele(id);
+			return;
+		}
 	}, []);
 	return (
 		<>

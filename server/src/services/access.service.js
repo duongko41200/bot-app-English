@@ -203,7 +203,7 @@ class AccessService {
 		};
 	};
 
-	static signUp = async ({ name, email, password }) => {
+	static signUp = async ({ name, email, password,idTelegram }) => {
 
 		//step1: CHECK EMAIL EXIST?
 		const holeUser = await userModel.find({ email }).lean();
@@ -218,6 +218,7 @@ class AccessService {
 			email,
 			password: passwordHash,
 			roles: [RoleApp.USER],
+			idTelegram
 			// idTelegram:localStorage.getItem('idTelegram')
 		});
 

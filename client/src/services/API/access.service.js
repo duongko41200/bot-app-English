@@ -26,13 +26,14 @@ const AccessService = {
 			}
 		);
 	},
-	signUp({name, email, password }) {
+	signUp({name, email, password,idTelegram }) {
 		return ApiService.post(
 			`${serviceURL}/signup`,
 			{
 				name: name,
 				email:email,
 				password: password,
+				idTelegram:idTelegram
 			},
 			{
 				'x-api-key': import.meta.env.APP_API_KEY,
