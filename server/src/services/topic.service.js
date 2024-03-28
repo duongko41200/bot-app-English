@@ -7,7 +7,7 @@ const {
 	findAllInfoText,
 } = require('../models/respositories/text.repo');
 
-class TextFormFactory {
+class TopicFactory {
 	/**
 	 * type:"Word",
 	 * payload
@@ -92,4 +92,4 @@ class Sentence extends TextForm {
 		return newTextForm;
 	}
 }
-module.exports = TextFormFactory;
+module.exports = TopicFactory;

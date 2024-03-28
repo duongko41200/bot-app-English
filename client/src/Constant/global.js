@@ -1,0 +1,8 @@
+const STEPS_ADD_WORD_SENTENCE = {
+	STEP_0: 0,
+	STEP_1: 1,
+	STEP_2: 2,
+	STEP_3: 3,
+};
+
+export { STEPS_ADD_WORD_SENTENCE };

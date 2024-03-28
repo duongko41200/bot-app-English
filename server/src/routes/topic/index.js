@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const TextFormController = require('../../controllers/textForm.controller');
+const TopicController = require('../../controllers/topic.controller')
 const { asyncHandle } = require('../../auth/checkAuth');
 const {
 	authentication,
@@ -12,11 +12,11 @@ const {
 router.use(authenticationV2);
 
 router.post(
-	'/info/all',
-	asyncHandle(TextFormController.createTextForm)
+	'/create',
+	asyncHandle(TopicController.createTopic)
 );
 
 // QUERY
-router.get('', asyncHandle(TextFormController.getAllInfoText));
+// router.get('', asyncHandle(TextFormController.getAllInfoText));
 
 module.exports = router;
