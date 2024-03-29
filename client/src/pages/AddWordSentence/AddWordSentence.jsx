@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 function AddWordSentence() {
 	return (
 		<>
-			<div className="w-full flex flex-col gap-10 h-[400px] border border-red p-2 pt-10">
+			<div className="w-full flex flex-col gap-10 h-[400px] p-2 pt-10">
 				<div className="flex justify-center">
 					<div className="text-orange-400 font-medium text-lg">
 						Hôm nay bạn thích học gì nhỉ! 😀

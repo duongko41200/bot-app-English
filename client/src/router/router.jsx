@@ -14,6 +14,7 @@ import AddWordSentence from '../pages/AddWordSentence/AddWordSentence';
 import FormWord from '../pages/AddWordSentence/FormWord/FormWord';
 import FormStep1 from '../pages/AddWordSentence/FormWord/FormStep1/FormStep1';
 import FormStep2 from '../pages/AddWordSentence/FormWord/FormStep2/FormStep2';
+import FormStep3 from '../pages/AddWordSentence/FormWord/FormStep3/FormStep3';
 
 const routes = [
 	{
@@ -51,7 +52,8 @@ const routes = [
 		children: [
 			{ path: '', element: <FormStep1 /> },
 			{ path: '/formWord/step1', element: < FormStep1 /> },
-			{ path: '/formWord/step2', element: < FormStep2/> },
+			{ path: '/formWord/step2', element: < FormStep2 /> },
+			{ path: '/formWord/step3', element: < FormStep3/> },
 			{
 				path: 'review/',
 				element: <Review />,

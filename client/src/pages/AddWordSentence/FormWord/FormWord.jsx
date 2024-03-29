@@ -63,10 +63,10 @@ function FormWord() {
 	return (
 		<>
 			<div className="w-full h-[300px] p-2 pt-10">
-				<div className="h-[170px]">
+				<div className="min-h-[170px]">
 					<Outlet />
 				</div>
-				<div className="w-full flex justify-between">
+				<div className="w-full flex justify-between mt-5">
 					<div
 						className="border min-w-[70px] py-2 text-center rounded shadow-sm"
 						onClick={handlePrevious}
