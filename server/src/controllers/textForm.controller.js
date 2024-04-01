@@ -5,7 +5,7 @@ const { SuccessResponse } = require('../cores/success.response.js');
 
 class TextFormController {
 	createTextForm = async (req, res, next) => {
-		console.log('data req:', req.user);
+		console.log('data req:', req.body);
 
 		new SuccessResponse({
 			message: 'creat new textFrom success!',

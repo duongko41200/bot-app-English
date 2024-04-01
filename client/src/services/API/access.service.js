@@ -22,7 +22,7 @@ const AccessService = {
 			{
 				'x-api-key': import.meta.env.APP_API_KEY,
 				'x-client-id': window.sessionStorage.getItem('userId'),
-				authorization: window.sessionStorage.getItem('accessToken'),
+				'authorization': window.sessionStorage.getItem('accessToken'),
 			}
 		);
 	},

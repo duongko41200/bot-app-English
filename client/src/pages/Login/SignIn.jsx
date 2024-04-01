@@ -9,6 +9,8 @@ import {
 	NavLink,
 	Navigate,
 } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { SET_USER } from '../../store/feature/auth';
 
 function SignIn() {
 	const navigate = useNavigate();
@@ -17,6 +19,8 @@ function SignIn() {
 		email: '',
 		password: '',
 	});
+
+	const dispatch = useDispatch()
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -27,11 +31,13 @@ function SignIn() {
 	};
 
 	const onLogin = async () => {
+
+		console.log('tai khoan dang nhap:',formValues)
 		try {
 			const [res, err] = await AccessService.login({
 				email: formValues.email,
 				password: formValues.password,
-			});
+			}); 
 			console.log("createUser:", res)
 
 			if (err && err.message.includes('not registered')) {
@@ -105,6 +111,8 @@ function SignIn() {
 				localStorage.setItem('userId', res.metadata?.user?._id);
 				localStorage.setItem('accessToken', res.metadata?.tokens?.accessToken);
 				localStorage.setItem('refreshToken', res.metadata?.tokens?.refreshToken);
+				localStorage.setItem('user', JSON.stringify(res.metadata?.user));
+				dispatch(SET_USER(res.metadata?.user))
 		
 				navigate('/');
 			

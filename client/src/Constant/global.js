@@ -5,4 +5,7 @@ const STEPS_ADD_WORD_SENTENCE = {
 	STEP_3: 3,
 };
 
-export { STEPS_ADD_WORD_SENTENCE };
+
+const RES_DATA = 0
+
+export { STEPS_ADD_WORD_SENTENCE,RES_DATA };
