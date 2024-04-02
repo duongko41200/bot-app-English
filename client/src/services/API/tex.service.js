@@ -19,6 +19,17 @@ const TextService = {
 			}
 		);
 	},
+	getAllText() {
+		return ApiService.get(
+			`${serviceURL}/all`,
+
+			{
+				'x-api-key': import.meta.env.APP_API_KEY,
+				'x-client-id': localStorage.getItem('userId'),
+				authorization: localStorage.getItem('accessToken'),
+			},{}
+		);
+	},
 };
 
 export default TextService;

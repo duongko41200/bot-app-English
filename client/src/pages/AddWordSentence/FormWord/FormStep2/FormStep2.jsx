@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SET_WORD } from '../../../../store/feature/word';
 
 function FormStep2() {
 	const [defind, setDefind] = useState('');
+
+	const wordText = useSelector((state) => state.wordStore.wordObject);
 	const dispatch = useDispatch();
 	const handleSetText = (e) => {
 		setDefind(e.target.value);
@@ -12,6 +14,10 @@ function FormStep2() {
 		// });
 		dispatch(SET_WORD({ defind: e.target.value }));
 	};
+
+	useEffect(() => {
+		setDefind(wordText.defind)
+	},[])
 	return (
 		<div className="w-ful flex justify-center">
 			<div className="flex flex-col gap-10">

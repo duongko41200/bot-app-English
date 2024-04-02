@@ -17,10 +17,13 @@ export const wordReducer = createSlice({
 			console.log('action type text:', action);
 			state.typeText = action.payload;
 		},
+		RESET_WORD: (state) => {
+			state.wordObject = {}
+		}
 	},
 });
 
 // Action creators are generated for each case reducer function
-export const { SET_WORD, SET_TYPE_TEXT } = wordReducer.actions;
+export const { SET_WORD, SET_TYPE_TEXT,RESET_WORD } = wordReducer.actions;
 
 export default wordReducer.reducer;

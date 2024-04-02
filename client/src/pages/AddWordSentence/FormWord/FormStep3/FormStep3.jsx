@@ -7,6 +7,7 @@ import { SET_WORD } from '../../../../store/feature/word';
 function FormStep3() {
 	const dispatch = useDispatch();
 	const [topics, setTopics] = useState([]);
+	const [date, setDate] = useState(new Date());
 
 	const getAllTopics = async () => {
 		let topicLocalStorage = [];
@@ -19,6 +20,7 @@ function FormStep3() {
 				name: topic.name,
 				numberCount: 0,
 				listElement: [],
+				day: date.getDate(),
 			};
 
 			return topic;
@@ -34,12 +36,16 @@ function FormStep3() {
 	};
 
 	useEffect(() => {
+		let currentDate = new Date();
+
 		const topicLocalStorage = JSON.parse(
 			localStorage.getItem('topics')
 		);
 
-		console.log({ topicLocalStorage });
-		if (topicLocalStorage) {
+		if (
+			topicLocalStorage &&
+			topicLocalStorage[0].day === currentDate.getDate()
+		) {
 			let topicActive = topicLocalStorage.map((topic) => {
 				topic['isActive'] = false;
 
@@ -72,22 +78,22 @@ function FormStep3() {
 				<div className="text-center text-orange-400 font-medium">
 					Từ của bạn thuộc chủ để nào vậy nhỉ
 				</div>
-
-				{topics.length > 0 &&
-					topics.map((topic, idx) => {
-						return (
-							<div
-								key={idx}
-								className={`px-2 pt-1 text-center pt-1 text-center border text-sm rounded shadow ${
-									topic.isActive === true ? 'bg-green-200' : ''
-								}`}
-								onClick={() => chooseTopic(topic)}
-							>
-								{topic.name}
-							</div>
-						);
-					})}
-				<div className="grid grid-cols-4  gap-3"></div>
+				<div className="grid grid-cols-3  gap-3">
+					{topics.length > 0 &&
+						topics?.map((topic, idx) => {
+							return (
+								<div
+									key={idx}
+									className={`px-2 pt-1 text-center pt-1 text-center border text-sm rounded shadow ${
+										topic.isActive === true ? 'bg-green-200' : ''
+									}`}
+									onClick={() => chooseTopic(topic)}
+								>
+									{topic.name}
+								</div>
+							);
+						})}
+				</div>
 			</div>
 		</div>
 	);

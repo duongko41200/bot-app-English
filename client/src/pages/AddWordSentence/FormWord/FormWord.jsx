@@ -3,7 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { SET_USER } from '../../../store/feature/auth';
 import TextService from '../../../services/API/tex.service';
-import { toast, Toaster } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast';
+import { STEPS_ADD_WORD_SENTENCE } from '../../../Constant/global';
+import { ToastError, ToastSuccess } from '../../../utils/Toast';
+import {
+	CREATE_SUCCESS,
+	NOT_REQUIRED_DEFIND,
+	NOT_REQUIRED_TOPIC,
+	NOT_REQUIRED_WORD,
+} from '../../../Constant/toast';
+import { RESET_WORD } from '../../../store/feature/word';
 
 const STEP_FINAL = 2;
 
@@ -21,7 +30,7 @@ function FormWord() {
 	const auth = useSelector((state) => state.authStore.user);
 	const dispatch = useDispatch();
 
-	//kiểm tra chỗ này nên để ra 1 nhánh bao tấtx cả các nhánh
+	//kiểm tra chỗ này nên để ra 1 nhánh bao tấtx cả các nhánh - beforeEch()- vuejs
 	useEffect(() => {
 		const userId = localStorage.getItem('userId');
 		const accessToken = localStorage.getItem('accessToken');
@@ -37,10 +46,10 @@ function FormWord() {
 
 	const changeStep = async (step) => {
 		// switch (step) {
-		// 	case STEP_2:
-		// 		await store.dispatch('global/getRestaurant');
+		// 	case STEPS_ADD_WORD_SENTENCE.STEP_1:
+
 		// 		break;
-		// 	case STEP_3:
+		// 	case STEPS_ADD_WORD_SENTENCE.STEP_2:
 		// 		await store.dispatch('global/getDish');
 		// 		break;
 		// 	case STEP_REVIEW:
@@ -72,6 +81,16 @@ function FormWord() {
 		// handle Next
 		const currentStepIndex = steps.findIndex((step) => step.isActive);
 
+		if (currentStepIndex === STEPS_ADD_WORD_SENTENCE.STEP_0 && !wordText.text) {
+			ToastError(NOT_REQUIRED_WORD);
+			return;
+		}
+
+		if (currentStepIndex === STEPS_ADD_WORD_SENTENCE.STEP_1 && !wordText.defind) {
+			ToastError(NOT_REQUIRED_DEFIND);
+			return;
+		}
+
 		if (
 			currentStepIndex !== -1 &&
 			currentStepIndex < steps.length - 1
@@ -86,43 +105,27 @@ function FormWord() {
 		}
 	};
 
-	const handleSave = async() => {
+	const handleSave = async () => {
 		// logic Save
 
-		// console.log('auth', JSON.parse(auth));
+		if (!wordText.topicId) {
+			ToastError(NOT_REQUIRED_TOPIC);
+			return;
+		}
+		
 		let paramData = {
 			...wordText,
 			typeText,
-
 		};
 		try {
-			const createWord = await TextService.createWord(paramData)
-
-			toast.success('Thêm thành công ', {
-				duration: 4000,
-				position: 'top-right',
-	
-				// Styling
-				style: {},
-				className: '',
-	
-				// Aria
-				ariaProps: {
-					role: 'status',
-					'aria-live': 'polite',
-				},
-			});
-		
-
-			
+			const createWord = await TextService.createWord(paramData);
+			ToastSuccess(CREATE_SUCCESS);
+			dispatch(RESET_WORD())
 		} catch (error) {
-			console.log({error})
+			console.log({ error });
 		}
 
 		navigate('/addElement');
-		
-
-
 	};
 
 	return (
@@ -155,9 +158,8 @@ function FormWord() {
 						</div>
 					)}
 				</div>
-				<Toaster/>
+				<Toaster />
 			</div>
-
 		</>
 	);
 }

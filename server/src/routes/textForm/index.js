@@ -17,6 +17,6 @@ router.post(
 );
 
 // QUERY
-router.get('', asyncHandle(TextFormController.getAllInfoText));
+router.get('/all', asyncHandle(TextFormController.getAllInfoText));
 
 module.exports = router;

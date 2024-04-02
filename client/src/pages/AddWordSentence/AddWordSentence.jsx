@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { SET_TYPE_TEXT } from '../../store/feature/word';
-import { toast, Toaster } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast';
 
 function AddWordSentence() {
 	const navigate = useNavigate();
@@ -14,15 +14,9 @@ function AddWordSentence() {
 		navigate('/formWord');
 	};
 
-	
 	return (
 		<>
 			<div className="w-full flex flex-col gap-10 h-[400px] p-2 pt-10">
-				{/* <div className="flex justify-center">
-					<div className="text-orange-400 font-medium text-lg">
-						Hôm nay bạn thích học gì nhỉ! 😀
-					</div>
-				</div> */}
 				<div className="flex justify-center">
 					<div className="flex flex-col gap-2 pt-10">
 						<div onClick={chooseWord}>
@@ -42,7 +36,7 @@ function AddWordSentence() {
 						</div>
 					</div>
 				</div>
-				<Toaster/>
+				<Toaster />
 			</div>
 		</>
 	);

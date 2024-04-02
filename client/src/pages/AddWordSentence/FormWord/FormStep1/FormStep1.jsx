@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_WORD } from '../../../../store/feature/word';
 
 function FormStep1() {
 	const [text, setText] = useState('');
+
+	const wordText = useSelector((state) => state.wordStore.wordObject);
 	const dispatch = useDispatch()
 
 	const handleSetText = (e) => {
@@ -14,6 +16,9 @@ function FormStep1() {
 		dispatch(SET_WORD({text: e.target.value}))
 
 	};
+	useEffect(() => {
+		setText(wordText.text)
+	},[])
 	return (
 		<div className="w-ful flex justify-center">
 			<div className="flex flex-col gap-10">
@@ -27,6 +32,7 @@ function FormStep1() {
 						value={text}
 						onChange={handleSetText}
 						placeholder="Nhập từ..."
+						
 					/>
 				</div>
 			</div>
