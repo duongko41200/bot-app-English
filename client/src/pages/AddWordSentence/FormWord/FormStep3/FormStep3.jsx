@@ -44,6 +44,7 @@ function FormStep3() {
 
 		if (
 			topicLocalStorage &&
+			topicLocalStorage[0].day &&
 			topicLocalStorage[0].day === currentDate.getDate()
 		) {
 			let topicActive = topicLocalStorage.map((topic) => {

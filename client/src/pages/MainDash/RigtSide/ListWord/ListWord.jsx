@@ -37,7 +37,7 @@ const ListWord = () => {
 										<div className="font-bold">{data.text}</div>
 									</div>
 
-									<div>{dayjs( data.createdAt).format('DD/MM/YYYY')}</div>
+									<div>{dayjs( data.createdAt).format('DD-MM-YYYY')}</div>
 								</div>
 								<div className="detail-list__bottom translate">
 									<div>{data.defind}</div>
@@ -58,7 +58,7 @@ const ListWord = () => {
 										<div className="font-bold">{data.attributes.structure}</div>
 									</div>
 
-									<div>{dayjs( data.createdAt).format('DD/MM/YYYY')}</div>
+									<div>{dayjs( data.createdAt).format('DD-MM-YYYY')}</div>
 								</div>
 								<div className="detail-list__bottom">
 									<div>{data.text}</div>
