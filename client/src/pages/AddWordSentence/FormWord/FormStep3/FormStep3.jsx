@@ -42,20 +42,22 @@ function FormStep3() {
 			localStorage.getItem('topics')
 		);
 
-		// if (
-		// 	topicLocalStorage &&
-		// 	topicLocalStorage[0].day &&
-		// 	topicLocalStorage[0].day === currentDate.getDate()
-		// ) {
-		// 	let topicActive = topicLocalStorage.map((topic) => {
-		// 		topic['isActive'] = false;
+		console.log("topicLocalStorage[0].day ",topicLocalStorage[0].day )
 
-		// 		return topic;
-		// 	});
-		// 	setTopics(topicActive);
-		// } else {
+		if (
+			topicLocalStorage &&
+			topicLocalStorage[0].day != undefined &&
+			topicLocalStorage[0].day === currentDate.getDate()
+		) {
+			let topicActive = topicLocalStorage.map((topic) => {
+				topic['isActive'] = false;
+
+				return topic;
+			});
+			setTopics(topicActive);
+		} else {
 			getAllTopics();
-		// }
+		}
 	}, []);
 
 	const chooseTopic = (topicId) => {
