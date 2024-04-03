@@ -3,10 +3,11 @@ import Cards from './Cards/Cards';
 import './MainDash.css';
 import Bars from '../../components/Bar/Bar';
 import RightSide from './RigtSide/RightSide'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const MainDash = () => {
 
 	const auth = useSelector((state) => state.authStore.user)
+	const dispatch = useDispatch
 
 	useEffect(() => {
 		
