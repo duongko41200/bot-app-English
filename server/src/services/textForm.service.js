@@ -26,9 +26,11 @@ class TextFormFactory {
 
 	//query
 
-	static async findAllInfoText({ userId, limit = 10, skip = 0 }) {
+	static async findAllInfoText({ userId, limit = 5,page}) {
 		const query = { userId };
-		return await findAllInfoText({ query, limit, skip });
+
+		console.log('limit:',limit ,page)
+		return await findAllInfoText({ query, limit ,page,model:text});
 	}
 }
 

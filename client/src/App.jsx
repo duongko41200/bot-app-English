@@ -10,7 +10,6 @@ const App = () => {
 
 	useEffect(() => {
 
-		console.log('duong dep trai')
 		const userId = localStorage.getItem('userId');
 		const accessToken = localStorage.getItem('accessToken');
 		const user = localStorage.getItem('user');
@@ -18,7 +17,6 @@ const App = () => {
 			navigation('/login');
 		} else {
 
-			console.log("skdjfksdjkfkds")
 			dispatch(SET_USER(user))
 		}
 

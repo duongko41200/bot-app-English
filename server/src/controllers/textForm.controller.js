@@ -28,6 +28,7 @@ class TextFormController {
 			message: 'creat list textFrom success!',
 			metadata: await TextFormService.findAllInfoText({
 				userId: req.user.userId,
+				page:req.query.page
 			}),
 		}).send(res);
 	};

@@ -1,17 +1,27 @@
 'use strict';
 
+const safetyCount = require('../../helpers/safetyCount');
 const { text, word, sentence } = require('../../models/textform.model');
 const TopicModel = require('../../models/topic.model');
 
-const findAllInfoText = async (query, limit, skip) => {
-	console.log('queryyy:', query.query);
-	return await text
-		.find(query.query)
+const findAllInfoText = async ({ model, query, limit, page }) => {
+	const count = await safetyCount({ model: model, query });
+
+	const resData = await text
+		.find(query)
 		.populate('topicId')
-		.sort({ updateAt: -1 })
-		.skip(skip)
+		.sort({ updatedAt: -1 })
+		.skip((page - 1) * limit)
 		.limit(limit)
 		.lean();
+
+	return {
+		total: count,
+		// count: AllRecords.length,
+		totalPages: Math.ceil(count / limit),
+		currentPage: parseInt(page),
+		contents: resData,
+	};
 };
 
 ///TOPIC
@@ -26,5 +36,5 @@ const getAllTopc = async () => {
 module.exports = {
 	findAllInfoText,
 	createTopic,
-	getAllTopc
+	getAllTopc,
 };

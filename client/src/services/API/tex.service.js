@@ -19,7 +19,7 @@ const TextService = {
 			}
 		);
 	},
-	getAllText() {
+	getAllText({page}) {
 		return ApiService.get(
 			`${serviceURL}/all`,
 
@@ -27,7 +27,9 @@ const TextService = {
 				'x-api-key': import.meta.env.APP_API_KEY,
 				'x-client-id': localStorage.getItem('userId'),
 				authorization: localStorage.getItem('accessToken'),
-			},{}
+			}, {
+				page:page
+			}
 		);
 	},
 };
