@@ -3,25 +3,14 @@ import Cards from './Cards/Cards';
 import './MainDash.css';
 import Bars from '../../components/Bar/Bar';
 import RightSide from './RigtSide/RightSide'
-import { useDispatch, useSelector } from 'react-redux';
-import { SET_USER } from '../../store/feature/auth';
+import { useSelector } from 'react-redux';
 const MainDash = () => {
 
 	const auth = useSelector((state) => state.authStore.user)
-	const dispatch = useDispatch
 
 	useEffect(() => {
 		
-		console.log("autfcdh:", auth)
-		const user = localStorage.getItem('user');
-
-		console.log('auth :',auth)
-
-		if (user != null) {
-
-
-			dispatch(SET_USER(user))
-		}
+		console.log("autfcdh:",auth)
 	},[])
 	return (
 		<div className="MainDash">
