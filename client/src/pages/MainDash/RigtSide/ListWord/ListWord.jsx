@@ -26,7 +26,7 @@ const ListWord = () => {
 					if (data.typeText == 'word') {
 						return (
 							<div
-								key={idx}
+								key={data._id}
 								className="detail-list flex flex-col gap-2 "
 							>
 								<div className="detail-list__top flex justify-between">
@@ -47,7 +47,7 @@ const ListWord = () => {
 					} else {
 						return (
 							<div
-								key={idx}
+								key={data._id}
 								className="detail-list flex flex-col gap-2  "
 							>
 								<div className="detail-list__top flex justify-between">
