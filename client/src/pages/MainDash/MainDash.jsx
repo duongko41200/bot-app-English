@@ -4,6 +4,7 @@ import './MainDash.css';
 import Bars from '../../components/Bar/Bar';
 import RightSide from './RigtSide/RightSide'
 import { useDispatch, useSelector } from 'react-redux';
+import { SET_USER } from '../../store/feature/auth';
 const MainDash = () => {
 
 	const auth = useSelector((state) => state.authStore.user)
