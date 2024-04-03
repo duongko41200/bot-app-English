@@ -18,10 +18,10 @@ import FormStep3 from '../pages/AddWordSentence/FormWord/FormStep3/FormStep3';
 import PrivateRoutes from '../utils/PrivateRoutes';
 
 const routes = [
-	{
-		path: '/',
-		element: <PrivateRoutes />,
-		children: [
+	// {
+	// 	path: '/',
+	// 	element: <PrivateRoutes />,
+	// 	children: [
 			{
 				path: '/',
 				element: <App />,
@@ -69,8 +69,8 @@ const routes = [
 					{ path: 'setting', element: <Settings /> },
 				],
 			},
-		],
-	},
+	// 	],
+	// },
 
 	/// login . signup
 	{ path: '/signup', element: <SignUp /> },
