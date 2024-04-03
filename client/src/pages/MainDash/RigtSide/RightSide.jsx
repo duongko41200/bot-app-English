@@ -8,6 +8,9 @@ import { getAllText } from '../../../store/feature/word';
 
 const RightSide = () => {
 	const [currentPage, setCurrentPage] = useState(1);
+
+	
+	const totalPages = useSelector((state) => state.wordStore.totalPages);
 	const dispatch = useDispatch();
 
 	const handleChangePage = (event, value) => {
@@ -23,11 +26,11 @@ const RightSide = () => {
 				<div className="wrapper-title w-screen flex-col mb-2">
 					<div className="flex justify-between w-screen pr-5">
 						<div className="title-bar">Câu/từ đã nạp</div>
-						<div className="title-detail">
+						<div className="title-detail !no-underline">
 							<Stack spacing={2}>
 								{/* <Pagination count={10} shape="rounded" /> */}
 								<Pagination
-									count={100}
+									count={totalPages}
 									variant="outlined"
 									shape="rounded"
 									size="small"

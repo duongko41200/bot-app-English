@@ -7,6 +7,7 @@ const initialState = {
 	wordObject: {},
 
 	listData: [],
+	totalPages:''
 };
 
 export const getAllText = createAsyncThunk(
@@ -16,7 +17,9 @@ export const getAllText = createAsyncThunk(
 			const { page } = payload;
 			const res = await TextService.getAllText({ page });
 
-			return res[RES_DATA].metadata.contents;
+			console.log("res:",res)
+
+			return res[RES_DATA].metadata;
 		} catch (error) {
 			throw new Error(error.message);
 		}
@@ -43,7 +46,8 @@ export const wordReducer = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(getAllText.fulfilled, (state, action) => {
-			state.listData = action.payload;
+			state.listData = action.payload.contents;
+			state.totalPages = action.payload.totalPages
 		});
 	},
 });
