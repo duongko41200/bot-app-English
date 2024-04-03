@@ -10,7 +10,16 @@ const MainDash = () => {
 
 	useEffect(() => {
 		
-		console.log("autfcdh:",auth)
+		console.log("autfcdh:", auth)
+		const user = localStorage.getItem('user');
+
+		console.log('auth :',auth)
+
+		if (user != null) {
+
+
+			dispatch(SET_USER(user))
+		}
 	},[])
 	return (
 		<div className="MainDash">

@@ -30,19 +30,7 @@ function FormWord() {
 	const auth = useSelector((state) => state.authStore.user);
 	const dispatch = useDispatch();
 
-	//kiểm tra chỗ này nên để ra 1 nhánh bao tấtx cả các nhánh - beforeEch()- vuejs
-	useEffect(() => {
-		const userId = localStorage.getItem('userId');
-		const accessToken = localStorage.getItem('accessToken');
-		const user = localStorage.getItem('user');
-		if (!user) {
-			navigate('/login');
-		} else {
-			dispatch(SET_USER(user));
-		}
 
-		console.log({ userId, accessToken });
-	}, []);
 
 	const changeStep = async (step) => {
 		// switch (step) {
@@ -64,7 +52,6 @@ function FormWord() {
 	const handlePrevious = () => {
 		const currentStepIndex = steps.findIndex((step) => step.isActive);
 
-		console.log({ currentStepIndex });
 		if (currentStepIndex > 0) {
 			setSteps((prevSteps) => {
 				prevSteps[currentStepIndex].isActive = false;

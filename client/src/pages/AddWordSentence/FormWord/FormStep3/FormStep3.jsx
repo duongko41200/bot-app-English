@@ -42,10 +42,9 @@ function FormStep3() {
 			localStorage.getItem('topics')
 		);
 
-		console.log("topicLocalStorage[0].day ",topicLocalStorage[0].day )
 
 		if (
-			topicLocalStorage &&
+			topicLocalStorage != null &&
 			topicLocalStorage[0].day != undefined &&
 			topicLocalStorage[0].day === currentDate.getDate()
 		) {
@@ -73,7 +72,12 @@ function FormStep3() {
 			return topic;
 		});
 		setTopics(topicCopy);
-		dispatch(SET_WORD({ topicId: topicId._id }));
+
+		if (topicId.isActive === true) {
+			dispatch(SET_WORD({ topicId: topicId._id }));
+		} else {
+			dispatch(SET_WORD({ topicId: '' }));
+		}
 	};
 	return (
 		<div className="w-ful flex justify-center">

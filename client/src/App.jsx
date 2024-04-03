@@ -8,22 +8,22 @@ const App = () => {
 	const navigation = useNavigate();
 	const dispatch = useDispatch()
 
-	useEffect(() => {
+	// useEffect(() => {
 
-		console.log('duong dep trai')
-		const userId = localStorage.getItem('userId');
-		const accessToken = localStorage.getItem('accessToken');
-		const user = localStorage.getItem('user');
-		if (!user) {
-			navigation('/login');
-		} else {
+	// 	console.log('duong dep trai')
+	// 	const userId = localStorage.getItem('userId');
+	// 	const accessToken = localStorage.getItem('accessToken');
+	// 	const user = localStorage.getItem('user');
+	// 	if (!user) {
+	// 		navigation('/login');
+	// 	} else {
 
-			console.log("skdjfksdjkfkds")
-			dispatch(SET_USER(user))
-		}
+	// 		console.log("skdjfksdjkfkds")
+	// 		dispatch(SET_USER(user))
+	// 	}
 
-		console.log({ userId, accessToken });
-	}, []);
+	// 	console.log({ userId, accessToken });
+	// }, []);
 	return (
 		<div className="App">
 			<div className="AppGlass">
