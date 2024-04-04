@@ -30,7 +30,7 @@ const RightSide = () => {
 							<Stack spacing={2}>
 								{/* <Pagination count={10} shape="rounded" /> */}
 								<Pagination
-									count={totalPages}
+									count={Number(totalPages)}
 									variant="outlined"
 									shape="rounded"
 									size="small"
