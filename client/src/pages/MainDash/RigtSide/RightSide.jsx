@@ -4,22 +4,39 @@ import './RightSide.css';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllText } from '../../../store/feature/word';
+import { SET_LIST_DATA, SET_TOTAL_PAGE, getAllText } from '../../../store/feature/word';
 
 const RightSide = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 
-	
 	const totalPages = useSelector((state) => state.wordStore.totalPages);
+	const listData = useSelector((state) => state.wordStore.listData);
 	const dispatch = useDispatch();
 
 	const handleChangePage = (event, value) => {
 		setCurrentPage(value);
+		if (currentPage != value) {
+			dispatch(getAllText({ page: value }));
+		}
+	};
+
+	const getListData =  () => {
+		const listText = JSON.parse(localStorage.getItem('listText'));
+		const totalPage = localStorage.getItem('totalPages')
+
+
+		if (listText) {
+			dispatch(SET_LIST_DATA(listText));
+			dispatch(SET_TOTAL_PAGE(totalPage))
+		} else {
+			dispatch(getAllText({ page: currentPage }));
+
+		}
 	};
 
 	useEffect(() => {
-		dispatch(getAllText({ page: currentPage }));
-	}, [currentPage]);
+		getListData();
+	}, []);
 	return (
 		<>
 			<div className="RightSide">

@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { SET_USER } from '../../../store/feature/auth';
 import TextService from '../../../services/API/tex.service';
 import { toast, Toaster } from 'react-hot-toast';
-import { STEPS_ADD_WORD_SENTENCE } from '../../../Constant/global';
+import { RES_DATA, STEPS_ADD_WORD_SENTENCE } from '../../../Constant/global';
 import { ToastError, ToastSuccess } from '../../../utils/Toast';
 import {
 	CREATE_SUCCESS,
@@ -29,8 +29,6 @@ function FormWord() {
 	const typeText = useSelector((state) => state.wordStore.typeText);
 	const auth = useSelector((state) => state.authStore.user);
 	const dispatch = useDispatch();
-
-
 
 	const changeStep = async (step) => {
 		// switch (step) {
@@ -68,12 +66,18 @@ function FormWord() {
 		// handle Next
 		const currentStepIndex = steps.findIndex((step) => step.isActive);
 
-		if (currentStepIndex === STEPS_ADD_WORD_SENTENCE.STEP_0 && !wordText.text) {
+		if (
+			currentStepIndex === STEPS_ADD_WORD_SENTENCE.STEP_0 &&
+			!wordText.text
+		) {
 			ToastError(NOT_REQUIRED_WORD);
 			return;
 		}
 
-		if (currentStepIndex === STEPS_ADD_WORD_SENTENCE.STEP_1 && !wordText.defind) {
+		if (
+			currentStepIndex === STEPS_ADD_WORD_SENTENCE.STEP_1 &&
+			!wordText.defind
+		) {
 			ToastError(NOT_REQUIRED_DEFIND);
 			return;
 		}
@@ -99,15 +103,32 @@ function FormWord() {
 			ToastError(NOT_REQUIRED_TOPIC);
 			return;
 		}
-		
+
 		let paramData = {
 			...wordText,
 			typeText,
 		};
 		try {
 			const createWord = await TextService.createWord(paramData);
+
+
+			//save localStorage từ mới
+
+			let dataLocal = JSON.parse(localStorage.getItem('listText'));
+			const Limit = 5
+			if (dataLocal.length >= Limit) {
+				dataLocal.unshift(createWord[RES_DATA].metadata)
+				dataLocal.pop()
+			}
+			localStorage.setItem(
+				'listText',
+				JSON.stringify(dataLocal)
+			);
+
+
+
 			ToastSuccess(CREATE_SUCCESS);
-			dispatch(RESET_WORD())
+			dispatch(RESET_WORD());
 		} catch (error) {
 			console.log({ error });
 		}
