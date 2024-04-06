@@ -14,10 +14,10 @@ const App = () => {
 
 /// *********** Nội dung khởi taoj ban đầu ở dây *************************
 	useLayoutEffect(() => {
-		const userId = localStorage.getItem('userId');
-		// const listText = localStorage.getItem('listText')
-		const accessToken = localStorage.getItem('accessToken');
-		const user = localStorage.getItem('user');
+		// const userId = localStorage.getItem('userId');
+		// // const listText = localStorage.getItem('listText')
+		// const accessToken = localStorage.getItem('accessToken');
+		const user = JSON.parse(localStorage.getItem('user'));
 		if (!user) {
 			navigation('/login');
 		} else {

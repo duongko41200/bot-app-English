@@ -113,6 +113,9 @@ function SignIn() {
 				localStorage.setItem('refreshToken', res.metadata?.tokens?.refreshToken);
 				localStorage.setItem('user', JSON.stringify(res.metadata?.user));
 				dispatch(SET_USER(res.metadata?.user))
+				localStorage.removeItem('listText');
+				localStorage.removeItem('totalPages');
+
 		
 				navigate('/');
 			

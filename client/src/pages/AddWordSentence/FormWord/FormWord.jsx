@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { SET_USER } from '../../../store/feature/auth';
 import TextService from '../../../services/API/tex.service';
-import { toast, Toaster } from 'react-hot-toast';
-import { RES_DATA, STEPS_ADD_WORD_SENTENCE } from '../../../Constant/global';
+import { Toaster } from 'react-hot-toast';
+import {
+	RES_DATA,
+	STEPS_ADD_WORD_SENTENCE,
+} from '../../../Constant/global';
 import { ToastError, ToastSuccess } from '../../../utils/Toast';
 import {
 	CREATE_SUCCESS,
@@ -22,12 +24,10 @@ function FormWord() {
 		{ id: 2, step: 'step 2', path: '/step2', isActive: false },
 		{ id: 3, step: 'step 3', path: '/step3', isActive: false },
 	]);
-	const [words, setWords] = useState('');
 	const navigate = useNavigate();
 
 	const wordText = useSelector((state) => state.wordStore.wordObject);
 	const typeText = useSelector((state) => state.wordStore.typeText);
-	const auth = useSelector((state) => state.authStore.user);
 	const dispatch = useDispatch();
 
 	const changeStep = async (step) => {
@@ -111,20 +111,16 @@ function FormWord() {
 		try {
 			const createWord = await TextService.createWord(paramData);
 
-
 			//save localStorage từ mới
 
 			let dataLocal = JSON.parse(localStorage.getItem('listText'));
-			const Limit = 5
-			if (dataLocal.length >= Limit) {
-				dataLocal.unshift(createWord[RES_DATA].metadata)
-				dataLocal.pop()
+			if (dataLocal.length >= LIMIT_TEXT_OF_PAGE) {
+				dataLocal.unshift(createWord[RES_DATA].metadata);
+				dataLocal.pop();
+			} else {
+				dataLocal.unshift(createWord[RES_DATA].metadata);
 			}
-			localStorage.setItem(
-				'listText',
-				JSON.stringify(dataLocal)
-			);
-
+			localStorage.setItem('listText', JSON.stringify(dataLocal));
 
 
 			ToastSuccess(CREATE_SUCCESS);

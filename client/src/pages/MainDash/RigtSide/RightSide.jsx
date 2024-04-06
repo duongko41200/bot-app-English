@@ -4,38 +4,49 @@ import './RightSide.css';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_LIST_DATA, SET_TOTAL_PAGE, getAllText } from '../../../store/feature/word';
+import {
+	SET_LIST_DATA,
+	SET_TOTAL_PAGE,
+	getAllText,
+} from '../../../store/feature/word';
+import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
 
 const RightSide = () => {
 	const [currentPage, setCurrentPage] = useState(1);
+	const [isShow, setIsShow] = useState(false);
+	
 
 	const totalPages = useSelector((state) => state.wordStore.totalPages);
 	const listData = useSelector((state) => state.wordStore.listData);
 	const dispatch = useDispatch();
 
-	const handleChangePage = (event, value) => {
+	const handleChangePage = async (event, value) => {
 		setCurrentPage(value);
 		if (currentPage != value) {
-			dispatch(getAllText({ page: value }));
+			setIsShow(true);
+			await dispatch(getAllText({ page: value }));
+			setIsShow(false)
 		}
 	};
 
-	const getListData =  () => {
+	const getListData = async() => {
 		const listText = JSON.parse(localStorage.getItem('listText'));
-		const totalPage = localStorage.getItem('totalPages')
-
+		const totalPage = localStorage.getItem('totalPages');
 
 		if (listText) {
 			dispatch(SET_LIST_DATA(listText));
-			dispatch(SET_TOTAL_PAGE(totalPage))
+			dispatch(SET_TOTAL_PAGE(totalPage));
 		} else {
-			dispatch(getAllText({ page: currentPage }));
-
+			setIsShow(true);
+			await dispatch(getAllText({ page: currentPage }));
+			setIsShow(false);
 		}
 	};
 
 	useEffect(() => {
+	
 		getListData();
+	
 	}, []);
 	return (
 		<>
@@ -60,7 +71,10 @@ const RightSide = () => {
 					</div>
 				</div>
 			</div>
-			<ListWord />
+
+			<SpinnerLoading show={isShow}>
+				<ListWord />
+			</SpinnerLoading>
 		</>
 	);
 };

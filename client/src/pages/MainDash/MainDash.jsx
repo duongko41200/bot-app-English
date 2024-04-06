@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import Cards from './Cards/Cards';
 import './MainDash.css';
 import Bars from '../../components/Bar/Bar';
@@ -11,7 +11,7 @@ const MainDash = () => {
 		<div className="MainDash">
 			<div className="tilte-wellcome">
 				<div className="tilte-wellcome__content">
-					<div className="title-main--size">Hello, {JSON.parse(auth).name}!</div>
+					<div className="title-main--size">Hello, {auth.name }!</div>
 					<div className="title-extra--size">pro vip ngon ngu</div>
 				</div>
 			</div>
