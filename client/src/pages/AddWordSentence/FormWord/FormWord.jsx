@@ -128,6 +128,7 @@ function FormWord() {
 				dataLocal.unshift(createWord[RES_DATA].metadata);
 			}
 			localStorage.setItem('listText', JSON.stringify(dataLocal));
+			
 			/// sử lý tổng số trang :--- 1.Lưu số từ mỗi khi thêm mới-----2. lấy tổng/limit để ra số trang dùng làm trỏn cli- check backend dã dùng
 			/// nhiều thiết bị đòng bộ localStorage
 
