@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import TextService from '../../../services/API/tex.service';
 import { Toaster } from 'react-hot-toast';
 import {
+	LIMIT_TEXT_OF_PAGE,
 	RES_DATA,
 	STEPS_ADD_WORD_SENTENCE,
 } from '../../../Constant/global';
@@ -15,6 +16,7 @@ import {
 	NOT_REQUIRED_WORD,
 } from '../../../Constant/toast';
 import { RESET_WORD } from '../../../store/feature/word';
+import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
 
 const STEP_FINAL = 2;
 
@@ -24,6 +26,8 @@ function FormWord() {
 		{ id: 2, step: 'step 2', path: '/step2', isActive: false },
 		{ id: 3, step: 'step 3', path: '/step3', isActive: false },
 	]);
+	const [isShow, setIsShow] = useState(false);
+
 	const navigate = useNavigate();
 
 	const wordText = useSelector((state) => state.wordStore.wordObject);
@@ -101,6 +105,7 @@ function FormWord() {
 
 		if (!wordText.topicId) {
 			ToastError(NOT_REQUIRED_TOPIC);
+
 			return;
 		}
 
@@ -109,6 +114,8 @@ function FormWord() {
 			typeText,
 		};
 		try {
+			setIsShow(true);
+
 			const createWord = await TextService.createWord(paramData);
 
 			//save localStorage từ mới
@@ -121,12 +128,15 @@ function FormWord() {
 				dataLocal.unshift(createWord[RES_DATA].metadata);
 			}
 			localStorage.setItem('listText', JSON.stringify(dataLocal));
-
+			/// sử lý tổng số trang :--- 1.Lưu số từ mỗi khi thêm mới-----2. lấy tổng/limit để ra số trang dùng làm trỏn cli- check backend dã dùng
+			/// nhiều thiết bị đòng bộ localStorage
 
 			ToastSuccess(CREATE_SUCCESS);
 			dispatch(RESET_WORD());
+			setIsShow(false);
 		} catch (error) {
 			console.log({ error });
+			setIsShow(false);
 		}
 
 		navigate('/addElement');
@@ -134,36 +144,38 @@ function FormWord() {
 
 	return (
 		<>
-			<div className="w-full h-[300px] p-2 pt-10">
-				<div className="min-h-[170px]">
-					<Outlet />
-				</div>
-				<div className="w-full flex justify-between mt-5">
-					<div
-						className="border min-w-[75px] py-2 text-center rounded shadow-sm font-medium"
-						onClick={handlePrevious}
-					>
-						Pre
+			<SpinnerLoading show={isShow}>
+				<div className="w-full h-[300px] p-2 pt-10">
+					<div className="min-h-[170px]">
+						<Outlet />
 					</div>
+					<div className="w-full flex justify-between mt-5">
+						<div
+							className="border min-w-[75px] py-2 text-center rounded shadow-sm font-medium"
+							onClick={handlePrevious}
+						>
+							Pre
+						</div>
 
-					{steps[STEP_FINAL].isActive ? (
-						<div
-							className="border min-w-[75px] py-2 text-center rounded shadow-sm bg-sky-300 font-medium"
-							onClick={handleSave}
-						>
-							Save
-						</div>
-					) : (
-						<div
-							className="border min-w-[75px] py-2 text-center rounded shadow-sm"
-							onClick={handleNext}
-						>
-							Next
-						</div>
-					)}
+						{steps[STEP_FINAL].isActive ? (
+							<div
+								className="border min-w-[75px] py-2 text-center rounded shadow-sm bg-sky-300 font-medium"
+								onClick={handleSave}
+							>
+								Save
+							</div>
+						) : (
+							<div
+								className="border min-w-[75px] py-2 text-center rounded shadow-sm"
+								onClick={handleNext}
+							>
+								Next
+							</div>
+						)}
+					</div>
+					<Toaster />
 				</div>
-				<Toaster />
-			</div>
+			</SpinnerLoading>
 		</>
 	);
 }

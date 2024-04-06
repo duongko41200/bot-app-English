@@ -2,29 +2,29 @@
 .loader {
 	width: 50px;
 	aspect-ratio: 1;
-	display: grid;
-	border: 4px solid #0000;
-	border-radius: 50%;
-	border-color: #ccc #0000;
-	animation: l16 1s infinite linear;
+	display:grid;
+	-webkit-mask: conic-gradient(from 15deg,#0000,#000);
+	animation: l26 1s infinite steps(12);
   }
-  .loader::before,
-  .loader::after {    
+  .loader,
+  .loader:before,
+  .loader:after{
+	background:
+	  radial-gradient(closest-side at 50% 12.5%,
+	    #25b09b 96%,#0000) 50% 0/20% 80% repeat-y,
+	  radial-gradient(closest-side at 12.5% 50%,
+	  #25b09b 96%,#0000) 0 50%/80% 20% repeat-x;
+  }
+  .loader:before,
+  .loader:after {
 	content: "";
 	grid-area: 1/1;
-	margin: 2px;
-	border: inherit;
-	border-radius: 50%;
+	transform: rotate(30deg);
   }
-  .loader::before {
-	border-color: #1b9f8d #0000;
-	animation: inherit; 
-	animation-duration: .5s;
-	animation-direction: reverse;
+  .loader:after {
+	transform: rotate(60deg);
   }
-  .loader::after {
-	margin: 8px;
-  }
-  @keyframes l16 { 
-	100%{transform: rotate(1turn)}
+  
+  @keyframes l26 {
+	100% {transform:rotate(1turn)}
   }

@@ -54,7 +54,7 @@ const RightSide = () => {
 				<div className="wrapper-title w-screen flex-col mb-2">
 					<div className="flex justify-between w-screen pr-5">
 						<div className="title-bar">Câu/từ đã nạp</div>
-						<div className="title-detail !no-underline">
+						<div className="title-detail !no-underline" >
 							<Stack spacing={2}>
 								{/* <Pagination count={10} shape="rounded" /> */}
 								<Pagination
@@ -65,6 +65,7 @@ const RightSide = () => {
 									defaultPage={1}
 									siblingCount={0}
 									onChange={handleChangePage}
+									disabled={isShow}
 								/>
 							</Stack>
 						</div>
