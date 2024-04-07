@@ -11,28 +11,36 @@ function FormStep3() {
 
 	const getAllTopics = async () => {
 		let topicLocalStorage = [];
-		const resTopic = await TopicService.getAllTopic();
 
-		const resMetadata = resTopic[RES_DATA]?.metadata;
-		topicLocalStorage = resMetadata.map((topic) => {
-			topic = {
-				_id: topic._id,
-				name: topic.name,
-				numberCount: 0,
-				listElement: [],
-				day: date.getDate(),
-			};
+		try {
+			const resTopic = await TopicService.getAllTopic();
 
-			return topic;
-		});
+			console.log({resTopic})
+	
+			const resMetadata = resTopic[RES_DATA]?.metadata;
+			topicLocalStorage = resMetadata.map((topic) => {
+				topic = {
+					_id: topic._id,
+					name: topic.name,
+					numberCount: 0,
+					listElement: [],
+					day: date.getDate(),
+				};
+	
+				return topic;
+			});
+	
+			let topicActive = topicLocalStorage.map((topic) => {
+				topic['isActive'] = false;
+	
+				return topic;
+			});
+			localStorage.setItem('topics', JSON.stringify(topicLocalStorage));
+			setTopics(topicActive);
+		} catch (error) {
+			console.log({error})
+		}
 
-		let topicActive = topicLocalStorage.map((topic) => {
-			topic['isActive'] = false;
-
-			return topic;
-		});
-		localStorage.setItem('topics', JSON.stringify(topicLocalStorage));
-		setTopics(topicActive);
 	};
 
 	useEffect(() => {

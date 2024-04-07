@@ -27,7 +27,7 @@ function FormStep2() {
 				<div>
 					<input
 						type="text"
-						className="border p-2 w-full"
+						className="border border-black rounded p-2 w-full"
 						placeholder="Nhập nghĩa từ..."
 						value={defind}
 						onChange={handleSetText}
