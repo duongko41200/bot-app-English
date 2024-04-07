@@ -3,7 +3,7 @@ import ApiService from './api.service';
 const serviceURL = 'text';
 const TextService = {
 	//suy nghĩ xem gộp api của câu vào không
-	createWord({ text, defind, topicId, typeText }) {
+	createWord({ text, defind, topicId, typeText,attributes }) {
 		return ApiService.post(
 			`${serviceURL}/info/all`,
 			{
@@ -11,6 +11,7 @@ const TextService = {
 				defind: defind,
 				topicId: topicId,
 				typeText: typeText,
+				attributes:attributes
 			},
 			{
 				'x-api-key': import.meta.env.APP_API_KEY,
