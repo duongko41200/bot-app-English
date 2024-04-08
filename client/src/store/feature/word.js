@@ -31,6 +31,11 @@ export const getAllText = createAsyncThunk(
 					'totalPages',
 					JSON.stringify(res[RES_DATA].metadata.totalPages)
 				);
+				
+				localStorage.setItem(
+					'total',
+					JSON.stringify(res[RES_DATA].metadata.total)
+				);
 			}
 
 			return res[RES_DATA].metadata;

@@ -121,6 +121,7 @@ function FormWord() {
 			//save localStorage từ mới
 
 			let dataLocal = JSON.parse(localStorage.getItem('listText'));
+			let total = parseInt(localStorage.getItem('total'))
 			if (dataLocal.length >= LIMIT_TEXT_OF_PAGE) {
 				dataLocal.unshift(createWord[RES_DATA].metadata);
 				dataLocal.pop();
@@ -128,8 +129,9 @@ function FormWord() {
 				dataLocal.unshift(createWord[RES_DATA].metadata);
 			}
 			localStorage.setItem('listText', JSON.stringify(dataLocal));
+			localStorage.setItem('total', total + 1);
+			localStorage.setItem('totalPages', Math.ceil(total / parseInt(LIMIT_TEXT_OF_PAGE)));
 			
-			/// sử lý tổng số trang :--- 1.Lưu số từ mỗi khi thêm mới-----2. lấy tổng/limit để ra số trang dùng làm trỏn cli- check backend dã dùng
 			/// nhiều thiết bị đòng bộ localStorage
 
 			ToastSuccess(CREATE_SUCCESS);

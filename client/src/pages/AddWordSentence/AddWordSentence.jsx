@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { SET_TYPE_TEXT } from '../../store/feature/word';
+import { RESET_WORD, SET_TYPE_TEXT } from '../../store/feature/word';
 import { toast, Toaster } from 'react-hot-toast';
 
 function AddWordSentence() {
 	const navigate = useNavigate();
+	// const typeText = useSelector((state) => state.wordStore.typeText);
 
 	const dispatch = useDispatch();
 
 	const chooseWord = (typeText) => {
 		dispatch(SET_TYPE_TEXT(typeText));
-		navigate('/formWord');
+		navigate('/formWord/step1');
 	};
+	useEffect(() => {
+		dispatch(RESET_WORD());
+	}, [])
+	
+	
 
 	return (
 		<>

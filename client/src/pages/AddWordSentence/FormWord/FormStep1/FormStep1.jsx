@@ -23,6 +23,7 @@ function FormStep1() {
 	};
 	useEffect(() => {
 		setText(wordText.text);
+		setStructure(wordText?.attributes?.structure)
 	}, []);
 	return (
 		<div className="w-ful flex justify-center">
