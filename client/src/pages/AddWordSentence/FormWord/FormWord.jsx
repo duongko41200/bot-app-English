@@ -132,7 +132,8 @@ function FormWord() {
 			localStorage.setItem('total', total + 1);
 			localStorage.setItem('totalPages', Math.ceil(total / parseInt(LIMIT_TEXT_OF_PAGE)));
 			
-			/// nhiều thiết bị đòng bộ localStorage
+			/// nhiều thiết bị đòng bộ localStorage ==> khi thiết bị khác dăng nhập thì sẽ cập nhập lại localSTroge ==> 
+			// khi đăng nhập thiết bị khác thì thiết bị còn lại sẽ bị logout _ cái này có rồi xem midleware của axios
 
 			ToastSuccess(CREATE_SUCCESS);
 			dispatch(RESET_WORD());
