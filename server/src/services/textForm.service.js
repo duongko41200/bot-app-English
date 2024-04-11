@@ -4,7 +4,7 @@
 const { text, word, sentence } = require('../models/textform.model');
 const { BadRequestError } = require('../cores/Error.response');
 const {
-	findAllInfoText,
+	findAllInfoText,findListTextByFilter
 } = require('../models/respositories/text.repo');
 
 class TextFormFactory {
@@ -26,12 +26,25 @@ class TextFormFactory {
 
 	//query
 
-	static async findAllInfoText({ userId, limit = 5,page}) {
+	static async findAllInfoText({ userId, limit,page}) {
 		const query = { userId };
 
 		console.log('limit:',limit ,page)
 		return await findAllInfoText({ query, limit ,page,model:text});
 	}
+
+
+
+	// lam chuc nang filter
+
+	static async findListTextByFilter({ userId, limit,page}) {
+		const query = { userId };
+
+		console.log('limit:',limit ,page)
+		return await findListTextByFilter({ query, limit ,page,model:text});
+	}
+
+
 }
 
 class TextForm {

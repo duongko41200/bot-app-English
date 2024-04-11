@@ -121,7 +121,7 @@ function FormWord() {
 			//save localStorage từ mới
 
 			let dataLocal = JSON.parse(localStorage.getItem('listText'));
-			let total = parseInt(localStorage.getItem('total'))
+			let total = parseInt(localStorage.getItem('total'));
 			if (dataLocal.length >= LIMIT_TEXT_OF_PAGE) {
 				dataLocal.unshift(createWord[RES_DATA].metadata);
 				dataLocal.pop();
@@ -130,9 +130,12 @@ function FormWord() {
 			}
 			localStorage.setItem('listText', JSON.stringify(dataLocal));
 			localStorage.setItem('total', total + 1);
-			localStorage.setItem('totalPages', Math.ceil(total / parseInt(LIMIT_TEXT_OF_PAGE)));
-			
-			/// nhiều thiết bị đòng bộ localStorage ==> khi thiết bị khác dăng nhập thì sẽ cập nhập lại localSTroge ==> 
+			localStorage.setItem(
+				'totalPages',
+				Math.ceil((total + 1) / parseInt(LIMIT_TEXT_OF_PAGE))
+			);
+
+			/// nhiều thiết bị đòng bộ localStorage ==> khi thiết bị khác dăng nhập thì sẽ cập nhập lại localSTroge ==>
 			// khi đăng nhập thiết bị khác thì thiết bị còn lại sẽ bị logout _ cái này có rồi xem midleware của axios
 
 			ToastSuccess(CREATE_SUCCESS);

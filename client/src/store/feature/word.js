@@ -18,8 +18,8 @@ export const getAllText = createAsyncThunk(
 		const listText = JSON.parse(localStorage.getItem('listText'));
 		try {
 
-			const { page } = payload;
-			const res = await TextService.getAllText({ page });
+			const { page,limit } = payload;
+			const res = await TextService.getAllText({ page,limit });
 
 			console.log('res:', res);
 

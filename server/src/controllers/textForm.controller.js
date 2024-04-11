@@ -28,7 +28,21 @@ class TextFormController {
 			message: 'creat list textFrom success!',
 			metadata: await TextFormService.findAllInfoText({
 				userId: req.user.userId,
-				page:req.query.page
+				page: req.query.page,
+				limit: req.query.limit
+			}),
+		}).send(res);
+	};
+
+
+	getListTextByFilter = async (req, res, next) => {
+
+		new SuccessResponse({
+			message: 'creat list textFrom success!',
+			metadata: await TextFormService.findListTextByFilter({
+				userId: req.user.userId,
+				page: req.query.page,
+				limit: req.query.limit
 			}),
 		}).send(res);
 	};

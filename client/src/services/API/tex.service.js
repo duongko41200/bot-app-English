@@ -20,7 +20,7 @@ const TextService = {
 			}
 		);
 	},
-	getAllText({page}) {
+	getAllText({page,limit}) {
 		return ApiService.get(
 			`${serviceURL}/all`,
 
@@ -29,7 +29,25 @@ const TextService = {
 				'x-client-id': localStorage.getItem('userId'),
 				authorization: localStorage.getItem('accessToken'),
 			}, {
-				page:page
+				page: page,
+				limit
+				
+			}
+		);
+	},
+
+	getListTextByFilter({page,limit}) {
+		return ApiService.get(
+			`${serviceURL}/listTextByFilter`,
+
+			{
+				'x-api-key': import.meta.env.APP_API_KEY,
+				'x-client-id': localStorage.getItem('userId'),
+				authorization: localStorage.getItem('accessToken'),
+			}, {
+				page: page,
+				limit
+				
 			}
 		);
 	},

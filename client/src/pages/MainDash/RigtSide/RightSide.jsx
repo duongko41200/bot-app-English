@@ -10,11 +10,11 @@ import {
 	getAllText,
 } from '../../../store/feature/word';
 import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
+import { LIMIT_TEXT_OF_PAGE } from '../../../Constant/global';
 
 const RightSide = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
-	
 
 	const totalPages = useSelector((state) => state.wordStore.totalPages);
 	const listData = useSelector((state) => state.wordStore.listData);
@@ -24,12 +24,12 @@ const RightSide = () => {
 		setCurrentPage(value);
 		if (currentPage != value) {
 			setIsShow(true);
-			await dispatch(getAllText({ page: value }));
-			setIsShow(false)
+			await dispatch(getAllText({ page: value,limit:LIMIT_TEXT_OF_PAGE }));
+			setIsShow(false);
 		}
 	};
 
-	const getListData = async() => {
+	const getListData = async () => {
 		const listText = JSON.parse(localStorage.getItem('listText'));
 		const totalPage = localStorage.getItem('totalPages');
 
@@ -38,15 +38,15 @@ const RightSide = () => {
 			dispatch(SET_TOTAL_PAGE(totalPage));
 		} else {
 			setIsShow(true);
-			await dispatch(getAllText({ page: currentPage }));
+			await dispatch(
+				getAllText({ page: currentPage, limit: LIMIT_TEXT_OF_PAGE })
+			);
 			setIsShow(false);
 		}
 	};
 
 	useEffect(() => {
-	
 		getListData();
-	
 	}, []);
 	return (
 		<>
@@ -54,7 +54,7 @@ const RightSide = () => {
 				<div className="wrapper-title w-screen flex-col mb-2">
 					<div className="flex justify-between w-screen pr-5">
 						<div className="title-bar">Câu/từ đã nạp</div>
-						<div className="title-detail !no-underline" >
+						<div className="title-detail !no-underline">
 							<Stack spacing={2}>
 								{/* <Pagination count={10} shape="rounded" /> */}
 								<Pagination
