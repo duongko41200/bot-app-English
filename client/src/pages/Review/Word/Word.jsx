@@ -15,7 +15,7 @@ function Word() {
 	const [listText, setListText] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
-	const [totalPage,setTotalPage]=useState('')
+	const [totalPage, setTotalPage] = useState(0);
 
 	const dispatch = useDispatch();
 
@@ -34,13 +34,12 @@ function Word() {
 
 		const data = resListText[RES_DATA]?.metadata;
 		setListText(data);
-		setTotalPage(resListText[RES_DATA]?.metadata.totalPages)
+		setTotalPage(resListText[RES_DATA]?.metadata.totalPages);
 		setIsShow(false);
 	};
-	
+
 	const handleChangePage = async (event, value) => {
 		setCurrentPage(value);
-		
 	};
 
 	useEffect(() => {
@@ -134,7 +133,13 @@ function Word() {
 					</Stack>
 				</div>
 				<div className="font-medium px-2 bg-[#fefe8b] rounded w-fit flex justify-center items-center">
-					<div>{ `${ (currentPage -1 ) * LIMIT_LIST_TEXT_OF_PAGE + listText?.contents?.length} / ${listText.total}`}</div>
+					<div>{`${
+						(currentPage - 1) * LIMIT_LIST_TEXT_OF_PAGE +
+						listText?.contents?.length
+							? (currentPage - 1) * LIMIT_LIST_TEXT_OF_PAGE +
+							  listText?.contents?.length
+							: 0
+					} / ${listText?.total ? listText?.total : 0}`}</div>
 				</div>
 			</div>
 
