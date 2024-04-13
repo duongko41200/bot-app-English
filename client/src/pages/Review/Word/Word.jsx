@@ -30,7 +30,7 @@ function Word() {
 			limit: LIMIT_LIST_TEXT_OF_PAGE,
 		});
 
-		console.log(resListText[RES_DATA]?.metadata);
+	console.log({resListText});
 
 		const data = resListText[RES_DATA]?.metadata;
 		setListText(data);

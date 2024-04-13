@@ -38,7 +38,7 @@ const TextService = {
 
 	getListTextByFilter({page,limit}) {
 		return ApiService.get(
-			`${serviceURL}/listTextByFilter`,
+			`${serviceURL}/list/review`,
 
 			{
 				'x-api-key': import.meta.env.APP_API_KEY,
