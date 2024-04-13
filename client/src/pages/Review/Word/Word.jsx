@@ -14,7 +14,7 @@ import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading
 function Word() {
 	const [listText, setListText] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [isShow, setIsShow] = useState(false);
+	const [isShow, setIsShow] = useState(true);
 	const [totalPage, setTotalPage] = useState(0);
 
 	const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function Word() {
 			limit: LIMIT_LIST_TEXT_OF_PAGE,
 		});
 
-	console.log({resListText});
+		console.log({ resListText });
 
 		const data = resListText[RES_DATA]?.metadata;
 		setListText(data);
@@ -146,57 +146,62 @@ function Word() {
 			{/* list word */}
 
 			<SpinnerLoading show={isShow}>
-				<div className="wrapper-lists flex flex-col gap-3 pt-4 ">
-					{listText?.contents?.length > 0 &&
-						listText?.contents.map((word, idx) => {
-							return (
-								<div
-									key={idx}
-									className="detail-list flex flex-col gap-2 bg-slate-100 shadow-md p-2 rounded-lg"
-									onClick={handleShowModalDetail}
-								>
-									<div className="detail-list__top flex justify-between">
-										<div className="flex gap-2">
-											<div
-												className={`type-word ${
-													word.typeText === 'word'
-														? 'type-word'
-														: 'type-sentence'
-												} px-2 w-fit rounded-lg`}
-											>
-												{word.typeText === 'word' ? 'Từ' : 'Câu'}
+				{isShow ? (
+					<div className='w-full h-[300px]'></div>
+				) : (
+					<div className="wrapper-lists flex flex-col gap-3 pt-4 ">
+						{listText?.contents?.length > 0 &&
+							listText?.contents.map((word, idx) => {
+								return (
+									<div
+										key={idx}
+										className="detail-list flex flex-col gap-2 bg-slate-100 shadow-md p-2 rounded-lg"
+										onClick={handleShowModalDetail}
+									>
+										<div className="detail-list__top flex justify-between">
+											<div className="flex gap-2">
+												<div className="flex items-center">
+													<div
+														className={` ${
+															word.typeText === 'word'
+																? 'type-word'
+																: 'type-sentence'
+														} px-2 w-fit rounded-lg `}
+													>
+														{word.typeText === 'word' ? 'Từ' : 'Câu'}
+													</div>
+												</div>
+
+												{word.typeText === 'word' ? (
+													<div className="font-bold">{word.text}</div>
+												) : (
+													<div className="font-bold">
+														{word.attributes.structure}
+													</div>
+												)}
 											</div>
 
-											{word.typeText === 'word' ? (
-												<div className="font-bold">{word.text}</div>
-											) : (
-												<div className="font-bold">
-													{word.attributes.structure}
-												</div>
-											)}
+											<div className="text-right min-w-[92px]">
+												{dayjs(word.createdAt).format('DD-MM-YYYY')}
+											</div>
 										</div>
+										<div className="detail-list__bottom flex justify-between">
+											<div>
+												{word.typeText === 'sentence' && (
+													<div>{word.text}</div>
+												)}
+												<div className="translate">{word.defind}</div>
+											</div>
 
-										<div>
-											{dayjs(word.createdAt).format('DD-MM-YYYY')}
+											<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
+												Cấp {word.repeat}
+											</div>
 										</div>
 									</div>
-									<div className="detail-list__bottom flex justify-between">
-										<div>
-											{word.typeText === 'sentence' && (
-												<div>{word.text}</div>
-											)}
-											<div className="translate">{word.defind}</div>
-										</div>
+								);
+							})}
 
-										<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
-											Cấp {word.repeat}
-										</div>
-									</div>
-								</div>
-							);
-						})}
-
-					{/* <div className="detail-list flex flex-col gap-2 bg-slate-100 shadow-md p-2 rounded-lg">
+						{/* <div className="detail-list flex flex-col gap-2 bg-slate-100 shadow-md p-2 rounded-lg">
 					<div className="detail-list__top flex justify-between">
 						<div className="flex gap-2">
 							<div className="type-word px-2 w-fit rounded-lg">Từ</div>
@@ -329,7 +334,8 @@ function Word() {
 						</div>
 					</div>
 				</div> */}
-				</div>
+					</div>
+				)}
 			</SpinnerLoading>
 		</>
 	);
