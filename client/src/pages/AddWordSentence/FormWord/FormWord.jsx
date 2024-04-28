@@ -4,6 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import TextService from '../../../services/API/tex.service';
 import { Toaster } from 'react-hot-toast';
 import {
+	LIMIT_LIST_TEXT_OF_PAGE,
 	LIMIT_TEXT_OF_PAGE,
 	RES_DATA,
 	STEPS_ADD_WORD_SENTENCE,
@@ -122,7 +123,7 @@ function FormWord() {
 
 			let dataLocal = JSON.parse(localStorage.getItem('listText'));
 			let total = parseInt(localStorage.getItem('total'));
-			if (dataLocal.length >= LIMIT_TEXT_OF_PAGE) {
+			if (dataLocal.length >= LIMIT_LIST_TEXT_OF_PAGE) {
 				dataLocal.unshift(createWord[RES_DATA].metadata);
 				dataLocal.pop();
 			} else {
@@ -132,8 +133,39 @@ function FormWord() {
 			localStorage.setItem('total', total + 1);
 			localStorage.setItem(
 				'totalPages',
-				Math.ceil((total + 1) / parseInt(LIMIT_TEXT_OF_PAGE))
+				Math.ceil((total + 1) / parseInt(LIMIT_LIST_TEXT_OF_PAGE))
 			);
+
+
+			////
+			// 1. Danh sach hien dau tien
+
+			
+			// let listRievew = JSON.parse(localStorage.getItem('listReview'));
+
+			// console.log({ listRievew })
+			
+
+			// if (listRievew.length >= LIMIT_LIST_TEXT_OF_PAGE) {
+			// 	listRievew.unshift(createWord[RES_DATA].metadata);
+			// 	listRievew.pop();
+			// } else {
+			// 	dataLocal.unshift(createWord[RES_DATA].metadata);
+			// }
+			// localStorage.setItem('listText', JSON.stringify(dataLocal));
+			// localStorage.setItem('total', total + 1);
+			// localStorage.setItem(
+			// 	'totalPages',
+			// 	Math.ceil((total + 1) / parseInt(LIMIT_LIST_TEXT_OF_PAGE))
+			// );
+			// let total = parseInt(localStorage.getItem('total'));
+
+
+
+			// 2. tong tat cac  riview
+
+
+
 
 			/// nhiều thiết bị đòng bộ localStorage ==> khi thiết bị khác dăng nhập thì sẽ cập nhập lại localSTroge ==>
 			// khi đăng nhập thiết bị khác thì thiết bị còn lại sẽ bị logout _ cái này có rồi xem midleware của axios

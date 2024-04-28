@@ -8,8 +8,9 @@ const initialState = {
 
 	listData: [],
 	totalPages: '',
+	totalText: '',
 
-	openModalDetailText:false
+	openModalDetailText: false,
 };
 
 export const getAllText = createAsyncThunk(
@@ -17,9 +18,8 @@ export const getAllText = createAsyncThunk(
 	async (payload, { state }) => {
 		const listText = JSON.parse(localStorage.getItem('listText'));
 		try {
-
-			const { page,limit } = payload;
-			const res = await TextService.getAllText({ page,limit });
+			const { page, limit } = payload;
+			const res = await TextService.getAllText({ page, limit });
 
 			console.log('res:', res);
 
@@ -33,7 +33,7 @@ export const getAllText = createAsyncThunk(
 					'totalPages',
 					JSON.stringify(res[RES_DATA].metadata.totalPages)
 				);
-				
+
 				localStorage.setItem(
 					'total',
 					JSON.stringify(res[RES_DATA].metadata.total)
@@ -68,7 +68,10 @@ export const wordReducer = createSlice({
 		SET_TOTAL_PAGE: (state, action) => {
 			state.totalPages = action.payload;
 		},
-		SET_OPEN_MODAL_DETAIL_TEXT :  (state, action) => {
+		SET_TOTAL_TEXT: (state, action) => {
+			state.totalText = action.payload;
+		},
+		SET_OPEN_MODAL_DETAIL_TEXT: (state, action) => {
 			state.openModalDetailText = action.payload;
 		},
 
@@ -84,7 +87,14 @@ export const wordReducer = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { SET_WORD, SET_TYPE_TEXT, RESET_WORD, SET_LIST_DATA,SET_TOTAL_PAGE,SET_OPEN_MODAL_DETAIL_TEXT } =
-	wordReducer.actions;
+export const {
+	SET_WORD,
+	SET_TOTAL_TEXT,
+	SET_TYPE_TEXT,
+	RESET_WORD,
+	SET_LIST_DATA,
+	SET_TOTAL_PAGE,
+	SET_OPEN_MODAL_DETAIL_TEXT,
+} = wordReducer.actions;
 
 export default wordReducer.reducer;

@@ -48,7 +48,7 @@ const Analysis = () => {
 						</div>
 
 						<div className="flex justify-between bg-slate-100 p-2 pt-0 rounded-xl">
-							<div class="w-fit flex flex-col gap-4 pt-8">
+							<div className="w-fit flex flex-col gap-4 pt-8">
 								<div className="flex w-[55px] items-center gap-1">
 									<div className="w-2 h-2 rounded-full bg-[#EDC349]"></div>
 									<div className="w-[50px]"> cấp 1</div>
@@ -70,7 +70,7 @@ const Analysis = () => {
 								<PieChart />
 							</div>
 
-							<div class="w-fit  flex flex-col gap-4 pt-8">
+							<div className="w-fit  flex flex-col gap-4 pt-8">
 								<div className="flex w-[55px] items-center gap-1">
 									<div className="w-2 h-2 rounded-full bg-[#502380]"></div>
 									<div className="w-[50px]"> cấp 5</div>
@@ -147,7 +147,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -166,7 +166,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -185,7 +185,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -204,7 +204,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -223,7 +223,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -242,7 +242,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -261,7 +261,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -280,7 +280,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -299,7 +299,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -318,7 +318,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -337,7 +337,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -356,7 +356,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
@@ -375,7 +375,7 @@ const Analysis = () => {
 							<div className="flex justify-end w-[100px] h-full items-center">
 								<ion-icon
 									name="add-circle-outline"
-									class="text-4xl"
+									className="text-4xl"
 								></ion-icon>
 							</div>
 						</div>
