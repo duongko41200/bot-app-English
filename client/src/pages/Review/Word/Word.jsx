@@ -6,6 +6,7 @@ import {
 	SET_TOTAL_PAGE,
 	SET_TOTAL_TEXT,
 	getAllText,
+	getListTextByFilter,
 } from '../../../store/feature/word';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -20,25 +21,42 @@ import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading
 function Word() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
+	const currentMonth = new Date().getMonth() + 1;
+	const currentYear = new Date().getFullYear();
 
-	const totalPages = useSelector((state) => state.wordStore.totalPages);
-	const listData = useSelector((state) => state.wordStore.listData);
-	const totalText = useSelector((state) => state.wordStore.totalText);
+	const [selectedMonth, setSelectedMonth] = useState(
+		currentMonth.toString()
+	);
+	const [selectedYear, setSelectedYear] = useState(
+		currentYear.toString()
+	);
+	const [currentLevel, setCurrentLevel] = useState('all');
+	const [currentTypeText, setCurrentTypeText] = useState('all');
+
+	const totalPages = useSelector(
+		(state) => state.wordStore.totalPagesReview
+	);
+	const listData = useSelector(
+		(state) => state.wordStore.listTextReview
+	);
+	const totalText = useSelector(
+		(state) => state.wordStore.totalListTextReview
+	);
 	const dispatch = useDispatch();
 
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
-			setIsShow(true);
-			await dispatch(
-				getAllText({ page: value, limit: LIMIT_LIST_TEXT_OF_PAGE })
-			);
-			setIsShow(false);
+			// setIsShow(true);
+			// dispatch(
+			// 	getAllText({ page: value, limit: LIMIT_LIST_TEXT_OF_PAGE })
+			// );
+			// setIsShow(false);
 			setCurrentPage(value);
 		}
 	};
 
 	const getListData = async () => {
-		const listText = JSON.parse(localStorage.getItem('listText'));
+		const listText = JSON.parse(localStorage.getItem('listTextReview'));
 		const totalPage = localStorage.getItem('totalPages');
 		const totalText = localStorage.getItem('total');
 
@@ -48,10 +66,13 @@ function Word() {
 			dispatch(SET_TOTAL_TEXT(totalText));
 		} else {
 			setIsShow(true);
-			await dispatch(
-				getAllText({
+			dispatch(
+				getListTextByFilter({
 					page: currentPage,
 					limit: LIMIT_LIST_TEXT_OF_PAGE,
+					level: currentLevel,
+					typeText: currentTypeText,
+					date: `${selectedYear}-${selectedMonth}`,
 				})
 			);
 			setIsShow(false);
@@ -64,7 +85,13 @@ function Word() {
 
 	useEffect(() => {
 		getListData();
-	}, []);
+	}, [
+		currentPage,
+		selectedMonth,
+		currentLevel,
+		currentTypeText,
+		selectedYear,
+	]);
 	return (
 		<>
 			<div>
@@ -77,13 +104,22 @@ function Word() {
 										<div className="text-sm px-1">
 											<label for="level">Cấp độ</label>
 										</div>
-										<select id="level" className="bg-yellow-100 ">
-											<option value="volvo">Volvo</option>
-											<option value="saab">Saab</option>
-											<option value="vw">VW</option>
-											<option value="audi" selected>
-												tất cả
-											</option>
+										<select
+											id="level"
+											className="bg-yellow-100 "
+											value={currentLevel}
+											onChange={(e) => {
+												setCurrentLevel(e.target.value);
+											}}
+										>
+											<option value="all">tất cả</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+											<option value="6">6</option>
+											<option value="7">7</option>
 										</select>
 									</div>
 								</div>
@@ -95,13 +131,17 @@ function Word() {
 							<div className="text-sm px-1">
 								<label for="type">Phân loại</label>
 							</div>
-							<select id="type" className="bg-yellow-100 ">
-								<option value="volvo">Volvo</option>
-								<option value="saab">Saab</option>
-								<option value="vw">VW</option>
-								<option value="audi" selected>
-									tất cả
-								</option>
+							<select
+								id="type"
+								className="bg-yellow-100 "
+								value={currentTypeText}
+								onChange={(e) => {
+									setCurrentTypeText(e.target.value);
+								}}
+							>
+								<option value="word">Từ</option>
+								<option value="sentence">Câu</option>
+								<option value="all">tất cả</option>
 							</select>
 						</div>
 					</div>
@@ -110,24 +150,38 @@ function Word() {
 						<div className="flex">
 							<div className="bg-yellow-100 rounded-l-lg">
 								<div className="text-sm px-1">Tháng</div>
-								<select id="cars" className="bg-yellow-100 ">
-									<option value="volvo">Volvo</option>
-									<option value="saab">Saab</option>
-									<option value="vw">VW</option>
-									<option value="audi" selected>
-										11
-									</option>
+								<select
+									id="cars"
+									className="bg-yellow-100"
+									value={selectedMonth}
+									onChange={(e) => setSelectedMonth(e.target.value)}
+								>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
 								</select>
 							</div>
 							<div className="bg-yellow-100 rounded-r-lg">
 								<div className="text-sm px-1">Năm</div>
-								<select id="cars" className="bg-yellow-100 ">
-									<option value="volvo">Volvo</option>
-									<option value="saab">Saab</option>
-									<option value="vw">VW</option>
-									<option value="audi" selected>
+								<select
+									id="cars"
+									className="bg-yellow-100 "
+									value={selectedYear}
+									onChange={(e) => setSelectedYear(e.target.value)}
+								>
+									<option value="2024" selected>
 										2024
 									</option>
+									<option value="2025">2025</option>
 								</select>
 							</div>
 						</div>

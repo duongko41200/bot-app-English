@@ -42,7 +42,10 @@ class TextFormController {
 			metadata: await TextFormService.findListTextByFilter({
 				userId: req.user.userId,
 				page: req.query.page,
-				limit: req.query.limit
+				limit: req.query.limit,
+				level: req.query.level,
+				date: req.query.date,
+				typeText: req.query.typeText
 			}),
 		}).send(res);
 	};

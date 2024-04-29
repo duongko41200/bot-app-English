@@ -36,7 +36,7 @@ const TextService = {
 		);
 	},
 
-	getListTextByFilter({page,limit}) {
+	getListTextByFilter({page,limit,level,typeText,date}) {
 		return ApiService.get(
 			`${serviceURL}/review`,
 
@@ -45,8 +45,11 @@ const TextService = {
 				'x-client-id': localStorage.getItem('userId'),
 				authorization: localStorage.getItem('accessToken'),
 			}, {
-				page: page,
-				limit
+				page,
+				limit,
+				level,
+				typeText,
+				date
 				
 			}
 		);

@@ -4,7 +4,8 @@
 const { text, word, sentence } = require('../models/textform.model');
 const { BadRequestError } = require('../cores/Error.response');
 const {
-	findAllInfoText,findListTextByFilter
+	findAllInfoText,
+	findListTextByFilter,
 } = require('../models/respositories/text.repo');
 
 class TextFormFactory {
@@ -26,25 +27,33 @@ class TextFormFactory {
 
 	//query
 
-	static async findAllInfoText({ userId, limit,page}) {
+	static async findAllInfoText({ userId, limit, page }) {
 		const query = { userId };
 
-		console.log('limit:',limit ,page)
-		return await findAllInfoText({ query, limit ,page,model:text});
+		console.log('limit:', limit, page);
+		return await findAllInfoText({ query, limit, page, model: text });
 	}
-
-
 
 	// lam chuc nang filter
 
-	static async findListTextByFilter({ userId, limit,page}) {
-		const query = { userId };
-
-		console.log('limit:',limit ,page)
-		return await findListTextByFilter({ query, limit ,page,model:text});
+	static async findListTextByFilter({
+		userId,
+		limit,
+		page,
+		level,
+		date,
+		typeText,
+	}) {
+		return await findListTextByFilter({
+			userId,
+			limit,
+			page,
+			level,
+			date,
+			typeText,
+			model: text,
+		});
 	}
-
-
 }
 
 class TextForm {
@@ -98,7 +107,7 @@ class Sentence extends TextForm {
 			userId: this.userId,
 		});
 
-		console.log({newSentence})
+		console.log({ newSentence });
 		if (!newSentence) throw new BadRequestError('creat new Word error');
 		super.attributes = newSentence;
 		const newTextForm = await super.createTextForm(newSentence._id);

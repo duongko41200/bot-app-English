@@ -3,6 +3,7 @@
 const safetyCount = require('../../helpers/safetyCount');
 const { text, word, sentence } = require('../../models/textform.model');
 const TopicModel = require('../../models/topic.model');
+const dayjs = require('dayjs');
 
 const findAllInfoText = async ({ model, query, limit, page }) => {
 	const countPromise = safetyCount({ model: model, query });
@@ -29,10 +30,40 @@ const findAllInfoText = async ({ model, query, limit, page }) => {
 	};
 };
 
-const findListTextByFilter = async ({ model, query, limit, page }) => {
-	const countPromise = safetyCount({ model: model, query });
-	const resDataPromise = text
-		.find(query)
+const findListTextByFilter = async ({
+	model,
+	userId,
+	limit,
+	page,
+	level,
+	typeText,
+	date,
+}) => {
+	const query = {};
+
+	if (level != 'all') query['repeat'] = +level;
+	if (typeText != 'all') query['typeText'] = typeText;
+
+
+	const countPromise = model
+		.find({
+			userId,
+			createdAt: {
+				$gte: dayjs(`${date}-01`).startOf('day'),
+				$lte: dayjs(`${date}-31`).startOf('day'),
+			},
+			...query,
+		})
+		.countDocuments();
+	const resDataPromise = model
+		.find({
+			userId,
+			createdAt: {
+				$gte: dayjs(`${date}-01`).startOf('day'),
+				$lte: dayjs(`${date}-31`).startOf('day'),
+			},
+			...query,
+		})
 		.populate('topicId')
 		.sort({ updatedAt: -1 })
 		.skip((page - 1) * limit)

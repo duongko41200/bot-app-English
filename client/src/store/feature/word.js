@@ -10,6 +10,11 @@ const initialState = {
 	totalPages: '',
 	totalText: '',
 
+
+	listTextReview: [],
+	totalPagesReview: '',
+	totalListTextReview: '',
+
 	openModalDetailText: false,
 };
 
@@ -39,6 +44,48 @@ export const getAllText = createAsyncThunk(
 					JSON.stringify(res[RES_DATA].metadata.total)
 				);
 			}
+
+			return res[RES_DATA].metadata;
+		} catch (error) {
+			throw new Error(error.message);
+		}
+	}
+);
+
+export const getListTextByFilter = createAsyncThunk(
+	'wordStore/getListTextByFilter',
+	async (payload, { state }) => {
+		const listText = JSON.parse(localStorage.getItem('listText'));
+		try {
+			const { page, limit, level, typeText, date } = payload;
+
+			console.log("duosng",payload)
+			const res = await TextService.getListTextByFilter({
+				page,
+				limit,
+				level,
+				typeText,
+				date,
+			});
+
+			console.log('res  asdasddf:', res);
+
+			// if (!listText) {
+			// 	localStorage.setItem(
+			// 		'listText',
+			// 		JSON.stringify(res[RES_DATA].metadata.contents)
+			// 	);
+
+			// 	localStorage.setItem(
+			// 		'totalPages',
+			// 		JSON.stringify(res[RES_DATA].metadata.totalPages)
+			// 	);
+
+			// 	localStorage.setItem(
+			// 		'total',
+			// 		JSON.stringify(res[RES_DATA].metadata.total)
+			// 	);
+			// }
 
 			return res[RES_DATA].metadata;
 		} catch (error) {
@@ -82,6 +129,13 @@ export const wordReducer = createSlice({
 			console.log('action:', action.payload);
 			state.listData = action.payload.contents;
 			state.totalPages = action.payload.totalPages;
+		});
+
+		builder.addCase(getListTextByFilter.fulfilled, (state, action) => {
+			console.log('action:', action.payload);
+			state.listTextReview = action.payload.contents;
+			state.totalPagesReview = action.payload.totalPages;
+			state.totalListTextReview = action.payload.total
 		});
 	},
 });
