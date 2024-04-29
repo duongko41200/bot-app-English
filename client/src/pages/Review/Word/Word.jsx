@@ -5,6 +5,7 @@ import {
 	SET_OPEN_MODAL_DETAIL_TEXT,
 	SET_TOTAL_PAGE,
 	SET_TOTAL_TEXT,
+	SET_TEXT_DETAIL,
 	getAllText,
 	getListTextByFilter,
 } from '../../../store/feature/word';
@@ -66,7 +67,7 @@ function Word() {
 			dispatch(SET_TOTAL_TEXT(totalText));
 		} else {
 			setIsShow(true);
-			dispatch(
+			await dispatch(
 				getListTextByFilter({
 					page: currentPage,
 					limit: LIMIT_LIST_TEXT_OF_PAGE,
@@ -79,8 +80,13 @@ function Word() {
 		}
 	};
 
-	const handleShowModalDetail = () => {
+	const handleShowModalDetail = (textId) => {
+		console.log('Text  id:', textId);
+		const textDetail = listData.filter(text => text._id === textId)
+		console.log({textDetail})
+
 		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(true));
+		dispatch(SET_TEXT_DETAIL(textDetail[RES_DATA]))
 	};
 
 	useEffect(() => {
@@ -230,7 +236,7 @@ function Word() {
 									<div
 										key={idx}
 										className="detail-list flex flex-col gap-2 bg-slate-100 shadow-md p-2 rounded-lg"
-										onClick={handleShowModalDetail}
+										onClick={() => handleShowModalDetail(word._id)}
 									>
 										<div className="detail-list__top flex justify-between">
 											<div className="flex gap-2">

@@ -9,12 +9,15 @@ function Review() {
 	const openModalDetailText = useSelector(
 		(state) => state.wordStore.openModalDetailText
 	);
+	const textDetail = useSelector(
+		(state) => state.wordStore.textDetail
+	);
 
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
 	const handleCloseModal = () => {
-		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(false))
-	}
+		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(false));
+	};
 
 	return (
 		<div className="wrapper-analysis relative">
@@ -47,6 +50,7 @@ function Review() {
 
 			<ModalDetailText
 				openModalDetailText={openModalDetailText}
+				textDetail={textDetail}
 				onCancel={handleCloseModal}
 			/>
 		</div>

@@ -15,6 +15,7 @@ const initialState = {
 	totalPagesReview: '',
 	totalListTextReview: '',
 
+	textDetail:'',
 	openModalDetailText: false,
 };
 
@@ -121,6 +122,9 @@ export const wordReducer = createSlice({
 		SET_OPEN_MODAL_DETAIL_TEXT: (state, action) => {
 			state.openModalDetailText = action.payload;
 		},
+		SET_TEXT_DETAIL: (state, action) => {
+			state.textDetail = action.payload;
+		},
 
 		//Action
 	},
@@ -149,6 +153,7 @@ export const {
 	SET_LIST_DATA,
 	SET_TOTAL_PAGE,
 	SET_OPEN_MODAL_DETAIL_TEXT,
+	SET_TEXT_DETAIL
 } = wordReducer.actions;
 
 export default wordReducer.reducer;
