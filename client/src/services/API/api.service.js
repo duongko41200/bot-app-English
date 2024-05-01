@@ -105,10 +105,11 @@ const ApiService = {
 			.then(responseCallback)
 			.catch(catchError);
 	},
-	delete(resource, headers) {
+	delete(resource, headers,queryParams) {
 		return axios
 			.delete(`${apiUrl}/${resource}`, {
 				headers: headers,
+				params: queryParams,
 			})
 			.then(responseCallback)
 			.catch(catchError);

@@ -54,6 +54,25 @@ const TextService = {
 			}
 		);
 	},
+	deleteText({ page, limit, level, typeText, date, textId }) {
+		return ApiService.delete(
+			`${serviceURL}/delete`,
+
+			{
+				'x-api-key': import.meta.env.APP_API_KEY,
+				'x-client-id': localStorage.getItem('userId'),
+				authorization: localStorage.getItem('accessToken'),
+			}, {
+				page,
+				limit,
+				level,
+				typeText,
+				date,
+				textId
+				
+			}
+		);
+	},
 };
 
 export default TextService;

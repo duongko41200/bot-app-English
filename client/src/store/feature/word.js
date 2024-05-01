@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RES_DATA } from '../../Constant/global';
+import {
+	LIMIT_LIST_TEXT_OF_PAGE,
+	RES_DATA,
+} from '../../Constant/global';
 import TextService from '../../services/API/tex.service';
+
+const currentMonth = new Date().getMonth() + 1;
+const currentYear = new Date().getFullYear();
 
 const initialState = {
 	typeText: '',
@@ -10,13 +16,18 @@ const initialState = {
 	totalPages: '',
 	totalText: '',
 
-
 	listTextReview: [],
 	totalPagesReview: '',
 	totalListTextReview: '',
 
-	textDetail:'',
+	textDetail: '',
 	openModalDetailText: false,
+
+	page: '1',
+	limit: LIMIT_LIST_TEXT_OF_PAGE,
+	level: 'all',
+	typeText: 'all',
+	date: `${currentYear}-${currentMonth}`,
 };
 
 export const getAllText = createAsyncThunk(
@@ -56,11 +67,10 @@ export const getAllText = createAsyncThunk(
 export const getListTextByFilter = createAsyncThunk(
 	'wordStore/getListTextByFilter',
 	async (payload, { state }) => {
-		const listText = JSON.parse(localStorage.getItem('listText'));
+		// const listText = JSON.parse(localStorage.getItem('listText'));
 		try {
 			const { page, limit, level, typeText, date } = payload;
 
-			console.log("duosng",payload)
 			const res = await TextService.getListTextByFilter({
 				page,
 				limit,
@@ -90,6 +100,51 @@ export const getListTextByFilter = createAsyncThunk(
 
 			return res[RES_DATA].metadata;
 		} catch (error) {
+			throw new Error(error.message);
+		}
+	}
+);
+export const deleteText = createAsyncThunk(
+	'wordStore/deleteText',
+	async (payload, thunkAPI) => {
+		try {
+			const { page, limit, level, typeText, date } = thunkAPI.getState().wordStore;
+			const { textId } = payload;
+
+			console.log('payload', thunkAPI.getState());
+			console.log({ textId });
+
+			const res = await TextService.deleteText({
+				page,
+				limit,
+				level,
+				typeText,
+				date,
+				textId,
+			});
+
+			console.log('res  asdasddf:', res);
+
+			// if (!listText) {
+			// 	localStorage.setItem(
+			// 		'listText',
+			// 		JSON.stringify(res[RES_DATA].metadata.contents)
+			// 	);
+
+			// 	localStorage.setItem(
+			// 		'totalPages',
+			// 		JSON.stringify(res[RES_DATA].metadata.totalPages)
+			// 	);
+
+			// 	localStorage.setItem(
+			// 		'total',
+			// 		JSON.stringify(res[RES_DATA].metadata.total)
+			// 	);
+			// }
+
+			return res[RES_DATA]?.metadata;
+		} catch (error) {
+			console.log({ error });
 			throw new Error(error.message);
 		}
 	}
@@ -125,6 +180,9 @@ export const wordReducer = createSlice({
 		SET_TEXT_DETAIL: (state, action) => {
 			state.textDetail = action.payload;
 		},
+		SET_ELEMENT_FILTER: (state, action) => {
+			state[action.payload.type] = action.payload.content;
+		},
 
 		//Action
 	},
@@ -139,7 +197,13 @@ export const wordReducer = createSlice({
 			console.log('action:', action.payload);
 			state.listTextReview = action.payload.contents;
 			state.totalPagesReview = action.payload.totalPages;
-			state.totalListTextReview = action.payload.total
+			state.totalListTextReview = action.payload.total;
+		});
+		builder.addCase(deleteText.fulfilled, (state, action) => {
+			console.log('action:', action.payload);
+			state.listTextReview = action.payload.contents;
+			state.totalPagesReview = action.payload.totalPages;
+			state.totalListTextReview = action.payload.total;
 		});
 	},
 });
@@ -153,7 +217,8 @@ export const {
 	SET_LIST_DATA,
 	SET_TOTAL_PAGE,
 	SET_OPEN_MODAL_DETAIL_TEXT,
-	SET_TEXT_DETAIL
+	SET_TEXT_DETAIL,
+	SET_ELEMENT_FILTER,
 } = wordReducer.actions;
 
 export default wordReducer.reducer;

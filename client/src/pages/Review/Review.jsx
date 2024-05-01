@@ -3,20 +3,32 @@ import './Review.css';
 import { Link, Outlet } from 'react-router-dom';
 import ModalDetailText from '../../components/ui/ModalDetailText/ModalDetailText';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_OPEN_MODAL_DETAIL_TEXT } from '../../store/feature/word';
+import {
+	SET_OPEN_MODAL_DETAIL_TEXT,
+	deleteText,
+} from '../../store/feature/word';
 
 function Review() {
 	const openModalDetailText = useSelector(
 		(state) => state.wordStore.openModalDetailText
 	);
-	const textDetail = useSelector(
-		(state) => state.wordStore.textDetail
-	);
+	const textDetail = useSelector((state) => state.wordStore.textDetail);
 
 	const dispatch = useDispatch();
 
 	const handleCloseModal = () => {
 		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(false));
+	};
+	const deleteTextById = async () => {
+		try {
+			await dispatch(
+				deleteText({
+					textId: textDetail._id,
+				})
+			);
+		} catch (error) {
+			console.log({ error });
+		}
 	};
 
 	return (
@@ -52,6 +64,7 @@ function Review() {
 				openModalDetailText={openModalDetailText}
 				textDetail={textDetail}
 				onCancel={handleCloseModal}
+				deleteTextById={deleteTextById}
 			/>
 		</div>
 	);

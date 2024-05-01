@@ -5,11 +5,13 @@ import {
 	UilCancel,
 	UilTimes,
 } from '@iconscout/react-unicons';
+import { useDispatch } from 'react-redux';
 
 function ModalDetailText({
 	openModalDetailText,
 	onCancel,
 	textDetail,
+	deleteTextById
 }) {
 	const [show, setShow] = useState(false);
 
@@ -34,7 +36,7 @@ function ModalDetailText({
 									<UilTimes />
 								</div>
 								<div className="flex gap-4">
-									<div>
+									<div onClick={deleteTextById}>
 										<UilTrashAlt />
 									</div>
 									<div>
@@ -55,7 +57,7 @@ function ModalDetailText({
 										<>
 											<div>Từ: {textDetail.text}</div>
 											<div>Nghĩa : {textDetail.defind}</div>
-											<div>Chủ để: {textDetail.topicId.name}</div>
+											<div>Chủ để: {textDetail?.topicId?.name}</div>
 											<div>Cấp độ : {textDetail.repeat}</div>
 										</>
 									) : (
@@ -65,7 +67,7 @@ function ModalDetailText({
 												Cấu trúc: {textDetail.attributes.structure}
 											</div>
 											<div>Nghĩa : {textDetail.defind}</div>
-											<div>Chủ để: {textDetail.topicId.name}</div>
+											<div>Chủ để: {textDetail?.topicId?.name}</div>
 											<div>Cấp độ : {textDetail.repeat}</div>
 										</>
 									)}

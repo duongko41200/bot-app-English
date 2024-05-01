@@ -6,6 +6,7 @@ const { BadRequestError } = require('../cores/Error.response');
 const {
 	findAllInfoText,
 	findListTextByFilter,
+	deleteText
 } = require('../models/respositories/text.repo');
 
 class TextFormFactory {
@@ -34,8 +35,6 @@ class TextFormFactory {
 		return await findAllInfoText({ query, limit, page, model: text });
 	}
 
-	// lam chuc nang filter
-
 	static async findListTextByFilter({
 		userId,
 		limit,
@@ -46,6 +45,23 @@ class TextFormFactory {
 	}) {
 		return await findListTextByFilter({
 			userId,
+			limit,
+			page,
+			level,
+			date,
+			typeText,
+			model: text,
+		});
+	}
+
+	static async deleteText({ userId, textId,limit,
+		page,
+		level,
+		date,
+		typeText, }) {
+		return await deleteText({
+			userId,
+			textId,
 			limit,
 			page,
 			level,

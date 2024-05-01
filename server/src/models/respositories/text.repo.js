@@ -44,7 +44,6 @@ const findListTextByFilter = async ({
 	if (level != 'all') query['repeat'] = +level;
 	if (typeText != 'all') query['typeText'] = typeText;
 
-
 	const countPromise = model
 		.find({
 			userId,
@@ -82,6 +81,43 @@ const findListTextByFilter = async ({
 		contents: resData,
 	};
 };
+
+const deleteText = async ({
+	userId,
+	textId,
+	limit,
+	page,
+	level,
+	date,
+	typeText,
+	model,
+}) => {
+	try {
+		console.log({
+			userId,
+			textId,
+			limit,
+			page,
+			level,
+			date,
+			typeText,
+			model,
+		});
+		const textDeleted = await model.deleteMany({ _id: textId, userId });
+		return await findListTextByFilter({
+			model,
+			userId,
+			limit,
+			page,
+			level,
+			typeText,
+			date,
+		});
+	} catch (error) {
+		console.log({ error });
+		// return next(new AppError('No product found with that id', 404));
+	}
+};
 ///TOPIC
 
 const createTopic = async ({ name, userId }) => {
@@ -96,4 +132,5 @@ module.exports = {
 	createTopic,
 	getAllTopc,
 	findListTextByFilter,
+	deleteText,
 };

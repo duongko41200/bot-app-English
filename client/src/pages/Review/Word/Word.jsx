@@ -8,6 +8,7 @@ import {
 	SET_TEXT_DETAIL,
 	getAllText,
 	getListTextByFilter,
+	SET_ELEMENT_FILTER,
 } from '../../../store/feature/word';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
@@ -20,6 +21,8 @@ import dayjs from 'dayjs';
 import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
 
 function Word() {
+	const dispatch = useDispatch();
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
 	const currentMonth = new Date().getMonth() + 1;
@@ -43,7 +46,6 @@ function Word() {
 	const totalText = useSelector(
 		(state) => state.wordStore.totalListTextReview
 	);
-	const dispatch = useDispatch();
 
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
@@ -53,40 +55,46 @@ function Word() {
 			// );
 			// setIsShow(false);
 			setCurrentPage(value);
+			dispatch(
+				SET_ELEMENT_FILTER({
+					content: value,
+					type: 'page',
+				})
+			);
 		}
 	};
 
 	const getListData = async () => {
-		const listText = JSON.parse(localStorage.getItem('listTextReview'));
-		const totalPage = localStorage.getItem('totalPages');
-		const totalText = localStorage.getItem('total');
+		// const listText = JSON.parse(localStorage.getItem('listTextReview'));
+		// const totalPage = localStorage.getItem('totalPages');
+		// const totalText = localStorage.getItem('total');
 
-		if (listText) {
-			dispatch(SET_LIST_DATA(listText));
-			dispatch(SET_TOTAL_PAGE(totalPage));
-			dispatch(SET_TOTAL_TEXT(totalText));
-		} else {
-			setIsShow(true);
-			await dispatch(
-				getListTextByFilter({
-					page: currentPage,
-					limit: LIMIT_LIST_TEXT_OF_PAGE,
-					level: currentLevel,
-					typeText: currentTypeText,
-					date: `${selectedYear}-${selectedMonth}`,
-				})
-			);
-			setIsShow(false);
-		}
+		// if (listText) {
+		// 	dispatch(SET_LIST_DATA(listText));
+		// 	dispatch(SET_TOTAL_PAGE(totalPage));
+		// 	dispatch(SET_TOTAL_TEXT(totalText));
+		// } else {
+		setIsShow(true);
+		await dispatch(
+			getListTextByFilter({
+				page: currentPage,
+				limit: LIMIT_LIST_TEXT_OF_PAGE,
+				level: currentLevel,
+				typeText: currentTypeText,
+				date: `${selectedYear}-${selectedMonth}`,
+			})
+		);
+		setIsShow(false);
+		// }
 	};
 
 	const handleShowModalDetail = (textId) => {
 		console.log('Text  id:', textId);
-		const textDetail = listData.filter(text => text._id === textId)
-		console.log({textDetail})
+		const textDetail = listData.filter((text) => text._id === textId);
+		console.log({ textDetail });
 
 		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(true));
-		dispatch(SET_TEXT_DETAIL(textDetail[RES_DATA]))
+		dispatch(SET_TEXT_DETAIL(textDetail[RES_DATA]));
 	};
 
 	useEffect(() => {
@@ -116,6 +124,12 @@ function Word() {
 											value={currentLevel}
 											onChange={(e) => {
 												setCurrentLevel(e.target.value);
+												dispatch(
+													SET_ELEMENT_FILTER({
+														content: e.target.value,
+														type: 'level',
+													})
+												);
 											}}
 										>
 											<option value="all">tất cả</option>
@@ -143,6 +157,12 @@ function Word() {
 								value={currentTypeText}
 								onChange={(e) => {
 									setCurrentTypeText(e.target.value);
+									dispatch(
+										SET_ELEMENT_FILTER({
+											content: e.target.value,
+											type: 'typeText',
+										})
+									);
 								}}
 							>
 								<option value="word">Từ</option>
@@ -160,7 +180,15 @@ function Word() {
 									id="cars"
 									className="bg-yellow-100"
 									value={selectedMonth}
-									onChange={(e) => setSelectedMonth(e.target.value)}
+									onChange={(e) => {
+										setSelectedMonth(e.target.value);
+										dispatch(
+											SET_ELEMENT_FILTER({
+												content: `${selectedYear}-${e.target.value}`,
+												type: 'date',
+											})
+										);
+									}}
 								>
 									<option value="1">1</option>
 									<option value="2">2</option>
@@ -182,7 +210,15 @@ function Word() {
 									id="cars"
 									className="bg-yellow-100 "
 									value={selectedYear}
-									onChange={(e) => setSelectedYear(e.target.value)}
+									onChange={(e) => {
+										setSelectedYear(e.target.value);
+										dispatch(
+											SET_ELEMENT_FILTER({
+												content: `${e.target.value}-${selectedMonth}`,
+												type: 'date',
+											})
+										);
+									}}
 								>
 									<option value="2024" selected>
 										2024

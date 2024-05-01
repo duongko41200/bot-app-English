@@ -18,7 +18,10 @@ router.post(
 
 // QUERY
 router.get('/all', asyncHandle(TextFormController.getAllInfoText));
-router.get('/review',asyncHandle(TextFormController.getListTextByFilter)
-);
+router.get(
+	'/review',
+	asyncHandle(TextFormController.getListTextByFilter)
+),
+	router.delete('/delete', asyncHandle(TextFormController.deleteText));
 
 module.exports = router;

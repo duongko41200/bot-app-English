@@ -19,24 +19,21 @@ class TextFormController {
 	//QUERY//
 	/**
 	 * @desc get all data word , sentence
-	 * @param {Number} Limit 
-	 * @param {Number} skip 
+	 * @param {Number} Limit
+	 * @param {Number} skip
 	 */
 	getAllInfoText = async (req, res, next) => {
-
 		new SuccessResponse({
 			message: 'creat list textFrom success!',
 			metadata: await TextFormService.findAllInfoText({
 				userId: req.user.userId,
 				page: req.query.page,
-				limit: req.query.limit
+				limit: req.query.limit,
 			}),
 		}).send(res);
 	};
 
-
 	getListTextByFilter = async (req, res, next) => {
-
 		new SuccessResponse({
 			message: 'creat list textFrom success!',
 			metadata: await TextFormService.findListTextByFilter({
@@ -45,7 +42,23 @@ class TextFormController {
 				limit: req.query.limit,
 				level: req.query.level,
 				date: req.query.date,
-				typeText: req.query.typeText
+				typeText: req.query.typeText,
+			}),
+		}).send(res);
+	};
+
+	deleteText = async (req, res, next) => {
+		console.log("request:",req.query)
+		new SuccessResponse({
+			message: 'delete textFrom success!',
+			metadata: await TextFormService.deleteText({
+				userId: req.user.userId,
+				textId: req.query.textId,
+				page: req.query.page,
+				limit: req.query.limit,
+				level: req.query.level,
+				date: req.query.date,
+				typeText: req.query.typeText,
 			}),
 		}).send(res);
 	};
