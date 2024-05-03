@@ -93,16 +93,6 @@ const deleteText = async ({
 	model,
 }) => {
 	try {
-		console.log({
-			userId,
-			textId,
-			limit,
-			page,
-			level,
-			date,
-			typeText,
-			model,
-		});
 		const textDeleted = await model.deleteMany({ _id: textId, userId });
 		return await findListTextByFilter({
 			model,

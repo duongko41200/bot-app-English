@@ -89,7 +89,7 @@ function FormWord() {
 
 		if (
 			currentStepIndex !== -1 &&
-			currentStepIndex < steps.length - 1
+			currentStepIndex < steps?.length - 1
 		) {
 			setSteps((prevSteps) => {
 				prevSteps[currentStepIndex].isActive = false;

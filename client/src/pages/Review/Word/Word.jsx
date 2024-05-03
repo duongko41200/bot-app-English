@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	SET_LIST_DATA,
 	SET_OPEN_MODAL_DETAIL_TEXT,
-	SET_TOTAL_PAGE,
-	SET_TOTAL_TEXT,
 	SET_TEXT_DETAIL,
-	getAllText,
 	getListTextByFilter,
 	SET_ELEMENT_FILTER,
 } from '../../../store/feature/word';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import TextService from '../../../services/API/tex.service';
 import {
 	LIMIT_LIST_TEXT_OF_PAGE,
 	RES_DATA,
 } from '../../../Constant/global';
 import dayjs from 'dayjs';
 import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
+import { SET_OPEN_MODAL_BOTTOM } from '../../../store/general';
+import ModalBottom from '../../../components/ui/ModalBottom/ModalBottom';
 
 function Word() {
 	const dispatch = useDispatch();
@@ -46,21 +43,35 @@ function Word() {
 	const totalText = useSelector(
 		(state) => state.wordStore.totalListTextReview
 	);
+	const open = useSelector(
+		(state) => state.generalStore.openModalBottom
+	);
 
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
-			// setIsShow(true);
+			setIsShow(true);
 			// dispatch(
 			// 	getAllText({ page: value, limit: LIMIT_LIST_TEXT_OF_PAGE })
 			// );
-			// setIsShow(false);
+
 			setCurrentPage(value);
-			dispatch(
+			await dispatch(
 				SET_ELEMENT_FILTER({
 					content: value,
 					type: 'page',
 				})
 			);
+
+			await dispatch(
+				getListTextByFilter({
+					page: value,
+					limit: LIMIT_LIST_TEXT_OF_PAGE,
+					level: currentLevel,
+					typeText: currentTypeText,
+					date: `${selectedYear}-${selectedMonth}`,
+				})
+			);
+			setIsShow(false);
 		}
 	};
 
@@ -75,9 +86,15 @@ function Word() {
 		// 	dispatch(SET_TOTAL_TEXT(totalText));
 		// } else {
 		setIsShow(true);
+		dispatch(
+			SET_ELEMENT_FILTER({
+				content: 1,
+				type: 'page',
+			})
+		);
 		await dispatch(
 			getListTextByFilter({
-				page: currentPage,
+				page: '1',
 				limit: LIMIT_LIST_TEXT_OF_PAGE,
 				level: currentLevel,
 				typeText: currentTypeText,
@@ -97,15 +114,15 @@ function Word() {
 		dispatch(SET_TEXT_DETAIL(textDetail[RES_DATA]));
 	};
 
+	const closeModalBottom = () => {
+		dispatch(SET_OPEN_MODAL_BOTTOM(false));
+	};
+
 	useEffect(() => {
+		setCurrentPage(1);
+
 		getListData();
-	}, [
-		currentPage,
-		selectedMonth,
-		currentLevel,
-		currentTypeText,
-		selectedYear,
-	]);
+	}, [selectedMonth, currentLevel, currentTypeText, selectedYear]);
 	return (
 		<>
 			<div>
@@ -220,9 +237,7 @@ function Word() {
 										);
 									}}
 								>
-									<option value="2024" selected>
-										2024
-									</option>
+									<option value="2024">2024</option>
 									<option value="2025">2025</option>
 								</select>
 							</div>
@@ -241,9 +256,10 @@ function Word() {
 							variant="outlined"
 							shape="rounded"
 							size="small"
-							defaultPage={1}
+							defaultPage={currentPage}
 							siblingCount={0}
 							onChange={handleChangePage}
+							page={currentPage}
 							disabled={isShow}
 						/>
 					</Stack>
@@ -319,6 +335,8 @@ function Word() {
 					</div>
 				)}
 			</SpinnerLoading>
+
+			<ModalBottom open={open} closeModalBottom={closeModalBottom} />
 		</>
 	);
 }

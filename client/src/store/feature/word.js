@@ -9,6 +9,9 @@ const currentMonth = new Date().getMonth() + 1;
 const currentYear = new Date().getFullYear();
 
 const initialState = {
+
+	remainingQuantity:'',
+	
 	typeText: '',
 	wordObject: {},
 
@@ -57,7 +60,7 @@ export const getAllText = createAsyncThunk(
 				);
 			}
 
-			return res[RES_DATA].metadata;
+			return res[RES_DATA]?.metadata;
 		} catch (error) {
 			throw new Error(error.message);
 		}
@@ -66,7 +69,7 @@ export const getAllText = createAsyncThunk(
 
 export const getListTextByFilter = createAsyncThunk(
 	'wordStore/getListTextByFilter',
-	async (payload, { state }) => {
+	async (payload) => {
 		// const listText = JSON.parse(localStorage.getItem('listText'));
 		try {
 			const { page, limit, level, typeText, date } = payload;
@@ -77,9 +80,7 @@ export const getListTextByFilter = createAsyncThunk(
 				level,
 				typeText,
 				date,
-			});
-
-			console.log('res  asdasddf:', res);
+			});			
 
 			// if (!listText) {
 			// 	localStorage.setItem(
@@ -98,8 +99,10 @@ export const getListTextByFilter = createAsyncThunk(
 			// 	);
 			// }
 
-			return res[RES_DATA].metadata;
+			return res[RES_DATA]?.metadata;
 		} catch (error) {
+
+			console.log({error})
 			throw new Error(error.message);
 		}
 	}
@@ -111,11 +114,10 @@ export const deleteText = createAsyncThunk(
 			const { page, limit, level, typeText, date } = thunkAPI.getState().wordStore;
 			const { textId } = payload;
 
-			console.log('payload', thunkAPI.getState());
-			console.log({ textId });
+			console.log("kjdfgkjdfg",thunkAPI.getState().wordStore.remainingQuantity)
 
 			const res = await TextService.deleteText({
-				page,
+				page: thunkAPI.getState().wordStore.remainingQuantity == 1 ? (parseInt(page)-1) : page,
 				limit,
 				level,
 				typeText,
@@ -123,7 +125,7 @@ export const deleteText = createAsyncThunk(
 				textId,
 			});
 
-			console.log('res  asdasddf:', res);
+			localStorage.removeItem('listText');
 
 			// if (!listText) {
 			// 	localStorage.setItem(
@@ -194,13 +196,15 @@ export const wordReducer = createSlice({
 		});
 
 		builder.addCase(getListTextByFilter.fulfilled, (state, action) => {
-			console.log('action:', action.payload);
+			console.log('action filter:', action.payload);
+			state.remainingQuantity = action.payload.contents.length
 			state.listTextReview = action.payload.contents;
 			state.totalPagesReview = action.payload.totalPages;
 			state.totalListTextReview = action.payload.total;
 		});
 		builder.addCase(deleteText.fulfilled, (state, action) => {
 			console.log('action:', action.payload);
+			state.remainingQuantity = action.payload.contents.length
 			state.listTextReview = action.payload.contents;
 			state.totalPagesReview = action.payload.totalPages;
 			state.totalListTextReview = action.payload.total;

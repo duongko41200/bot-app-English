@@ -6,6 +6,7 @@ import {
 	UilTimes,
 } from '@iconscout/react-unicons';
 import { useDispatch } from 'react-redux';
+import { SET_OPEN_MODAL_BOTTOM } from '../../../store/general';
 
 function ModalDetailText({
 	openModalDetailText,
@@ -14,6 +15,12 @@ function ModalDetailText({
 	deleteTextById
 }) {
 	const [show, setShow] = useState(false);
+
+	const dispatch = useDispatch()
+
+	const OpenModalEdit = () => {
+		dispatch(SET_OPEN_MODAL_BOTTOM(true))
+	}
 
 	useEffect(() => {
 		setShow(openModalDetailText);
@@ -39,7 +46,7 @@ function ModalDetailText({
 									<div onClick={deleteTextById}>
 										<UilTrashAlt />
 									</div>
-									<div>
+									<div onClick={OpenModalEdit}>
 										<UilEdit />
 									</div>
 								</div>
