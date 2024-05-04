@@ -16,10 +16,9 @@ import dayjs from 'dayjs';
 import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
 import { SET_OPEN_MODAL_BOTTOM } from '../../../store/general';
 import ModalBottom from '../../../components/ui/ModalBottom/ModalBottom';
+import { LABEL_EDIT } from '../../../Constant/review';
 
 function Word() {
-	const dispatch = useDispatch();
-
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
 	const currentMonth = new Date().getMonth() + 1;
@@ -33,7 +32,11 @@ function Word() {
 	);
 	const [currentLevel, setCurrentLevel] = useState('all');
 	const [currentTypeText, setCurrentTypeText] = useState('all');
+	const [textUpdate, setTextUpdate] = useState({});
 
+	/// REDUX
+
+	const dispatch = useDispatch();
 	const totalPages = useSelector(
 		(state) => state.wordStore.totalPagesReview
 	);
@@ -46,7 +49,9 @@ function Word() {
 	const open = useSelector(
 		(state) => state.generalStore.openModalBottom
 	);
+	// const textDetail = useSelector((state) => state.wordStore.textDetail);
 
+	// FUNCTION HANDLE
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
 			setIsShow(true);
@@ -106,12 +111,36 @@ function Word() {
 	};
 
 	const handleShowModalDetail = (textId) => {
-		console.log('Text  id:', textId);
+		// console.log('Text  id:', textId);
 		const textDetail = listData.filter((text) => text._id === textId);
-		console.log({ textDetail });
+		// console.log({ textDetail });
+
+		const newTextDetail = {
+			text: textDetail[0].text,
+			defind: textDetail[0].defind,
+			typeText: textDetail[0].typeText,
+			structure: textDetail[0].attributes?.structure,
+			spelling: textDetail[0].attributes?.spelling,
+			topic:  textDetail[0].topicId?.name,
+			topicId:  textDetail[0].topicId?._id,
+		};
+
+		// console.log({ newTextDetail });
+
+		setTextUpdate(newTextDetail);
 
 		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(true));
 		dispatch(SET_TEXT_DETAIL(textDetail[RES_DATA]));
+	};
+
+	const handleSetTextUpdate = (value, e) => {
+		const copyTextUpdate = structuredClone(textUpdate);
+
+		copyTextUpdate[value] = e.target.value;
+
+		setTextUpdate(copyTextUpdate);
+
+		console.log({ textUpdate });
 	};
 
 	const closeModalBottom = () => {
@@ -336,7 +365,81 @@ function Word() {
 				)}
 			</SpinnerLoading>
 
-			<ModalBottom open={open} closeModalBottom={closeModalBottom} />
+			<ModalBottom
+				open={open}
+				label={LABEL_EDIT}
+				closeModalBottom={closeModalBottom}
+			>
+				<div className="flex h-full ">
+					<div className="flex flex-col gap-4 mb-4 w-full rounded-xl">
+						<div>
+							<input
+								type="text"
+								className="border border-black rounded p-2 w-full"
+								value={textUpdate.text}
+								onChange={(e) => handleSetTextUpdate('text', e)}
+								placeholder={`Nhập ${
+									textUpdate.typeText === 'word' ? 'từ' : 'câu'
+								}...(bắt buộc)`}
+							/>
+						</div>
+
+						{textUpdate.typeText &&
+							textUpdate.typeText === 'sentence' && (
+								<div>
+									<input
+										type="text"
+										className="border border-black rounded p-2 w-full"
+										value={textUpdate.structure}
+										onChange={(e) =>
+											handleSetTextUpdate('structure', e)
+										}
+										placeholder="Cấu trúc câu (S + V + O)"
+									/>
+								</div>
+							)}
+
+						<div>
+							<input
+								type="text"
+								className="border border-black rounded p-2 w-full"
+								placeholder="Nhập nghĩa từ..."
+								value={textUpdate.defind}
+								onChange={(e) => handleSetTextUpdate('defind', e)}
+							/>
+						</div>
+
+						{textUpdate.typeText && textUpdate.typeText === 'word' && (
+							<div>
+								<input
+									type="text"
+									className="border border-black rounded p-2 w-full"
+									placeholder="Phiên âm"
+									value={textUpdate.spelling}
+									onChange={(e) => handleSetTextUpdate('spelling', e)}
+								/>
+							</div>
+						)}
+						<div>
+							<div className="flex justify-between border border-black bg-white rounded p-2 w-full">
+								<div className="flex items-center">
+									<div className="text-lg font-meduim">Chủ đề:</div>
+								</div>
+								<div className="border p-2 min-w-[100px] text-center bg-sky-200 shadow-md rounded-lg font-meduim">
+									↗️ {textUpdate.topic}
+								</div>
+							</div>
+							{/* <input
+								type="text"
+								className="border border-black rounded p-2 w-full"
+								placeholder="Nhập nghĩa từ..."
+								value={textDetail.topicId.name}
+								// onChange={handleSetText}
+							/> */}
+						</div>
+					</div>
+				</div>
+			</ModalBottom>
 		</>
 	);
 }

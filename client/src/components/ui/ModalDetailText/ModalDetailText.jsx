@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
 	UilEdit,
 	UilTrashAlt,
-	UilCancel,
 	UilTimes,
 } from '@iconscout/react-unicons';
 import { useDispatch } from 'react-redux';
