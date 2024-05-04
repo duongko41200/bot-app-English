@@ -22,7 +22,7 @@ function ModalBottom({ open, closeModalBottom, label, children }) {
 						animate="open"
 						exit="collapsed"
 						variants={{
-							open: { y: 0, height: 'auto' },
+							open: { y: 0, height: '75%' },
 							collapsed: { y: '100%', height: 0 },
 						}}
 						transition={{
@@ -47,10 +47,10 @@ function ModalBottom({ open, closeModalBottom, label, children }) {
 							</div>
 
 							<div className="pb-4">
-								<div className="h-full flex flex-col min-h-[350px]  p-4 bg-[#fde0476c]">
+								<div className="h-full flex flex-col min-h-[430px]  p-4 bg-[#fde0476c]">
 									{children}
 
-									<div className="mt-4 flex justify-between">
+									<div className="mt-8 flex justify-between">
 										<div
 											className="border min-w-[80px] fit-w py-2 text-center rounded shadow-sm font-bold bg-white border-black "
 											// onClick={handlePrevious}
