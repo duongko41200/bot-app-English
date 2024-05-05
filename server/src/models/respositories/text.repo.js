@@ -108,6 +108,46 @@ const deleteText = async ({
 		// return next(new AppError('No product found with that id', 404));
 	}
 };
+
+const updateTextById = async ({
+	userId,
+	textId,
+	typeText,
+	textName,
+	defind,
+	attributes,
+	topicId,
+	model,
+}) => {
+	try {
+		console.log({
+			userId,
+			textId,
+			typeText,
+			textName,
+			defind,
+			topicId,
+			attributes,
+			model,
+		});
+		const textUpdate = await model.findOneAndUpdate(
+			{ _id: textId },
+			{
+				text: textName,
+				defind,
+				topicId,
+				attributes,
+			}
+		);
+
+		console.log({ textUpdate });
+		return {
+			contents: textUpdate,
+		};
+	} catch (error) {
+		console.log({ error });
+	}
+};
 ///TOPIC
 
 const createTopic = async ({ name, userId }) => {
@@ -123,4 +163,5 @@ module.exports = {
 	getAllTopc,
 	findListTextByFilter,
 	deleteText,
+	updateTextById,
 };

@@ -9,9 +9,8 @@ const currentMonth = new Date().getMonth() + 1;
 const currentYear = new Date().getFullYear();
 
 const initialState = {
+	remainingQuantity: '',
 
-	remainingQuantity:'',
-	
 	typeText: '',
 	wordObject: {},
 
@@ -80,7 +79,7 @@ export const getListTextByFilter = createAsyncThunk(
 				level,
 				typeText,
 				date,
-			});			
+			});
 
 			// if (!listText) {
 			// 	localStorage.setItem(
@@ -101,8 +100,7 @@ export const getListTextByFilter = createAsyncThunk(
 
 			return res[RES_DATA]?.metadata;
 		} catch (error) {
-
-			console.log({error})
+			console.log({ error });
 			throw new Error(error.message);
 		}
 	}
@@ -111,13 +109,20 @@ export const deleteText = createAsyncThunk(
 	'wordStore/deleteText',
 	async (payload, thunkAPI) => {
 		try {
-			const { page, limit, level, typeText, date } = thunkAPI.getState().wordStore;
+			const { page, limit, level, typeText, date } =
+				thunkAPI.getState().wordStore;
 			const { textId } = payload;
 
-			console.log("kjdfgkjdfg",thunkAPI.getState().wordStore.remainingQuantity)
+			console.log(
+				'kjdfgkjdfg',
+				thunkAPI.getState().wordStore.remainingQuantity
+			);
 
 			const res = await TextService.deleteText({
-				page: thunkAPI.getState().wordStore.remainingQuantity == 1 ? (parseInt(page)-1) : page,
+				page:
+					thunkAPI.getState().wordStore.remainingQuantity == 1
+						? parseInt(page) - 1
+						: page,
 				limit,
 				level,
 				typeText,
@@ -185,6 +190,20 @@ export const wordReducer = createSlice({
 		SET_ELEMENT_FILTER: (state, action) => {
 			state[action.payload.type] = action.payload.content;
 		},
+		SET_UPDATE_TEXT: (state, action) => {
+			let dataUpdate = action.payload;
+			state.listTextReview = state.listTextReview.map((data) => {
+				if (data._id === dataUpdate.textId) {
+					data.text = dataUpdate.text;
+					data.defind = dataUpdate.defind;
+					data.attributes = dataUpdate.attributes;
+					data.topicId._id = dataUpdate.topicId;
+					data.topicId.name = dataUpdate.topic;
+				}
+
+				return data;
+			});
+		},
 
 		//Action
 	},
@@ -197,14 +216,14 @@ export const wordReducer = createSlice({
 
 		builder.addCase(getListTextByFilter.fulfilled, (state, action) => {
 			console.log('action filter:', action.payload);
-			state.remainingQuantity = action.payload.contents.length
+			state.remainingQuantity = action.payload.contents.length;
 			state.listTextReview = action.payload.contents;
 			state.totalPagesReview = action.payload.totalPages;
 			state.totalListTextReview = action.payload.total;
 		});
 		builder.addCase(deleteText.fulfilled, (state, action) => {
-			console.log('action:', action.payload);
-			state.remainingQuantity = action.payload.contents.length
+			console.log('action delete:', action.payload);
+			state.remainingQuantity = action.payload.contents.length;
 			state.listTextReview = action.payload.contents;
 			state.totalPagesReview = action.payload.totalPages;
 			state.totalListTextReview = action.payload.total;
@@ -223,6 +242,7 @@ export const {
 	SET_OPEN_MODAL_DETAIL_TEXT,
 	SET_TEXT_DETAIL,
 	SET_ELEMENT_FILTER,
+	SET_UPDATE_TEXT,
 } = wordReducer.actions;
 
 export default wordReducer.reducer;

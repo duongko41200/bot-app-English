@@ -63,6 +63,23 @@ class TextFormController {
 		}).send(res);
 	};
 
+	updateTextbyId= async (req, res, next) => {
+		console.log("request:::",req.body)
+		new SuccessResponse({
+			message: 'update text success!',
+			metadata: await TextFormService.updateTextbyId({
+				userId: req.user.userId,
+				textId: req.body.textId,
+				textName: req.body.text,
+				defind:req.body.defind,
+				typeText: req.body.typeText,
+				attributes:req.body.attributes,
+				topicId: req.body.topicId,
+				
+			}),
+		}).send(res);
+	};
+
 	//END QUERY
 }
 

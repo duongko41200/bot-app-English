@@ -1,7 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UilTimes } from '@iconscout/react-unicons';
-function ModalBottom({ open, closeModalBottom, label, children }) {
+function ModalBottom({
+	open,
+	closeModalBottom,
+	label,
+	children,
+	handleSaveUpdate,
+}) {
 	return (
 		<>
 			<motion.div
@@ -22,7 +28,7 @@ function ModalBottom({ open, closeModalBottom, label, children }) {
 						animate="open"
 						exit="collapsed"
 						variants={{
-							open: { y: 0, height: '75%' },
+							open: { y: 0, height: 'auto' },
 							collapsed: { y: '100%', height: 0 },
 						}}
 						transition={{
@@ -46,7 +52,7 @@ function ModalBottom({ open, closeModalBottom, label, children }) {
 								</div>
 							</div>
 
-							<div className="pb-4">
+							<div className="pb-8">
 								<div className="h-full flex flex-col min-h-[430px]  p-4 bg-[#fde0476c]">
 									{children}
 
@@ -59,7 +65,7 @@ function ModalBottom({ open, closeModalBottom, label, children }) {
 										</div>
 										<div
 											className="border min-w-[80px] py-2 text-center rounded shadow-sm font-bold bg-white border-black "
-											// onClick={handlePrevious}
+											onClick={handleSaveUpdate}
 										>
 											SAVE
 										</div>

@@ -21,7 +21,8 @@ router.get('/all', asyncHandle(TextFormController.getAllInfoText));
 router.get(
 	'/review',
 	asyncHandle(TextFormController.getListTextByFilter)
-),
-	router.delete('/delete', asyncHandle(TextFormController.deleteText));
+);
+router.delete('/delete', asyncHandle(TextFormController.deleteText));
+router.patch('/update-id', asyncHandle(TextFormController.updateTextbyId));
 
 module.exports = router;

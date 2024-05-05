@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	SET_OPEN_MODAL_DETAIL_TEXT,
 	SET_TEXT_DETAIL,
+	SET_UPDATE_TEXT,
 	getListTextByFilter,
 	SET_ELEMENT_FILTER,
 } from '../../../store/feature/word';
@@ -17,6 +18,15 @@ import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading
 import { SET_OPEN_MODAL_BOTTOM } from '../../../store/general';
 import ModalBottom from '../../../components/ui/ModalBottom/ModalBottom';
 import { LABEL_EDIT } from '../../../Constant/review';
+import { TextField } from '@mui/material';
+import TextService from '../../../services/API/tex.service';
+import { ToastError, ToastSuccess } from '../../../utils/Toast';
+import { Toaster } from 'react-hot-toast';
+import {
+	UPDATE_SUCCESS,
+	NOT_REQUIRED,
+	NOT_UPDATE,
+} from '../../../Constant/toast';
 
 function Word() {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -111,21 +121,48 @@ function Word() {
 	};
 
 	const handleShowModalDetail = (textId) => {
-		// console.log('Text  id:', textId);
 		const textDetail = listData.filter((text) => text._id === textId);
 		// console.log({ textDetail });
 
-		const newTextDetail = {
-			text: textDetail[0].text,
-			defind: textDetail[0].defind,
-			typeText: textDetail[0].typeText,
-			structure: textDetail[0].attributes?.structure,
-			spelling: textDetail[0].attributes?.spelling,
-			topic:  textDetail[0].topicId?.name,
-			topicId:  textDetail[0].topicId?._id,
-		};
-
-		// console.log({ newTextDetail });
+		let newTextDetail;
+		if (textDetail[0].typeText === 'word') {
+			newTextDetail = {
+				textId: textDetail[0]._id,
+				text: textDetail[0].text,
+				defind: textDetail[0].defind,
+				typeText: textDetail[0].typeText,
+				spelling: textDetail[0].attributes?.spelling,
+				attributes: {
+					createdAt: textDetail[0].attributes?.createdAt,
+					spelling: textDetail[0].attributes?.spelling,
+					audio: textDetail[0].attributes?.audio,
+					userId: textDetail[0].attributes?.userId,
+					updatedAt: textDetail[0].attributes?.updatedAt,
+					advan_translation:
+						textDetail[0].attributes?.advan_translation,
+					_id: textDetail[0].attributes?._id,
+				},
+				topic: textDetail[0].topicId?.name,
+				topicId: textDetail[0].topicId?._id,
+			};
+		} else {
+			newTextDetail = {
+				textId: textDetail[0]._id,
+				text: textDetail[0].text,
+				defind: textDetail[0].defind,
+				typeText: textDetail[0].typeText,
+				structure: textDetail[0].attributes?.structure,
+				attributes: {
+					createdAt: textDetail[0].attributes?.createdAt,
+					structure: textDetail[0].attributes?.structure,
+					userId: textDetail[0].attributes?.userId,
+					updatedAt: textDetail[0].attributes?.updatedAt,
+					_id: textDetail[0].attributes?._id,
+				},
+				topic: textDetail[0].topicId?.name,
+				topicId: textDetail[0].topicId?._id,
+			};
+		}
 
 		setTextUpdate(newTextDetail);
 
@@ -136,11 +173,36 @@ function Word() {
 	const handleSetTextUpdate = (value, e) => {
 		const copyTextUpdate = structuredClone(textUpdate);
 
+		if (value === 'spelling' || value === 'structure') {
+			copyTextUpdate.attributes[value] = e.target.value;
+		}
+
 		copyTextUpdate[value] = e.target.value;
 
 		setTextUpdate(copyTextUpdate);
 
 		console.log({ textUpdate });
+	};
+
+	const handleSaveUpdate = async () => {
+		if (
+			!textUpdate ||
+			textUpdate.text === '' ||
+			textUpdate.defind === ''
+		)
+			return ToastError(NOT_REQUIRED);
+		try {
+			closeModalBottom();
+			setIsShow(true);
+			await TextService.patchText(textUpdate);
+			dispatch(SET_UPDATE_TEXT(textUpdate));
+			setIsShow(false);
+			ToastSuccess(UPDATE_SUCCESS);
+		} catch (error) {
+			console.log({ error });
+			setIsShow(false);
+			ToastError(NOT_UPDATE);
+		}
 	};
 
 	const closeModalBottom = () => {
@@ -369,6 +431,7 @@ function Word() {
 				open={open}
 				label={LABEL_EDIT}
 				closeModalBottom={closeModalBottom}
+				handleSaveUpdate={handleSaveUpdate}
 			>
 				<div className="flex h-full ">
 					<div className="flex flex-col gap-4 mb-4 w-full rounded-xl">
@@ -429,6 +492,7 @@ function Word() {
 									↗️ {textUpdate.topic}
 								</div>
 							</div>
+							{/* <TextField id="outlined-basic" label="Nhập nghĩa từ"  placeholder='dkfjdskf'/> */}
 							{/* <input
 								type="text"
 								className="border border-black rounded p-2 w-full"
@@ -440,6 +504,8 @@ function Word() {
 					</div>
 				</div>
 			</ModalBottom>
+
+			<Toaster />
 		</>
 	);
 }

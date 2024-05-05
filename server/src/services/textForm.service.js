@@ -6,7 +6,8 @@ const { BadRequestError } = require('../cores/Error.response');
 const {
 	findAllInfoText,
 	findListTextByFilter,
-	deleteText
+	deleteText,
+	updateTextById,
 } = require('../models/respositories/text.repo');
 
 class TextFormFactory {
@@ -54,11 +55,15 @@ class TextFormFactory {
 		});
 	}
 
-	static async deleteText({ userId, textId,limit,
+	static async deleteText({
+		userId,
+		textId,
+		limit,
 		page,
 		level,
 		date,
-		typeText, }) {
+		typeText,
+	}) {
 		return await deleteText({
 			userId,
 			textId,
@@ -67,6 +72,27 @@ class TextFormFactory {
 			level,
 			date,
 			typeText,
+			model: text,
+		});
+	}
+
+	static async updateTextbyId({
+		userId,
+		textId,
+		typeText,
+		textName,
+		defind,
+		attributes,
+		topicId,
+	}) {
+		return await updateTextById({
+			userId,
+			textId,
+			typeText,
+			textName,
+			defind,
+			attributes,
+			topicId,
 			model: text,
 		});
 	}
