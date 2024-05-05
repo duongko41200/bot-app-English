@@ -6,6 +6,7 @@ function ModalBottom({
 	closeModalBottom,
 	label,
 	children,
+	disable,
 	handleSaveUpdate,
 }) {
 	return (
@@ -64,8 +65,8 @@ function ModalBottom({
 											Refresh
 										</div>
 										<div
-											className="border min-w-[80px] py-2 text-center rounded shadow-sm font-bold bg-white border-black "
-											onClick={handleSaveUpdate}
+											className={`border min-w-[80px] py-2 text-center rounded shadow-sm font-bold bg-white border-black ${disable ? 'opacity-70 bg-gray-100 cursor-not-allowed' : ''}`}
+											onClick={disable ? null : handleSaveUpdate}
 										>
 											SAVE
 										</div>

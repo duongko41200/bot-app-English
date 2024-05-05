@@ -11,7 +11,7 @@ const findAllInfoText = async ({ model, query, limit, page }) => {
 	const resDataPromise = text
 		.find(query)
 		.populate('topicId')
-		.sort({ updatedAt: -1 })
+		.sort({ createdAt: -1 })
 		.skip((page - 1) * limit)
 		.limit(limit)
 		.lean();
@@ -64,7 +64,7 @@ const findListTextByFilter = async ({
 			...query,
 		})
 		.populate('topicId')
-		.sort({ updatedAt: -1 })
+		.sort({ createdAt: -1 })
 		.skip((page - 1) * limit)
 		.limit(limit)
 		.lean();
@@ -120,16 +120,7 @@ const updateTextById = async ({
 	model,
 }) => {
 	try {
-		console.log({
-			userId,
-			textId,
-			typeText,
-			textName,
-			defind,
-			topicId,
-			attributes,
-			model,
-		});
+
 		const textUpdate = await model.findOneAndUpdate(
 			{ _id: textId },
 			{
@@ -140,7 +131,6 @@ const updateTextById = async ({
 			}
 		);
 
-		console.log({ textUpdate });
 		return {
 			contents: textUpdate,
 		};

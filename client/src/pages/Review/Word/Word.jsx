@@ -43,8 +43,10 @@ function Word() {
 	const [currentLevel, setCurrentLevel] = useState('all');
 	const [currentTypeText, setCurrentTypeText] = useState('all');
 	const [textUpdate, setTextUpdate] = useState({});
+	const [disable, setDisable] = useState(true);
+	const [preTextUpdate, setPreTextUpdate] = useState({});
 
-	/// REDUX
+	/// REDUX ////
 
 	const dispatch = useDispatch();
 	const totalPages = useSelector(
@@ -59,9 +61,8 @@ function Word() {
 	const open = useSelector(
 		(state) => state.generalStore.openModalBottom
 	);
-	// const textDetail = useSelector((state) => state.wordStore.textDetail);
 
-	// FUNCTION HANDLE
+	/// FUNCTION HANDLE ///
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
 			setIsShow(true);
@@ -124,13 +125,17 @@ function Word() {
 		const textDetail = listData.filter((text) => text._id === textId);
 		// console.log({ textDetail });
 
-		let newTextDetail;
+		let newTextDetail = {
+			textId: textDetail[0]._id,
+			text: textDetail[0].text,
+			defind: textDetail[0].defind,
+			typeText: textDetail[0].typeText,
+			topic: textDetail[0].topicId?.name,
+			topicId: textDetail[0].topicId?._id,
+		};
 		if (textDetail[0].typeText === 'word') {
 			newTextDetail = {
-				textId: textDetail[0]._id,
-				text: textDetail[0].text,
-				defind: textDetail[0].defind,
-				typeText: textDetail[0].typeText,
+				...newTextDetail,
 				spelling: textDetail[0].attributes?.spelling,
 				attributes: {
 					createdAt: textDetail[0].attributes?.createdAt,
@@ -142,15 +147,10 @@ function Word() {
 						textDetail[0].attributes?.advan_translation,
 					_id: textDetail[0].attributes?._id,
 				},
-				topic: textDetail[0].topicId?.name,
-				topicId: textDetail[0].topicId?._id,
 			};
 		} else {
 			newTextDetail = {
-				textId: textDetail[0]._id,
-				text: textDetail[0].text,
-				defind: textDetail[0].defind,
-				typeText: textDetail[0].typeText,
+				...newTextDetail,
 				structure: textDetail[0].attributes?.structure,
 				attributes: {
 					createdAt: textDetail[0].attributes?.createdAt,
@@ -159,12 +159,11 @@ function Word() {
 					updatedAt: textDetail[0].attributes?.updatedAt,
 					_id: textDetail[0].attributes?._id,
 				},
-				topic: textDetail[0].topicId?.name,
-				topicId: textDetail[0].topicId?._id,
 			};
 		}
 
 		setTextUpdate(newTextDetail);
+		setPreTextUpdate(newTextDetail);
 
 		dispatch(SET_OPEN_MODAL_DETAIL_TEXT(true));
 		dispatch(SET_TEXT_DETAIL(textDetail[RES_DATA]));
@@ -179,9 +178,18 @@ function Word() {
 
 		copyTextUpdate[value] = e.target.value;
 
+		if (
+			preTextUpdate['text'] !== copyTextUpdate['text'] ||
+			preTextUpdate['defind'] !== copyTextUpdate['defind'] ||
+			preTextUpdate['topic'] !== copyTextUpdate['topic'] ||
+			preTextUpdate['spelling'] !== copyTextUpdate['spelling'] ||
+			preTextUpdate['structure'] !== copyTextUpdate['structure']
+		) {
+			setDisable(false);
+		} else {
+			setDisable(true);
+		}
 		setTextUpdate(copyTextUpdate);
-
-		console.log({ textUpdate });
 	};
 
 	const handleSaveUpdate = async () => {
@@ -198,15 +206,18 @@ function Word() {
 			dispatch(SET_UPDATE_TEXT(textUpdate));
 			setIsShow(false);
 			ToastSuccess(UPDATE_SUCCESS);
+			setDisable(true);
 		} catch (error) {
 			console.log({ error });
 			setIsShow(false);
+			setDisable(true);
 			ToastError(NOT_UPDATE);
 		}
 	};
 
 	const closeModalBottom = () => {
 		dispatch(SET_OPEN_MODAL_BOTTOM(false));
+		setDisable(true);
 	};
 
 	useEffect(() => {
@@ -430,6 +441,7 @@ function Word() {
 			<ModalBottom
 				open={open}
 				label={LABEL_EDIT}
+				disable={disable}
 				closeModalBottom={closeModalBottom}
 				handleSaveUpdate={handleSaveUpdate}
 			>
@@ -492,14 +504,7 @@ function Word() {
 									↗️ {textUpdate.topic}
 								</div>
 							</div>
-							{/* <TextField id="outlined-basic" label="Nhập nghĩa từ"  placeholder='dkfjdskf'/> */}
-							{/* <input
-								type="text"
-								className="border border-black rounded p-2 w-full"
-								placeholder="Nhập nghĩa từ..."
-								value={textDetail.topicId.name}
-								// onChange={handleSetText}
-							/> */}
+	
 						</div>
 					</div>
 				</div>

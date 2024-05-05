@@ -117,7 +117,7 @@ class TextForm {
 		this.typeText = typeText;
 		this.repeat = repeat ? repeat : 1;
 		this.isRemind = isRemind ? isRemind : true;
-		this.dayReview = dayReview ? dayReview : new Date();
+		this.dayReview = dayReview ? dayReview : (new Date()).toISOString();
 		this.attributes = attributes;
 	}
 	async createTextForm(text_id) {
