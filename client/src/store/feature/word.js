@@ -113,10 +113,6 @@ export const deleteText = createAsyncThunk(
 				thunkAPI.getState().wordStore;
 			const { textId } = payload;
 
-			console.log(
-				'kjdfgkjdfg',
-				thunkAPI.getState().wordStore.remainingQuantity
-			);
 
 			const res = await TextService.deleteText({
 				page:
