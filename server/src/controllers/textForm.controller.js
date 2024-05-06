@@ -80,6 +80,14 @@ class TextFormController {
 		}).send(res);
 	};
 
+	getPendingReview= async (req, res, next) => {
+		// console.log("request:::",req.body)
+		new SuccessResponse({
+			message: 'Get list pending success!',
+			metadata: await TextFormService.pendingReview({	userId: req.user.userId,}),
+		}).send(res);
+	};
+
 	//END QUERY
 }
 

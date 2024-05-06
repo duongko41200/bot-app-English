@@ -120,7 +120,6 @@ const updateTextById = async ({
 	model,
 }) => {
 	try {
-
 		const textUpdate = await model.findOneAndUpdate(
 			{ _id: textId },
 			{
@@ -133,6 +132,22 @@ const updateTextById = async ({
 
 		return {
 			contents: textUpdate,
+		};
+	} catch (error) {
+		console.log({ error });
+	}
+};
+
+const pendingReview = async ({ userId, model }) => {
+	try {
+		const listPenddingReview = await model.find({
+			userId,
+			dayReview: dayjs(new Date()).format('YYYY/MM/DD'),
+		});
+		console.log({ listPenddingReview });
+
+		return {
+			contents: listPenddingReview,
 		};
 	} catch (error) {
 		console.log({ error });
@@ -154,4 +169,5 @@ module.exports = {
 	findListTextByFilter,
 	deleteText,
 	updateTextById,
+	pendingReview,
 };

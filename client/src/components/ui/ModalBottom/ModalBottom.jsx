@@ -59,13 +59,13 @@ function ModalBottom({
 
 									<div className="mt-8 flex justify-between">
 										<div
-											className="border min-w-[80px] fit-w py-2 text-center rounded shadow-sm font-bold bg-white border-black "
+											className="border min-w-[80px] fit-w py-2 text-center rounded shadow-md font-bold bg-white border-black "
 											// onClick={handlePrevious}
 										>
 											Refresh
 										</div>
 										<div
-											className={`border min-w-[80px] py-2 text-center rounded shadow-sm font-bold bg-white border-black ${disable ? 'opacity-70 bg-gray-100 cursor-not-allowed' : ''}`}
+											className={`border min-w-[80px] py-2 text-center rounded font-bold bg-white border-black shadow-md ${disable ? 'opacity-40' : ''}`}
 											onClick={disable ? null : handleSaveUpdate}
 										>
 											SAVE
