@@ -1,6 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import TextService from '../../../services/API/tex.service';
+import { RES_DATA } from '../../../Constant/global';
+import dayjs from 'dayjs';
+import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
 
 function PenddingCheck() {
+	const [listPending, setListPending] = useState([]);
+	const [isShow, setIsShow] = useState(false);
+
+	const handleData = async () => {
+		const localStoragePeding = JSON.parse(
+			localStorage.getItem('listPending')
+		);
+
+		console.log({ localStoragePeding });
+
+		if (
+			localStoragePeding?.length > 0 &&
+			localStoragePeding[RES_DATA]?.dayReview ===
+				dayjs(new Date()).format('YYYY/MM/DD')
+		) {
+			console.log('list exist');
+			setListPending(localStoragePeding);
+			return;
+		}
+
+		try {
+			setIsShow(true)
+			const data = await TextService.getListPendding();
+			const response = data[RES_DATA].metadata.contents;
+			console.log('data:', data[RES_DATA].metadata.contents);
+			setListPending(response);
+			setIsShow(false)
+
+			localStorage.setItem('listPending', JSON.stringify(response));
+		} catch (error) {
+			console.log({ error });
+			setIsShow(false)
+		}
+	};
+
+	useEffect(() => {
+		handleData();
+	}, []);
 	return (
 		<>
 			<div className="filter-check flex justify-between pt-4 pb-2">
@@ -20,152 +62,71 @@ function PenddingCheck() {
 				</div>
 			</div>
 
-			<div className="wrapper-lists flex flex-col gap-3 pt-6">
-				<div className="detail-list flex flex-col gap-2   p-2 rounded-lg">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-word px-2 w-fit rounded-lg">Từ</div>
-							<div className="font-bold">play</div>
-						</div>
+			<SpinnerLoading show={isShow}>
+				{isShow ? (
+					<div className="w-full h-[300px]"></div>
+				) : (
+					<div className="wrapper-lists flex flex-col gap-3 pt-6">
+						{listPending.length > 0 ? (
+							listPending.map((list, idx) => {
+								return (
+									<>
+										<div
+											key={idx}
+											className="detail-list flex flex-col gap-2   p-2 rounded-lg"
+										>
+											<div className="detail-list__top flex justify-between">
+												<div className="flex gap-2">
+													<div
+														className={`${
+															list.typeText === 'word'
+																? 'type-word'
+																: 'type-sentence'
+														} px-2 w-fit rounded-lg`}
+													>
+														{list.typeText === 'word' ? 'Từ' : 'Câu'}
+													</div>
 
-						<div>20-11-2024</div>
-					</div>
-					<div className="detail-list__bottom flex justify-between translate">
-						<div>kết nối</div>
-						<div className="bg-yellow-300 text-slate-500 p-1 h-fit text-xs align-center rounded-lg">
-							Cấp 1
-						</div>
-					</div>
-				</div>
+													{list.typeText === 'word' ? (
+														<div className="font-bold">{list.text}</div>
+													) : (
+														<div className="font-bold">
+															{list.attributes.structure}
+														</div>
+													)}
+												</div>
 
-				<div className="detail-list flex flex-col gap-2   p-2 rounded-lg">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-word px-2 w-fit rounded-lg">Từ</div>
-							<div className="font-bold">connect</div>
-						</div>
+												<div className="text-right min-w-[92px]">
+													{dayjs(list.createdAt).format('DD-MM-YYYY')}
+												</div>
+											</div>
+											<div className="detail-list__bottom flex justify-between">
+												<div className="w-[85%]">
+													{list.typeText === 'sentence' && (
+														<div>{list.text}</div>
+													)}
+													<div className="translate">{list.defind}</div>
+												</div>
 
-						<div>20-11-2024</div>
+												<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
+													Cấp {list.repeat}
+												</div>
+											</div>
+										</div>
+									</>
+								);
+							})
+						) : (
+							<>
+								<div className="w-full h-[300px]">
+									Hôm nay, bạn sẽ không phải ôn tập ( nhưng bạn cũng có
+									thể tự ôn lại các danh sách từ cũ)
+								</div>
+							</>
+						)}
 					</div>
-					<div className="detail-list__bottom flex justify-between translate">
-						<div>kết nối</div>
-						<div className="bg-yellow-300 text-slate-500 p-1 h-fit text-xs align-center rounded-lg">
-							Cấp 1
-						</div>
-					</div>
-				</div>
-
-				<div className="detail-list flex flex-col gap-2   p-2 rounded-lg">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-word px-2 w-fit rounded-lg">Từ</div>
-							<div className="font-bold">connect</div>
-						</div>
-
-						<div>20-11-2024</div>
-					</div>
-					<div className="detail-list__bottom flex justify-between translate">
-						<div>kết nối</div>
-						<div className="bg-yellow-300 text-slate-500 p-1 h-fit text-xs align-center rounded-lg">
-							Cấp 1
-						</div>
-					</div>
-				</div>
-
-				<div className="detail-list flex flex-col gap-2    p-2 rounded-lg  ">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-sentence px-2 w-fit rounded-lg">
-								Câu
-							</div>
-							<div className="font-bold">S + Want + to + V</div>
-						</div>
-
-						<div>22-1-2024 </div>
-					</div>
-					<div className="detail-list__bottom flex justify-between">
-						<div>
-							<div>I want to go to school</div>
-							<div className="translate">Tôi muốn tới trường</div>
-						</div>
-						<div className="translate">cấp 1</div>
-					</div>
-				</div>
-
-				<div className="detail-list flex flex-col gap-2   p-2 rounded-lg">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-word px-2 w-fit rounded-lg">Từ</div>
-							<div className="font-bold">connect</div>
-						</div>
-
-						<div>20-11-2024</div>
-					</div>
-					<div className="detail-list__bottom flex justify-between translate">
-						<div>kết nối</div>
-						<div className="bg-yellow-300 text-slate-500 p-1 h-fit text-xs align-center rounded-lg">
-							Cấp 1
-						</div>
-					</div>
-				</div>
-
-				<div className="detail-list flex flex-col gap-2   p-2 rounded-lg">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-word px-2 w-fit rounded-lg">Từ</div>
-							<div className="font-bold">connect</div>
-						</div>
-
-						<div>20-11-2024</div>
-					</div>
-					<div className="detail-list__bottom flex justify-between translate">
-						<div>kết nối</div>
-						<div className="bg-yellow-300 text-slate-500 p-1 h-fit text-xs align-center rounded-lg">
-							Cấp 1
-						</div>
-					</div>
-				</div>
-
-				<div className="detail-list flex flex-col gap-2    p-2 rounded-lg  ">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-sentence px-2 w-fit rounded-lg">
-								Câu
-							</div>
-							<div className="font-bold">S + Want + to + V</div>
-						</div>
-
-						<div>22-1-2024 </div>
-					</div>
-					<div className="detail-list__bottom flex justify-between">
-						<div>
-							<div>I want to go to school</div>
-							<div className="translate">Tôi muốn tới trường</div>
-						</div>
-						<div className="translate">cấp 1</div>
-					</div>
-				</div>
-
-				<div className="detail-list flex flex-col gap-2    p-2 rounded-lg  ">
-					<div className="detail-list__top flex justify-between">
-						<div className="flex gap-2">
-							<div className="type-sentence px-2 w-fit rounded-lg">
-								Câu
-							</div>
-							<div className="font-bold">S + Want + to + V</div>
-						</div>
-
-						<div>22-1-2024 </div>
-					</div>
-					<div className="detail-list__bottom flex justify-between">
-						<div>
-							<div>I want to go to school</div>
-							<div className="translate">Tôi muốn tới trường</div>
-						</div>
-						<div className="translate">cấp 1</div>
-					</div>
-				</div>
-			</div>
+				)}
+			</SpinnerLoading>
 		</>
 	);
 }

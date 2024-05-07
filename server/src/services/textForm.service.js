@@ -8,9 +8,9 @@ const {
 	findListTextByFilter,
 	deleteText,
 	updateTextById,
-	pendingReview
+	pendingReview,
 } = require('../models/respositories/text.repo');
-const dayjs = require('dayjs')
+const dayjs = require('dayjs');
 
 class TextFormFactory {
 	/**
@@ -98,10 +98,7 @@ class TextFormFactory {
 			model: text,
 		});
 	}
-	static async pendingReview({
-		userId,
-	
-	}) {
+	static async pendingReview({ userId }) {
 		return await pendingReview({
 			userId,
 			model: text,
@@ -128,7 +125,9 @@ class TextForm {
 		this.typeText = typeText;
 		this.repeat = repeat ? repeat : 1;
 		this.isRemind = isRemind ? isRemind : true;
-		this.dayReview = dayReview ? dayReview : dayjs(new Date()).format("YYYY/MM/DD");
+		this.dayReview = dayReview
+			? dayReview
+			: dayjs(new Date()).add(1, 'day').format('YYYY/MM/DD');
 		this.attributes = attributes;
 	}
 	async createTextForm(text_id) {

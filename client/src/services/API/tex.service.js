@@ -93,6 +93,19 @@ const TextService = {
 			}
 		);
 	},
+
+	getListPendding() {
+		return ApiService.get(
+			`${serviceURL}/list-pending`,
+
+			{
+				'x-api-key': import.meta.env.APP_API_KEY,
+				'x-client-id': localStorage.getItem('userId'),
+				authorization: localStorage.getItem('accessToken'),
+			},
+			{}
+		);
+	}
 };
 
 export default TextService;
