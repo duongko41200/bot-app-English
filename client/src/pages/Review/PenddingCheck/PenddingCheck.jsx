@@ -3,6 +3,7 @@ import TextService from '../../../services/API/tex.service';
 import { RES_DATA } from '../../../Constant/global';
 import dayjs from 'dayjs';
 import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
+import CustomText from '../../../components/CustomText/CustomText';
 
 function PenddingCheck() {
 	const [listPending, setListPending] = useState([]);
@@ -12,31 +13,42 @@ function PenddingCheck() {
 		const localStoragePeding = JSON.parse(
 			localStorage.getItem('listPending')
 		);
-
-		console.log({ localStoragePeding });
+		const localStorageDayPeding = localStorage.getItem('dayPending');
 
 		if (
 			localStoragePeding?.length > 0 &&
 			localStoragePeding[RES_DATA]?.dayReview ===
 				dayjs(new Date()).format('YYYY/MM/DD')
 		) {
-			console.log('list exist');
 			setListPending(localStoragePeding);
 			return;
 		}
 
 		try {
-			setIsShow(true)
+			if (
+				localStorageDayPeding === dayjs(new Date()).format('YYYY/MM/DD')
+			) {
+				setListPending([]);
+				return;
+			}
+
+			setIsShow(true);
 			const data = await TextService.getListPendding();
 			const response = data[RES_DATA].metadata.contents;
-			console.log('data:', data[RES_DATA].metadata.contents);
+			// console.log('data:', data[RES_DATA].metadata.contents);
+			if (response?.length === 0) {
+				localStorage.setItem(
+					'dayPending',
+					dayjs(new Date()).format('YYYY/MM/DD')
+				);
+			}
 			setListPending(response);
-			setIsShow(false)
+			setIsShow(false);
 
 			localStorage.setItem('listPending', JSON.stringify(response));
 		} catch (error) {
 			console.log({ error });
-			setIsShow(false)
+			setIsShow(false);
 		}
 	};
 
@@ -53,9 +65,6 @@ function PenddingCheck() {
 								<div className=" font-bold">
 									Danh sách cần nâng cấp trong hôm nay
 								</div>
-								{/* <div className="text-gray-400 text-sm italic">
-									Ấn vào từ để ôn tập nào!
-								</div> */}
 							</div>
 						</div>
 					</div>
@@ -70,50 +79,9 @@ function PenddingCheck() {
 						{listPending.length > 0 ? (
 							listPending.map((list, idx) => {
 								return (
-									<>
-										<div
-											key={idx}
-											className="detail-list flex flex-col gap-2   p-2 rounded-lg"
-										>
-											<div className="detail-list__top flex justify-between">
-												<div className="flex gap-2">
-													<div
-														className={`${
-															list.typeText === 'word'
-																? 'type-word'
-																: 'type-sentence'
-														} px-2 w-fit rounded-lg`}
-													>
-														{list.typeText === 'word' ? 'Từ' : 'Câu'}
-													</div>
-
-													{list.typeText === 'word' ? (
-														<div className="font-bold">{list.text}</div>
-													) : (
-														<div className="font-bold">
-															{list.attributes.structure}
-														</div>
-													)}
-												</div>
-
-												<div className="text-right min-w-[92px]">
-													{dayjs(list.createdAt).format('DD-MM-YYYY')}
-												</div>
-											</div>
-											<div className="detail-list__bottom flex justify-between">
-												<div className="w-[85%]">
-													{list.typeText === 'sentence' && (
-														<div>{list.text}</div>
-													)}
-													<div className="translate">{list.defind}</div>
-												</div>
-
-												<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
-													Cấp {list.repeat}
-												</div>
-											</div>
-										</div>
-									</>
+									<div key={idx}>
+										<CustomText list={list} />
+									</div>
 								);
 							})
 						) : (

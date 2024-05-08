@@ -18,7 +18,6 @@ import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading
 import { SET_OPEN_MODAL_BOTTOM } from '../../../store/general';
 import ModalBottom from '../../../components/ui/ModalBottom/ModalBottom';
 import { LABEL_EDIT } from '../../../Constant/review';
-import { TextField } from '@mui/material';
 import TextService from '../../../services/API/tex.service';
 import { ToastError, ToastSuccess } from '../../../utils/Toast';
 import { Toaster } from 'react-hot-toast';
@@ -92,7 +91,7 @@ function Word() {
 	};
 
 	const getListData = async () => {
-		// const listText = JSON.parse(localStorage.getItem('listTextReview'));
+		// const listText = JSON.parse(localStorage.getItem('listText'));
 		// const totalPage = localStorage.getItem('totalPages');
 		// const totalText = localStorage.getItem('total');
 
@@ -123,7 +122,6 @@ function Word() {
 
 	const handleShowModalDetail = (textId) => {
 		const textDetail = listData.filter((text) => text._id === textId);
-		// console.log({ textDetail });
 
 		let newTextDetail = {
 			textId: textDetail[0]._id,
@@ -201,11 +199,24 @@ function Word() {
 			return ToastError(NOT_REQUIRED);
 		try {
 			closeModalBottom();
+			const listText = JSON.parse(localStorage.getItem('listText'));
 			setIsShow(true);
 			await TextService.patchText(textUpdate);
 			dispatch(SET_UPDATE_TEXT(textUpdate));
 			setIsShow(false);
 			ToastSuccess(UPDATE_SUCCESS);
+
+			const newListText = listText.map((value) => {
+				if (value._id === textUpdate.textId) {
+					value.attributes = textUpdate.attributes;
+					value.text = textUpdate.text;
+					value.topicId = textUpdate.topicId;
+					value.defind = textUpdate.defind;
+				}
+				return value;
+			});
+			localStorage.setItem('listText', JSON.stringify(newListText));
+
 			setDisable(true);
 		} catch (error) {
 			console.log({ error });
@@ -504,7 +515,6 @@ function Word() {
 									↗️ {textUpdate.topic}
 								</div>
 							</div>
-	
 						</div>
 					</div>
 				</div>
