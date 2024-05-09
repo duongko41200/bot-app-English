@@ -26,7 +26,10 @@ function PenddingCheck() {
 
 		try {
 			if (
-				localStorageDayPeding === dayjs(new Date()).format('YYYY/MM/DD')
+				localStorageDayPeding &&
+				localStorageDayPeding ===
+					dayjs(new Date()).format('YYYY/MM/DD') &&
+				localStorageDayPeding?.length === 0
 			) {
 				setListPending([]);
 				return;
