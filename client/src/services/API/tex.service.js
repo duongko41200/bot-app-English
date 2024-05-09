@@ -96,7 +96,7 @@ const TextService = {
 
 	getListPendding() {
 		return ApiService.get(
-			`${serviceURL}/list-pending`,
+			`${serviceURL}/listPending`,
 
 			{
 				'x-api-key': import.meta.env.APP_API_KEY,
