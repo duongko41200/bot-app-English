@@ -126,6 +126,9 @@ function SignIn() {
 			dispatch(SET_USER(res.metadata?.user));
 			localStorage.removeItem('listText');
 			localStorage.removeItem('totalPages');
+			localStorage.removeItem('listPending');
+			localStorage.removeItem('dayPending');
+			
 			setIsShow(false);
 
 			navigate('/');
