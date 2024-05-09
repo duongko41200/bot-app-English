@@ -5,17 +5,21 @@ function CumtomText({ list, handleShowModalDetail }) {
 	return (
 		<>
 			<div
-				className="detail-list flex flex-col gap-2   p-2 rounded-lg"
+				className="detail-list flex flex-col gap-2 p-2 rounded-lg border shadow-md"
 				//   onClick={handleShowModalDetail(list._id)}
 			>
 				<div className="detail-list__top flex justify-between">
 					<div className="flex gap-2">
-						<div
-							className={`${
-								list.typeText === 'word' ? 'type-word' : 'type-sentence'
-							} px-2 w-fit rounded-lg`}
-						>
-							{list.typeText === 'word' ? 'Từ' : 'Câu'}
+						<div className='bg-red flex items-center'>
+							<div
+								className={`${
+									list.typeText === 'word'
+										? 'type-word'
+										: 'type-sentence'
+								} px-2 w-fit rounded-lg`}
+							>
+								{list.typeText === 'word' ? 'Từ' : 'Câu'}
+							</div>
 						</div>
 
 						{list.typeText === 'word' ? (
