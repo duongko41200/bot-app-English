@@ -1,0 +1,2 @@
+1. dùng schedule node để báo thời gian nào sẽ gọp api
+2. lấy thời gian lưu tiên đền ==> ấn vào thì load nội dung của ngày ngày ôn tập đó data sẽ lưu ở localStorgrate

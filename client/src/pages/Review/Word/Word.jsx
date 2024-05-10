@@ -26,6 +26,7 @@ import {
 	NOT_REQUIRED,
 	NOT_UPDATE,
 } from '../../../Constant/toast';
+import { TextField } from '@mui/material';
 
 function Word() {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -459,37 +460,49 @@ function Word() {
 				<div className="flex h-full ">
 					<div className="flex flex-col gap-4 mb-4 w-full rounded-xl">
 						<div>
-							<input
-								type="text"
-								className="border border-black rounded p-2 w-full"
-								value={textUpdate.text}
-								onChange={(e) => handleSetTextUpdate('text', e)}
-								placeholder={`Nhập ${
+							<TextField
+								id="outlined"
+								color="warning"
+								sx={{ background: '#fff' }}
+								label={`Nhập ${
 									textUpdate.typeText === 'word' ? 'từ' : 'câu'
 								}...(bắt buộc)`}
+								variant="outlined"
+								size="normal"
+								fullWidth
+								value={textUpdate.text}
+								onChange={(e) => handleSetTextUpdate('text', e)}
 							/>
 						</div>
 
 						{textUpdate.typeText &&
 							textUpdate.typeText === 'sentence' && (
 								<div>
-									<input
-										type="text"
-										className="border border-black rounded p-2 w-full"
+									<TextField
+										id="outlined"
+										color="warning"
+										sx={{ background: '#fff' }}
+										label="Cấu trúc câu (S + V + O)"
+										variant="outlined"
+										size="normal"
+										fullWidth
 										value={textUpdate.structure}
 										onChange={(e) =>
 											handleSetTextUpdate('structure', e)
 										}
-										placeholder="Cấu trúc câu (S + V + O)"
 									/>
 								</div>
 							)}
 
 						<div>
-							<input
-								type="text"
-								className="border border-black rounded p-2 w-full"
-								placeholder="Nhập nghĩa từ..."
+							<TextField
+								id="outlined"
+								color="warning"
+								sx={{ background: '#fff' }}
+								label="Cấu trúc câu (S + V + O)"
+								variant="outlined"
+								size="normal"
+								fullWidth
 								value={textUpdate.defind}
 								onChange={(e) => handleSetTextUpdate('defind', e)}
 							/>
@@ -497,10 +510,14 @@ function Word() {
 
 						{textUpdate.typeText && textUpdate.typeText === 'word' && (
 							<div>
-								<input
-									type="text"
-									className="border border-black rounded p-2 w-full"
-									placeholder="Phiên âm"
+								<TextField
+									id="outlined"
+									color="warning"
+									sx={{ background: '#fff' }}
+									label="Phiên âm"
+									variant="outlined"
+									size="normal"
+									fullWidth
 									value={textUpdate.spelling}
 									onChange={(e) => handleSetTextUpdate('spelling', e)}
 								/>
@@ -519,6 +536,11 @@ function Word() {
 					</div>
 				</div>
 			</ModalBottom>
+
+
+
+
+			{/* Modal show topic và modal show phiên âm */}
 
 			<Toaster />
 		</>

@@ -23,7 +23,7 @@ function CheckList() {
 					<div className="border-t-2 pt-2">
 						<select
 							id="level"
-							className="font-bold "
+							className="font-bold bg-white"
 							// value={currentLevel}
 						>
 							<option value="all">Hàng tháng</option>
