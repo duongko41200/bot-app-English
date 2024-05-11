@@ -128,6 +128,7 @@ function SignIn() {
 			localStorage.removeItem('totalPages');
 			localStorage.removeItem('listPending');
 			localStorage.removeItem('dayPending');
+			localStorage.removeItem('topics')
 			
 			setIsShow(false);
 

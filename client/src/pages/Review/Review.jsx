@@ -7,6 +7,7 @@ import {
 	SET_OPEN_MODAL_DETAIL_TEXT,
 	deleteText,
 } from '../../store/feature/word';
+import ModalCustomTopic from '../../components/ui/ModalCustom/ModalCustomTopic';
 
 function Review() {
 	const openModalDetailText = useSelector(
@@ -66,6 +67,7 @@ function Review() {
 				onCancel={handleCloseModal}
 				deleteTextById={deleteTextById}
 			/>
+
 		</div>
 	);
 }

@@ -27,13 +27,15 @@ import {
 	NOT_UPDATE,
 } from '../../../Constant/toast';
 import { TextField } from '@mui/material';
+import ModalCustomTopic from '../../../components/ui/ModalCustom/ModalCustomTopic';
 
 function Word() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
-	const currentMonth = new Date().getMonth() + 1;
+	const [openModalTopic, setOpenModalTopic] = useState(false);
+	const [topics, setTopics] = useState([]);
 	const currentYear = new Date().getFullYear();
-
+	const currentMonth = new Date().getMonth() + 1;
 	const [selectedMonth, setSelectedMonth] = useState(
 		currentMonth.toString()
 	);
@@ -45,6 +47,8 @@ function Word() {
 	const [textUpdate, setTextUpdate] = useState({});
 	const [disable, setDisable] = useState(true);
 	const [preTextUpdate, setPreTextUpdate] = useState({});
+
+	const [topicSelected, setTopicSelected] = useState({});
 
 	/// REDUX ////
 
@@ -230,6 +234,53 @@ function Word() {
 	const closeModalBottom = () => {
 		dispatch(SET_OPEN_MODAL_BOTTOM(false));
 		setDisable(true);
+	};
+	const onCancel = () => {
+		setOpenModalTopic(false);
+	};
+
+	const handleShowModalTopic = () => {
+		let topicsLocalStorage = JSON.parse(localStorage.getItem('topics'));
+
+		topicsLocalStorage = topicsLocalStorage.map((value) => {
+			if (value._id === textUpdate.topicId) {
+				value.isActive = true;
+			}
+			return value;
+		});
+		console.log({ topicsLocalStorage });
+
+		setTopics(topicsLocalStorage);
+
+		setOpenModalTopic(true);
+	};
+
+	const chooseTopic = (value) => {
+		setTopicSelected(value);
+
+		let cloneTopics = structuredClone(topics);
+
+		cloneTopics = cloneTopics.map((topic) => {
+			if (topic._id === value._id) {
+				console.log('topic', topic);
+				topic.isActive = true;
+			} else {
+				topic.isActive = false;
+			}
+			return topic;
+		});
+
+
+		setTopics(cloneTopics);
+	};
+
+	const saveTopicSelected = () => {
+		let cloneTextUpdate = structuredClone(textUpdate);
+
+		cloneTextUpdate.topic = topicSelected.name;
+		cloneTextUpdate.topicId = topicSelected._id;
+		setTextUpdate(cloneTextUpdate);
+		setOpenModalTopic(false);
 	};
 
 	useEffect(() => {
@@ -528,7 +579,10 @@ function Word() {
 								<div className="flex items-center">
 									<div className="text-lg font-meduim">Chủ đề:</div>
 								</div>
-								<div className="border p-2 min-w-[100px] text-center bg-sky-200 shadow-md rounded-lg font-meduim">
+								<div
+									className="border p-2 min-w-[100px] text-center bg-sky-200 shadow-md rounded-lg font-meduim"
+									onClick={handleShowModalTopic}
+								>
 									↗️ {textUpdate.topic}
 								</div>
 							</div>
@@ -537,10 +591,16 @@ function Word() {
 				</div>
 			</ModalBottom>
 
-
-
-
 			{/* Modal show topic và modal show phiên âm */}
+
+			<ModalCustomTopic
+				open={openModalTopic}
+				label="️🎯 Các chủ đề bạn có thể chọn"
+				onCancel={onCancel}
+				topics={topics}
+				chooseTopic={chooseTopic}
+				saveTopicSelected={saveTopicSelected}
+			/>
 
 			<Toaster />
 		</>

@@ -53,8 +53,8 @@ function FormStep3() {
 
 		if (
 			topicLocalStorage != null &&
-			topicLocalStorage[0].day != undefined &&
-			topicLocalStorage[0].day === currentDate.getDate()
+			topicLocalStorage[0].day != undefined 
+			// topicLocalStorage[0].day === currentDate.getDate()
 		) {
 			let topicActive = topicLocalStorage.map((topic) => {
 				topic['isActive'] = false;
