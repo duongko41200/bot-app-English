@@ -1,17 +1,20 @@
-import React from 'react';
-import {
-	UilTimes,
-} from '@iconscout/react-unicons';
+import React, { useState } from 'react';
+import { UilTimes } from '@iconscout/react-unicons';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TextField } from '@mui/material';
+import KeyBoardPhoneTic from '../KeyBoard/KeyBoardPhoneTic';
 
-function ModalCustomTopic({
+function ModalCustomPhonetic({
 	onCancel,
 	open,
 	label,
-	topics,
-	chooseTopic,
-	saveTopicSelected,
+	ClickButtonEnter,
 }) {
+	const [phoneTic, setPhoneTic] = useState('');
+
+	const EnterPhoneTic = (value) => {
+		setPhoneTic(phoneTic + value);
+	};
 	return (
 		<>
 			{open && (
@@ -32,7 +35,7 @@ function ModalCustomTopic({
 			{open && (
 				<AnimatePresence>
 					{open && (
-						<div className="w-[90%] fixed top-0 flex items-center h-full p-4 z-10">
+						<div className="w-[100%] fixed top-0 left-0 flex justify-center items-center px-4 h-full z-10">
 							<motion.div
 								key="content"
 								initial={{ scale: 0.3 }}
@@ -59,9 +62,29 @@ function ModalCustomTopic({
 									</div>
 								</div>
 
-								<div className="pb-2">
-									<div className="h-full flex flex-col min-h-[150px] max-h-[350px] overflow-auto h-fit px-4 pt-4 bg-[#eef5bd6c]">
-										<div className="grid grid-cols-3 w-full h-fit gap-2 pb-2">
+								<div className="">
+									<div className="h-full flex flex-col min-h-[150px] max-h-[350px] overflow-auto h-fit px-2 py-4 bg-[#eef5bd6c] rounded-b-2xl">
+										<div>
+											<TextField
+												id="outlined"
+												color="warning"
+												sx={{ background: '#fff' }}
+												label="Phiên âm"
+												variant="outlined"
+												size="normal"
+												fullWidth
+												disabled
+												value={phoneTic}
+												// onChange={(e) => handleSetTextUpdate('spelling', e)}
+											/>
+										</div>
+
+										<KeyBoardPhoneTic
+											EnterPhoneTic={EnterPhoneTic}
+											ClickButtonEnter={()=>ClickButtonEnter(phoneTic)}
+										/>
+
+										{/* <div className="grid grid-cols-3 w-full h-fit gap-2 pb-2">
 											{topics &&
 												topics.map((topic, idx) => {
 													return (
@@ -78,15 +101,7 @@ function ModalCustomTopic({
 														</div>
 													);
 												})}
-										</div>
-									</div>
-								</div>
-								<div className="flex justify-end w-full px-2 pb-2">
-									<div
-										className="border bg-[#ede537ab] shadow-md p-1 min-w-[60px] text-center text-md rounded-md"
-										onClick={saveTopicSelected}
-									>
-										Save
+										</div> */}
 									</div>
 								</div>
 							</motion.div>
@@ -98,4 +113,4 @@ function ModalCustomTopic({
 	);
 }
 
-export default ModalCustomTopic;
+export default ModalCustomPhonetic;

@@ -28,11 +28,13 @@ import {
 } from '../../../Constant/toast';
 import { TextField } from '@mui/material';
 import ModalCustomTopic from '../../../components/ui/ModalCustom/ModalCustomTopic';
+import ModalCustomPhonetic from '../../../components/ui/ModalCustom/ModalCustomPhonetic';
 
 function Word() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [isShow, setIsShow] = useState(false);
 	const [openModalTopic, setOpenModalTopic] = useState(false);
+	const [openModalPhoneTic, setOpenModalPhoneTic] = useState(false);
 	const [topics, setTopics] = useState([]);
 	const currentYear = new Date().getFullYear();
 	const currentMonth = new Date().getMonth() + 1;
@@ -239,6 +241,10 @@ function Word() {
 		setOpenModalTopic(false);
 	};
 
+	const onCancelModalPhoneTic = () => {
+		setOpenModalPhoneTic(false);
+	};
+
 	const handleShowModalTopic = () => {
 		let topicsLocalStorage = JSON.parse(localStorage.getItem('topics'));
 
@@ -253,6 +259,10 @@ function Word() {
 		setTopics(topicsLocalStorage);
 
 		setOpenModalTopic(true);
+	};
+
+	const handleShowModalPhoneTic = () => {
+		setOpenModalPhoneTic(true);
 	};
 
 	const chooseTopic = (value) => {
@@ -270,7 +280,6 @@ function Word() {
 			return topic;
 		});
 
-
 		setTopics(cloneTopics);
 	};
 
@@ -281,6 +290,14 @@ function Word() {
 		cloneTextUpdate.topicId = topicSelected._id;
 		setTextUpdate(cloneTextUpdate);
 		setOpenModalTopic(false);
+	};
+	const savePhoneTic = (value) => {
+		console.log('value phoneTic', value);
+		let cloneTextUpdate = structuredClone(textUpdate);
+
+		cloneTextUpdate.attributes.spelling = value;
+		setTextUpdate(cloneTextUpdate);
+		setOpenModalPhoneTic(false);
 	};
 
 	useEffect(() => {
@@ -570,7 +587,7 @@ function Word() {
 									size="normal"
 									fullWidth
 									value={textUpdate.spelling}
-									onChange={(e) => handleSetTextUpdate('spelling', e)}
+									onFocus={handleShowModalPhoneTic}
 								/>
 							</div>
 						)}
@@ -595,11 +612,19 @@ function Word() {
 
 			<ModalCustomTopic
 				open={openModalTopic}
-				label="️🎯 Các chủ đề bạn có thể chọn"
+				label="️🎯 chủ đề thích hợp"
 				onCancel={onCancel}
 				topics={topics}
 				chooseTopic={chooseTopic}
 				saveTopicSelected={saveTopicSelected}
+			/>
+			<ModalCustomPhonetic
+				open={openModalPhoneTic}
+				label="️🎯Phiên âm"
+				onCancel={onCancelModalPhoneTic}
+				topics={topics}
+				chooseTopic={chooseTopic}
+				ClickButtonEnter={savePhoneTic}
 			/>
 
 			<Toaster />
