@@ -51,6 +51,7 @@ function Word() {
 	const [preTextUpdate, setPreTextUpdate] = useState({});
 
 	const [topicSelected, setTopicSelected] = useState({});
+	const [phoneTic, setPhoneTic] = useState('');
 
 	/// REDUX ////
 
@@ -72,9 +73,6 @@ function Word() {
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
 			setIsShow(true);
-			// dispatch(
-			// 	getAllText({ page: value, limit: LIMIT_LIST_TEXT_OF_PAGE })
-			// );
 
 			setCurrentPage(value);
 			await dispatch(
@@ -98,15 +96,6 @@ function Word() {
 	};
 
 	const getListData = async () => {
-		// const listText = JSON.parse(localStorage.getItem('listText'));
-		// const totalPage = localStorage.getItem('totalPages');
-		// const totalText = localStorage.getItem('total');
-
-		// if (listText) {
-		// 	dispatch(SET_LIST_DATA(listText));
-		// 	dispatch(SET_TOTAL_PAGE(totalPage));
-		// 	dispatch(SET_TOTAL_TEXT(totalText));
-		// } else {
 		setIsShow(true);
 		dispatch(
 			SET_ELEMENT_FILTER({
@@ -197,6 +186,82 @@ function Word() {
 		setTextUpdate(copyTextUpdate);
 	};
 
+	const closeModalBottom = () => {
+		dispatch(SET_OPEN_MODAL_BOTTOM(false));
+		setDisable(true);
+	};
+	const onCancel = () => {
+		setOpenModalTopic(false);
+	};
+
+	const onCancelModalPhoneTic = () => {
+		setOpenModalPhoneTic(false);
+	};
+
+	const handleShowModalTopic = () => {
+		let topicsLocalStorage = JSON.parse(localStorage.getItem('topics'));
+
+		topicsLocalStorage = topicsLocalStorage.map((value) => {
+			if (value._id === textUpdate.topicId) {
+				value.isActive = true;
+			}
+			return value;
+		});
+
+		setTopics(topicsLocalStorage);
+
+		setOpenModalTopic(true);
+	};
+
+	const handleShowModalPhoneTic = () => {
+		setPhoneTic(textUpdate.spelling);
+		setOpenModalPhoneTic(true);
+	};
+
+	const chooseTopic = (value) => {
+		setTopicSelected(value);
+
+		let cloneTopics = structuredClone(topics);
+
+		cloneTopics = cloneTopics.map((topic) => {
+			if (topic._id === value._id) {
+				topic.isActive = true;
+			} else {
+				topic.isActive = false;
+			}
+			return topic;
+		});
+
+		setTopics(cloneTopics);
+	};
+
+	const EnterPhoneTic = (value) => {
+		setPhoneTic(phoneTic + value);
+	};
+
+	const deletePhoneTic = () => {
+		let clonePhoneTic = structuredClone(phoneTic);
+		clonePhoneTic = clonePhoneTic.slice(0, -1);
+		setPhoneTic(clonePhoneTic);
+	};
+
+	const saveTopicSelected = () => {
+		let cloneTextUpdate = structuredClone(textUpdate);
+
+		cloneTextUpdate.topic = topicSelected.name;
+		cloneTextUpdate.topicId = topicSelected._id;
+		setTextUpdate(cloneTextUpdate);
+		setOpenModalTopic(false);
+	};
+	const savePhoneTic = (value) => {
+		let cloneTextUpdate = structuredClone(textUpdate);
+		cloneTextUpdate.attributes.spelling = value;
+		cloneTextUpdate.spelling = value;
+
+		setTextUpdate(cloneTextUpdate);
+		setOpenModalPhoneTic(false);
+	};
+
 	const handleSaveUpdate = async () => {
 		if (
 			!textUpdate ||
@@ -231,73 +296,6 @@ function Word() {
 			setDisable(true);
 			ToastError(NOT_UPDATE);
 		}
-	};
-
-	const closeModalBottom = () => {
-		dispatch(SET_OPEN_MODAL_BOTTOM(false));
-		setDisable(true);
-	};
-	const onCancel = () => {
-		setOpenModalTopic(false);
-	};
-
-	const onCancelModalPhoneTic = () => {
-		setOpenModalPhoneTic(false);
-	};
-
-	const handleShowModalTopic = () => {
-		let topicsLocalStorage = JSON.parse(localStorage.getItem('topics'));
-
-		topicsLocalStorage = topicsLocalStorage.map((value) => {
-			if (value._id === textUpdate.topicId) {
-				value.isActive = true;
-			}
-			return value;
-		});
-		console.log({ topicsLocalStorage });
-
-		setTopics(topicsLocalStorage);
-
-		setOpenModalTopic(true);
-	};
-
-	const handleShowModalPhoneTic = () => {
-		setOpenModalPhoneTic(true);
-	};
-
-	const chooseTopic = (value) => {
-		setTopicSelected(value);
-
-		let cloneTopics = structuredClone(topics);
-
-		cloneTopics = cloneTopics.map((topic) => {
-			if (topic._id === value._id) {
-				console.log('topic', topic);
-				topic.isActive = true;
-			} else {
-				topic.isActive = false;
-			}
-			return topic;
-		});
-
-		setTopics(cloneTopics);
-	};
-
-	const saveTopicSelected = () => {
-		let cloneTextUpdate = structuredClone(textUpdate);
-
-		cloneTextUpdate.topic = topicSelected.name;
-		cloneTextUpdate.topicId = topicSelected._id;
-		setTextUpdate(cloneTextUpdate);
-		setOpenModalTopic(false);
-	};
-	const savePhoneTic = (value) => {
-		console.log('value phoneTic', value);
-		let cloneTextUpdate = structuredClone(textUpdate);
-
-		cloneTextUpdate.attributes.spelling = value;
-		setTextUpdate(cloneTextUpdate);
-		setOpenModalPhoneTic(false);
 	};
 
 	useEffect(() => {
@@ -625,6 +623,9 @@ function Word() {
 				topics={topics}
 				chooseTopic={chooseTopic}
 				ClickButtonEnter={savePhoneTic}
+				phoneTic={phoneTic}
+				EnterPhoneTic={EnterPhoneTic}
+				deletePhoneTic={deletePhoneTic}
 			/>
 
 			<Toaster />

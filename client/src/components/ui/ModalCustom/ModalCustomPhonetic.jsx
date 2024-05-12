@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UilTimes } from '@iconscout/react-unicons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TextField } from '@mui/material';
@@ -9,19 +9,17 @@ function ModalCustomPhonetic({
 	open,
 	label,
 	ClickButtonEnter,
+	phoneTic,
+	EnterPhoneTic,
+	deletePhoneTic,
 }) {
-	const [phoneTic, setPhoneTic] = useState('');
-
-	const EnterPhoneTic = (value) => {
-		setPhoneTic(phoneTic + value);
-	};
 	return (
 		<>
 			{open && (
 				<motion.div
 					animate={
 						open
-							? { opacity: 0.5, zIndex: 10 }
+							? { opacity: 0.7, zIndex: 10 }
 							: { opacity: 0, display: 'none' }
 					}
 					transition={{
@@ -68,7 +66,13 @@ function ModalCustomPhonetic({
 											<TextField
 												id="outlined"
 												color="warning"
-												sx={{ background: '#fff' }}
+												sx={{
+													background: '#fff',
+													'& .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input':
+														{
+															letterSpacing: '1px',
+														},
+												}}
 												label="Phiên âm"
 												variant="outlined"
 												size="normal"
@@ -80,8 +84,12 @@ function ModalCustomPhonetic({
 										</div>
 
 										<KeyBoardPhoneTic
+											ClickButtonEnter={() =>
+												ClickButtonEnter(phoneTic)
+											}
+											deletePhoneTic={deletePhoneTic}
+											phoneTic={phoneTic}
 											EnterPhoneTic={EnterPhoneTic}
-											ClickButtonEnter={()=>ClickButtonEnter(phoneTic)}
 										/>
 
 										{/* <div className="grid grid-cols-3 w-full h-fit gap-2 pb-2">
