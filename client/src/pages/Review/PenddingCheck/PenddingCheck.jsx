@@ -14,6 +14,11 @@ function PenddingCheck() {
 			localStorage.getItem('listPending')
 		);
 		const localStorageDayPeding = localStorage.getItem('dayPending');
+		const localStorageChecking = JSON.parse(
+			localStorage.getItem('listChecking')
+		)
+			? JSON.parse(localStorage.getItem('listChecking'))
+			: [];
 
 		if (
 			localStoragePeding?.length > 0 &&
@@ -26,11 +31,9 @@ function PenddingCheck() {
 
 		try {
 			if (
-			
-				localStorageDayPeding ===
-					dayjs(new Date()).format('YYYY/MM/DD') 
+				localStoragePeding?.length === 0 &&
+				localStorageDayPeding === dayjs(new Date()).format('YYYY/MM/DD')
 			) {
-
 				setListPending([]);
 				return;
 			}
@@ -38,17 +41,25 @@ function PenddingCheck() {
 			setIsShow(true);
 			const data = await TextService.getListPendding();
 			const response = data[RES_DATA].metadata.contents;
+			const dataRequest = {
+				day: dayjs(new Date()).format('YYYY/MM/DD'),
+				metaData: response,
+			};
 			// console.log('data:', data[RES_DATA].metadata.contents);
-			if (response?.length === 0) {
-				localStorage.setItem(
-					'dayPending',
-					dayjs(new Date()).format('YYYY/MM/DD')
-				);
-			}
+			// if (response?.length === 0) {
+			localStorage.setItem(
+				'dayPending',
+				dayjs(new Date()).format('YYYY/MM/DD')
+			);
+			// }
 			setListPending(response);
 			setIsShow(false);
 
 			localStorage.setItem('listPending', JSON.stringify(response));
+			localStorage.setItem(
+				'listChecking',
+				JSON.stringify([dataRequest, ...localStorageChecking])
+			);
 		} catch (error) {
 			console.log({ error });
 			setIsShow(false);

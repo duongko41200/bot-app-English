@@ -1,2 +1,37 @@
 1. dùng schedule node để báo thời gian nào sẽ gọp api
 2. lấy thời gian lưu tiên đền ==> ấn vào thì load nội dung của ngày ngày ôn tập đó data sẽ lưu ở localStorgrate
+
+
+
+1- dat giờ
+
+
+data_fake:[
+
+
+	{
+		date:{
+			day: 2024/05/03,
+			metaData:[
+						{
+							tex:'duong',
+							id:'1,
+							topic:""
+							level:'1',
+							defind:"duong dep trai",
+						}
+			]
+
+		}
+
+		
+
+
+
+	}
+]
+
+
+flow: check on tap vào ontaapj :1. check localStorage, current_time
+								2. nếu không có thì gọi api pedding
+								3.

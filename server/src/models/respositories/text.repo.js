@@ -21,6 +21,7 @@ const findAllInfoText = async ({ model, query, limit, page }) => {
 		resDataPromise,
 	]);
 
+
 	return {
 		total: count,
 		// count: AllRecords.length,

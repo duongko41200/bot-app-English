@@ -46,34 +46,5 @@ export const IPA_CHARS = [
 	'w',
 	'j',
 	'g',
-  'k',
+	'k',
 ];
-
-// function PhoneticKeyboard({ onClose, onInput }) {
-//   const classes = useStyle();
-//   return (
-//     <div className={classes.root}>
-//       {IPA_CHARS.map((c, index) => (
-//         <span key={index} onClick={() => onInput(c)}>
-//           {c}
-//         </span>
-//       ))}
-
-//       <span onClick={onClose} className="close">
-//         Close
-//       </span>
-//     </div>
-//   );
-// }
-
-// PhoneticKeyboard.propTypes = {
-//   onClose: PropTypes.func,
-//   onInput: PropTypes.func,
-// };
-
-// PhoneticKeyboard.defaultProps = {
-//   onClose: function () {},
-//   onInput: function () {},
-// };
-
-// export default PhoneticKeyboard;
