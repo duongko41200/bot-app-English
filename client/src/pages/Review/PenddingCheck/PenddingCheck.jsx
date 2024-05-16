@@ -10,56 +10,41 @@ function PenddingCheck() {
 	const [isShow, setIsShow] = useState(false);
 
 	const handleData = async () => {
-		const localStoragePeding = JSON.parse(
-			localStorage.getItem('listPending')
-		);
+		const today = dayjs().format('YYYY/MM/DD');
+		const localStoragePeding = JSON.parse(localStorage.getItem('listPending'));
 		const localStorageDayPeding = localStorage.getItem('dayPending');
-		const localStorageChecking = JSON.parse(
-			localStorage.getItem('listChecking')
-		)
-			? JSON.parse(localStorage.getItem('listChecking'))
-			: [];
-
-		if (
-			localStoragePeding?.length > 0 &&
-			localStoragePeding[RES_DATA]?.dayReview ===
-				dayjs(new Date()).format('YYYY/MM/DD')
-		) {
+		const localStorageChecking = JSON.parse(localStorage.getItem('listChecking')) || [];
+		
+		if (localStoragePeding?.length > 0 && localStoragePeding[RES_DATA]?.dayReview === today) {
 			setListPending(localStoragePeding);
 			return;
 		}
-
+		
 		try {
-			if (
-				localStoragePeding?.length === 0 &&
-				localStorageDayPeding === dayjs(new Date()).format('YYYY/MM/DD')
-			) {
+			if (localStoragePeding?.length === 0 && localStorageDayPeding === today) {
 				setListPending([]);
 				return;
 			}
-
+		
 			setIsShow(true);
 			const data = await TextService.getListPendding();
 			const response = data[RES_DATA].metadata.contents;
-			const dataRequest = {
-				day: dayjs(new Date()).format('YYYY/MM/DD'),
-				metaData: response,
-			};
-			// console.log('data:', data[RES_DATA].metadata.contents);
-			// if (response?.length === 0) {
-			localStorage.setItem(
-				'dayPending',
-				dayjs(new Date()).format('YYYY/MM/DD')
-			);
-			// }
+		
+			if (localStorageDayPeding !== today && response?.length > 0) {
+				const dataRequest = {
+					day: today,
+					metaData: response,
+					isShow:false
+				};
+		
+				localStorage.setItem('listChecking', JSON.stringify([dataRequest, ...localStorageChecking]));
+			}
+		
+			localStorage.setItem('dayPending', today);
 			setListPending(response);
 			setIsShow(false);
-
+		
 			localStorage.setItem('listPending', JSON.stringify(response));
-			localStorage.setItem(
-				'listChecking',
-				JSON.stringify([dataRequest, ...localStorageChecking])
-			);
 		} catch (error) {
 			console.log({ error });
 			setIsShow(false);

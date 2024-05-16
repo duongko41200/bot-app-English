@@ -11,45 +11,65 @@ function CheckList() {
 	const [listChecking, setListChecking] = useState([]);
 
 	const fetchData = async () => {
-		const localStorageChecking = JSON.parse(
-			localStorage.getItem('listChecking')
-		)
-			? JSON.parse(localStorage.getItem('listChecking'))
-			: [];
+		try {
+			const currentDay = dayjs(new Date()).format('YYYY/MM/DD');
 
-		console.log({ localStorageChecking });
+			// Lấy và parse dữ liệu từ localStorage
+			let localStorageChecking =
+				JSON.parse(localStorage.getItem('listChecking')) || [];
+			const localStorageDayPending = localStorage.getItem('dayPending');
 
-		const localStorageDayPeding = localStorage.getItem('dayPending');
-		if (
-			localStorageDayPeding != dayjs(new Date()).format('YYYY/MM/DD')
-		) {
-			try {
+			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
+			if (localStorageDayPending !== currentDay) {
 				const data = await TextService.getListPendding();
 				const response = data[RES_DATA].metadata.contents;
-				console.log('data:', response);
-				localStorage.setItem(
-					'dayPending',
-					dayjs(new Date()).format('YYYY/MM/DD')
-				);
 
-				const dataRequest = {
-					day: dayjs(new Date()).format('YYYY/MM/DD'),
-					metaData: response,
-				};
+				// Cập nhật ngày pending trong localStorage
+				localStorage.setItem('dayPending', currentDay);
 
-				localStorage.setItem(
-					'listChecking',
-					JSON.stringify([dataRequest, ...localStorageChecking])
-				);
+				if (response?.length > 0) {
+					const dataRequest = {
+						day: currentDay,
+						metaData: response,
+						isShow: false,
+					};
 
-				setListChecking([dataRequest, ...localStorageChecking]);
-			} catch (error) {
-				console.log({ error });
-				setIsShow(false);
+					// Cập nhật danh sách checking trong localStorage
+					localStorageChecking = [dataRequest, ...localStorageChecking];
+					localStorage.setItem(
+						'listChecking',
+						JSON.stringify(localStorageChecking)
+					);
+
+					// Cập nhật state của listChecking
+					setListChecking(localStorageChecking);
+				}
+
+				// Cập nhật danh sách pending trong localStorage
+				localStorage.setItem('listPending', JSON.stringify(response));
+			} else {
+				setListChecking(localStorageChecking);
 			}
-		} else {
-			setListChecking(localStorageChecking);
+		} catch (error) {
+			console.log({ error });
+			setIsShow(false);
 		}
+	};
+
+	const handleOpenListChek = (valueCheck) => {
+
+		console.log({valueCheck})
+		let cloneListChecking = structuredClone(listChecking);
+		cloneListChecking = cloneListChecking.map((value) => {
+			if (value.day === valueCheck.day) {
+				value.isShow = !value.isShow;
+			}
+
+			return value
+		});
+
+
+		setListChecking(cloneListChecking);
 	};
 
 	useEffect(() => {
@@ -92,20 +112,17 @@ function CheckList() {
 			</div>
 
 			<div className="wrapper-lists flex flex-col gap-3 pt-4">
-				<div
-					className={`detail-list flex flex-col gap-2 shadow-md  border rounded-lg ${
-						open ? 'bg-[#eef5bd6c]' : 'bg-slate-100'
-					}`}
-					onClick={() => setOpen(!open)}
-				>
+				<div className={`detail-list flex flex-col gap-3 rounded-lg`}>
 					{listChecking &&
-						listChecking.map((value) => {
+						listChecking.map((value, idx) => {
 							return (
-								<>
+								<div key={idx}>
 									<div
-										className={`detail-list__top flex justify-between pt-2 px-2 rounded-b-xl ${
-											!open ? 'pb-3' : 'bg-slate-200 pb-3'
-										}`}
+										className={`detail-list__top flex justify-between pt-2 px-2 rounded-t-xl bg-slate-100 border shadow-md ${
+											!value.isShow ? 'pb-3 rounded-b-xl' : 'bg-slate-200 pb-3'
+										} `}
+										key={idx}
+										onClick={() => handleOpenListChek(value)}
 									>
 										<div className="flex gap-2">
 											<div className=" px-2 w-fit rounded-lg">
@@ -121,7 +138,7 @@ function CheckList() {
 										</div>
 									</div>
 
-									{open && (
+									{value.isShow && (
 										<motion.div
 											key="content"
 											initial="collapsed"
@@ -135,7 +152,7 @@ function CheckList() {
 												duration: 0,
 												ease: [0.04, 0.62, 0.23, 0.98],
 											}}
-											class="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1"
+											className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md"
 										>
 											{value.metaData &&
 												value.metaData?.map((value, idx) => {
@@ -196,7 +213,7 @@ function CheckList() {
 												})}
 										</motion.div>
 									)}
-								</>
+								</div>
 							);
 						})}
 				</div>
