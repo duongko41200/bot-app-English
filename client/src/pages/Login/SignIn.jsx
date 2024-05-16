@@ -129,6 +129,7 @@ function SignIn() {
 			localStorage.removeItem('listPending');
 			localStorage.removeItem('dayPending');
 			localStorage.removeItem('topics')
+			localStorage.removeItem('listChecking')
 			
 			setIsShow(false);
 
