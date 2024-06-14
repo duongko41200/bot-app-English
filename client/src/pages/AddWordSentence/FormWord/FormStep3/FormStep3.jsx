@@ -15,8 +15,8 @@ function FormStep3() {
 		try {
 			const resTopic = await TopicService.getAllTopic();
 
-			console.log({resTopic})
-	
+			console.log({ resTopic });
+
 			const resMetadata = resTopic[RES_DATA]?.metadata;
 			topicLocalStorage = resMetadata.map((topic) => {
 				topic = {
@@ -26,21 +26,20 @@ function FormStep3() {
 					listElement: [],
 					day: date.getDate(),
 				};
-	
+
 				return topic;
 			});
-	
+
 			let topicActive = topicLocalStorage.map((topic) => {
 				topic['isActive'] = false;
-	
+
 				return topic;
 			});
 			localStorage.setItem('topics', JSON.stringify(topicLocalStorage));
 			setTopics(topicActive);
 		} catch (error) {
-			console.log({error})
+			console.log({ error });
 		}
-
 	};
 
 	useEffect(() => {
@@ -50,10 +49,9 @@ function FormStep3() {
 			localStorage.getItem('topics')
 		);
 
-
 		if (
-			topicLocalStorage != null 
-			// topicLocalStorage[0].day != undefined 
+			topicLocalStorage != null
+			// topicLocalStorage[0].day != undefined
 			// topicLocalStorage[0].day === currentDate.getDate()
 		) {
 			let topicActive = topicLocalStorage.map((topic) => {
@@ -62,6 +60,7 @@ function FormStep3() {
 				return topic;
 			});
 			setTopics(topicActive);
+
 		} else {
 			getAllTopics();
 		}

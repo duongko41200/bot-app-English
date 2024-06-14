@@ -13,47 +13,39 @@ function CheckList() {
 	const fetchData = async () => {
 		try {
 			const currentDay = dayjs(new Date()).format('YYYY/MM/DD');
-
-			// Lấy và parse dữ liệu từ localStorage
-			let localStorageChecking =
-				JSON.parse(localStorage.getItem('listChecking')) || [];
+		
+			// Lấy dữ liệu từ localStorage
+			let localStorageChecking = JSON.parse(localStorage.getItem('listChecking')) || [];
 			const localStorageDayPending = localStorage.getItem('dayPending');
-
+		
 			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
 			if (localStorageDayPending !== currentDay) {
-				const data = await TextService.getListPendding();
-				const response = data[RES_DATA].metadata.contents;
-
-				// Cập nhật ngày pending trong localStorage
-				localStorage.setItem('dayPending', currentDay);
-
-				if (response?.length > 0) {
-					const dataRequest = {
-						day: currentDay,
-						metaData: response,
-						isShow: false,
-					};
-
-					// Cập nhật danh sách checking trong localStorage
-					localStorageChecking = [dataRequest, ...localStorageChecking];
-					localStorage.setItem(
-						'listChecking',
-						JSON.stringify(localStorageChecking)
-					);
-
-					// Cập nhật state của listChecking
-					setListChecking(localStorageChecking);
-				}
-
-				// Cập nhật danh sách pending trong localStorage
-				localStorage.setItem('listPending', JSON.stringify(response));
-			} else {
-				setListChecking(localStorageChecking);
+			  const data = await TextService.getListPendding();
+			  const response = data[RES_DATA].metadata.contents;
+		
+			  // Cập nhật ngày pending và danh sách pending trong localStorage
+			  localStorage.setItem('dayPending', currentDay);
+			  localStorage.setItem('listPending', JSON.stringify(response)); //danh sách sẽ học trong hôm nay
+		
+			  if (response?.length > 0) {
+				const dataRequest = {
+				  day: currentDay,
+				  metaData: response,
+				  isShow: false,
+				};
+		
+				// Cập nhật danh sách checking trong localStorage
+				localStorageChecking.unshift(dataRequest);
+				localStorage.setItem('listChecking', JSON.stringify(localStorageChecking));
+			  }
 			}
-		} catch (error) {
+		
+			// Cập nhật state của listChecking
+			setListChecking(localStorageChecking);
+		  } catch (error) {
 			console.log({ error });
 			setIsShow(false);
-		}
+		  }
 	};
 
 	const handleOpenListChek = (valueCheck) => {

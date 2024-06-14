@@ -128,8 +128,8 @@ function SignIn() {
 			localStorage.removeItem('totalPages');
 			localStorage.removeItem('listPending');
 			localStorage.removeItem('dayPending');
-			localStorage.removeItem('topics')
-			localStorage.removeItem('listChecking')
+			// localStorage.removeItem('topics')
+			// localStorage.removeItem('listChecking')
 			
 			setIsShow(false);
 
