@@ -55,7 +55,7 @@ function CustomModalMotion({
 							</div>
 
 							<div className="pb-8">
-								<div className="h-full flex flex-col min-h-[550px] max-h-[550px] overflow-auto p-4 bg-[#fde0476c]">
+								<div className="h-full flex flex-col min-h-[500px] max-h-[550px] overflow-auto p-4 bg-[#fde0476c]">
 									{children}
 
 									<div className="mt-8 flex justify-between">
