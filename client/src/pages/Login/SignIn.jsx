@@ -46,8 +46,6 @@ function SignIn() {
 				toast.error(`Tài khoản không tồn tại`, {
 					duration: 4000,
 					position: 'top-right',
-
-					// Styling
 					style: {},
 					className: '',
 
@@ -65,8 +63,6 @@ function SignIn() {
 				toast.error(`Mật khẩu không chính xác `, {
 					duration: 4000,
 					position: 'top-right',
-
-					// Styling
 					style: {},
 					className: '',
 
@@ -88,8 +84,6 @@ function SignIn() {
 					// Styling
 					style: {},
 					className: '',
-
-					// Aria
 					ariaProps: {
 						role: 'status',
 						'aria-live': 'polite',
@@ -127,7 +121,7 @@ function SignIn() {
 			localStorage.removeItem('listText');
 			localStorage.removeItem('totalPages');
 			localStorage.removeItem('listPending');
-			localStorage.removeItem('dayPending');
+			// localStorage.removeItem('dayPending');
 			// localStorage.removeItem('topics')
 			// localStorage.removeItem('listChecking')
 			

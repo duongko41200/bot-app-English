@@ -4,64 +4,73 @@ import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import TextService from '../../../services/API/tex.service';
 import { RES_DATA } from '../../../Constant/global';
+import DetailChecking from './DetailChecking/DetailChecking.jsx';
 
 function CheckList() {
-	const [open, setOpen] = useState(false);
+	const [openModalTest, setOpenModalTest] = useState(false);
 
 	const [listChecking, setListChecking] = useState([]);
 
 	const fetchData = async () => {
 		try {
 			const currentDay = dayjs(new Date()).format('YYYY/MM/DD');
-		
+
 			// Lấy dữ liệu từ localStorage
-			let localStorageChecking = JSON.parse(localStorage.getItem('listChecking')) || [];
+			let localStorageChecking =
+				JSON.parse(localStorage.getItem('listChecking')) || [];
 			const localStorageDayPending = localStorage.getItem('dayPending');
-		
+
 			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
 			if (localStorageDayPending !== currentDay) {
-			  const data = await TextService.getListPendding();
-			  const response = data[RES_DATA].metadata.contents;
-		
-			  // Cập nhật ngày pending và danh sách pending trong localStorage
-			  localStorage.setItem('dayPending', currentDay);
-			  localStorage.setItem('listPending', JSON.stringify(response)); //danh sách sẽ học trong hôm nay
-		
-			  if (response?.length > 0) {
-				const dataRequest = {
-				  day: currentDay,
-				  metaData: response,
-				  isShow: false,
-				};
-		
-				// Cập nhật danh sách checking trong localStorage
-				localStorageChecking.unshift(dataRequest);
-				localStorage.setItem('listChecking', JSON.stringify(localStorageChecking));
-			  }
+				const data = await TextService.getListPendding();
+				const response = data[RES_DATA].metadata.contents;
+
+				// Cập nhật ngày pending và danh sách pending trong localStorage
+				localStorage.setItem('dayPending', currentDay);
+				localStorage.setItem('listPending', JSON.stringify(response)); //danh sách sẽ học trong hôm nay
+
+				if (response?.length > 0) {
+					const dataRequest = {
+						day: currentDay,
+						metaData: response,
+						isShow: false,
+					};
+
+					// Cập nhật danh sách checking trong localStorage
+					localStorageChecking.unshift(dataRequest);
+					localStorage.setItem(
+						'listChecking',
+						JSON.stringify(localStorageChecking)
+					);
+				}
 			}
-		
+
 			// Cập nhật state của listChecking
 			setListChecking(localStorageChecking);
-		  } catch (error) {
+		} catch (error) {
 			console.log({ error });
 			setIsShow(false);
-		  }
+		}
 	};
 
 	const handleOpenListChek = (valueCheck) => {
-
-		console.log({valueCheck})
+		console.log({ valueCheck });
 		let cloneListChecking = structuredClone(listChecking);
 		cloneListChecking = cloneListChecking.map((value) => {
 			if (value.day === valueCheck.day) {
 				value.isShow = !value.isShow;
 			}
 
-			return value
+			return value;
 		});
 
-
 		setListChecking(cloneListChecking);
+	};
+	const handleShowListTest = () => {
+		setOpenModalTest(true);
+	};
+	const closeModalBottom = () => {
+		setOpenModalTest(false);
 	};
 
 	useEffect(() => {
@@ -111,7 +120,9 @@ function CheckList() {
 								<div key={idx}>
 									<div
 										className={`detail-list__top flex justify-between pt-2 px-2 rounded-t-xl bg-slate-100 border shadow-md ${
-											!value.isShow ? 'pb-3 rounded-b-xl' : 'bg-slate-200 pb-3'
+											!value.isShow
+												? 'pb-3 rounded-b-xl'
+												: 'bg-slate-200 pb-3'
 										} `}
 										key={idx}
 										onClick={() => handleOpenListChek(value)}
@@ -152,6 +163,7 @@ function CheckList() {
 														<div
 															key={idx}
 															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
+															onClick={handleShowListTest}
 														>
 															<div className="detail-list__top flex justify-between">
 																<div className="flex gap-2">
@@ -210,6 +222,11 @@ function CheckList() {
 						})}
 				</div>
 			</div>
+
+			<DetailChecking
+				open={openModalTest}
+				closeModalBottom={closeModalBottom}
+			></DetailChecking>
 		</>
 	);
 }
