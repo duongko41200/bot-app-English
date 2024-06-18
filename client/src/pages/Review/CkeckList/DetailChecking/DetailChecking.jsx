@@ -69,7 +69,7 @@ function DetailChecking({ open, closeModalBottom }) {
 							maxHeight: '300px',
 							overflowY: 'auto',
 							fontFamily: 'auto',
-							fontSize: '12px',
+							fontSize: '14px',
 							padding: '8px',
 						}}
 					>
