@@ -3,7 +3,6 @@ import CustomModalMotion from '../../../../components/ui/CustomFormModal/CustomM
 import { Box, Checkbox, Input, Radio } from '@mui/material';
 import { GoogleGenerativeAI } from '@google/generative-ai'; // Ensure this import is correct
 import SpinnerLoading from '../../../../components/ui/SpinnerLoading/SpinnerLoading';
-import OpenAI from 'openai';
 
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -52,18 +51,7 @@ function DetailChecking({ open, closeModalBottom }) {
 			// setShowSpiner(false);
 			// setContent(text);
 
-			const openai = new OpenAI({
-				apiKey:
-					'sk-proj-6Vxlb5WSO38TKOfniJkpT3BlbkFJUxKcG5UmSvICgS2129yb',
-				dangerouslyAllowBrowser: true, // This is the default and can be omitted
-			});
 
-			const chatCompletion = await openai.chat.completions.create({
-				messages: [{ role: 'user', content: 'Say this is a test' }],
-				model: 'gpt-3.5-turbo',
-			});
-
-			console.log({ chatCompletion });
 		} catch (error) {
 			setShowSpiner(false);
 			console.error('Error generating content:', error);
