@@ -37,19 +37,17 @@ function DetailChecking({ open, closeModalBottom }) {
 		setContent('');
 		setShowSpiner(true);
 		try {
-			const genAI = new GoogleGenerativeAI(
-				'AIzaSyAwEvAGplcQa0zvl_FWYA5yOlcBVJDb8nA'
-			);
-			const model = genAI.getGenerativeModel({
-				model: 'gemini-1.5-flash',
-			});
-			const prompt = `you are a quiz master. generate 3 radom questions with 3 multiple choice answers. Also provide the answer separeately. The response should be in the following Json Format:{"question":[{"id":0,"questions":"", "options":[],"answer":""},...}]}`;
 
-			const result = await model.generateContent(prompt);
-			const response = result.response;
-			const text = response.text();
-			setShowSpiner(false);
-			setContent(text);
+			// const model = genAI.getGenerativeModel({
+			// 	model: 'gemini-1.5-flash',
+			// });
+			// const prompt = `you are a quiz master. generate 3 radom questions with 3 multiple choice answers. Also provide the answer separeately. The response should be in the following Json Format:{"question":[{"id":0,"questions":"", "options":[],"answer":""},...}]}`;
+
+			// const result = await model.generateContent(prompt);
+			// const response = result.response;
+			// const text = response.text();
+			// setShowSpiner(false);
+			// setContent(text);
 
 
 		} catch (error) {
