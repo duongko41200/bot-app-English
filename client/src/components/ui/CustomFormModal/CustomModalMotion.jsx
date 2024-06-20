@@ -9,6 +9,9 @@ function CustomModalMotion({
 	disable,
 	handleSaveUpdate,
 	showRefresh = false,
+	showButtonSave = true,
+	padding = 4,
+	bgcolor = '#fde0476c',
 }) {
 	return (
 		<>
@@ -34,7 +37,7 @@ function CustomModalMotion({
 							collapsed: { y: '100%', height: 0 },
 						}}
 						transition={{
-							duration: 0.3,
+							duration: 0.2,
 							ease: [0.04, 0.62, 0.23, 0.98],
 						}}
 						className="border-gray-50 fixed bottom-0 right-0 left-0 x-10 w-full rounded-t-xl border-3 z-10 border-b-0 bg-white shadow-[0px_-8px_20px_-6px_rgba(0,0,0,0.3)]"
@@ -55,7 +58,9 @@ function CustomModalMotion({
 							</div>
 
 							<div className="pb-8">
-								<div className="h-full flex flex-col min-h-[500px] max-h-[550px] overflow-auto p-4 bg-[#fde0476c]">
+								<div
+									className={`h-full flex flex-col min-h-[500px] max-h-[550px] overflow-auto p-${padding} bg-[${bgcolor}]`}
+								>
 									{children}
 
 									<div className="mt-8 flex justify-between">
@@ -68,14 +73,16 @@ function CustomModalMotion({
 											</div>
 										)}
 
-										<div
-											className={`border min-w-[80px] py-2 text-center rounded font-bold bg-white border-black shadow-md ${
-												disable ? 'opacity-40' : ''
-											}`}
-											onClick={handleSaveUpdate}
-										>
-											SAVE
-										</div>
+										{showButtonSave && (
+											<div
+												className={`border min-w-[80px] py-2 text-center rounded font-bold bg-white border-black shadow-md ${
+													disable ? 'opacity-40' : ''
+												}`}
+												onClick={handleSaveUpdate}
+											>
+												SAVE
+											</div>
+										)}
 									</div>
 								</div>
 							</div>

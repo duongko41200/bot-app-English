@@ -24,6 +24,7 @@
     "dayjs": "^1.11.10",
     "faker": "5.5.3",
     "framer-motion": "^6.2.9",
+    "openai": "^4.0.0",
     "query-string": "^8.2.0",
     "react": "^17.0.2",
     "react-apexcharts": "^1.4.0",
