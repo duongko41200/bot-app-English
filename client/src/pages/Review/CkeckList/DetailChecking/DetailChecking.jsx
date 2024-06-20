@@ -129,7 +129,6 @@ function DetailChecking({ open, closeModalBottom }) {
 					<Box
 						sx={{
 							width: '100%',
-
 							padding: '10px 20px',
 							minHeight: '200px',
 							background: '#397ded38',
