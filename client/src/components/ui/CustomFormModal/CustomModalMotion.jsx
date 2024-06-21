@@ -57,7 +57,7 @@ function CustomModalMotion({
 								</div>
 							</div>
 
-							<div className="pb-8">
+							<div>
 								<div
 									className={`h-full flex flex-col min-h-[500px] max-h-[550px] overflow-auto p-${padding} bg-[${bgcolor}]`}
 								>

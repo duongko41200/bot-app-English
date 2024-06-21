@@ -142,7 +142,7 @@ function DetailChecking({ open, closeModalBottom }) {
 									boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
 									display: 'flex',
 									flexDirection: 'column',
-									gap: '8px',
+									gap: '3px',
 								}}
 							>
 								<Box
@@ -155,7 +155,7 @@ function DetailChecking({ open, closeModalBottom }) {
 								>
 									<Box
 										sx={{
-											borderRadius: '100%',
+											borderRadius: '10px',
 											width: '30px',
 											height: '30px',
 											background: '#fff',
@@ -178,7 +178,7 @@ function DetailChecking({ open, closeModalBottom }) {
 								>
 									<Box
 										sx={{
-											borderRadius: '100%',
+											borderRadius: '10px',
 											width: '30px',
 											height: '30px',
 											background: '#fff',
