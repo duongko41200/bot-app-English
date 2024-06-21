@@ -37,19 +37,15 @@ function DetailChecking({ open, closeModalBottom }) {
 		setContent('');
 		setShowSpiner(true);
 		try {
-
 			// const model = genAI.getGenerativeModel({
 			// 	model: 'gemini-1.5-flash',
 			// });
 			// const prompt = `you are a quiz master. generate 3 radom questions with 3 multiple choice answers. Also provide the answer separeately. The response should be in the following Json Format:{"question":[{"id":0,"questions":"", "options":[],"answer":""},...}]}`;
-
 			// const result = await model.generateContent(prompt);
 			// const response = result.response;
 			// const text = response.text();
 			// setShowSpiner(false);
 			// setContent(text);
-
-
 		} catch (error) {
 			setShowSpiner(false);
 			console.error('Error generating content:', error);
@@ -103,101 +99,186 @@ function DetailChecking({ open, closeModalBottom }) {
 						{content}
 					</Box>
 				</SpinnerLoading> */}
-
 				<Box
 					sx={{
-						color: 'hsl(215, 15%, 12%)',
-						display: 'flex',
-						justifyContent: 'center',
 						width: '100%',
+						height: '500px',
+						background: '#aec0dd38',
+						border: '1px solid hsl(215, 15%, 89%)',
+						borderRadius: '30px',
+						boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
 					}}
 				>
 					<Box
 						sx={{
+							color: 'hsl(215, 15%, 12%)',
+							display: 'flex',
+							justifyContent: 'center',
 							width: '100%',
-							padding: '10px 20px',
-							minHeight: '200px',
-							background: '#397ded38',
-							border: '1px solid hsl(215, 15%, 89%)',
-							borderRadius: '30px',
-							boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
 						}}
 					>
-						Caau nayf co I am student so I must go to school in the
-						tomorrow area.Caau nay co ys nghia nhu nao
+						<Box
+							sx={{
+								width: '100%',
+								padding: '10px 8px',
+								minHeight: '200px',
+								background: '#397ded38',
+								border: '1px solid hsl(215, 15%, 89%)',
+								borderRadius: '15px',
+								boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
+								display: 'flex',
+								gap: '10px',
+							}}
+						>
+							<Box
+								sx={{
+									width: 'fit-content',
+									minWidth: '40px',
+									padding: '10px 5px',
+									minHeight: '100%',
+									background: '#397ded38',
+									border: '1px solid hsl(215, 15%, 89%)',
+									borderRadius: '30px',
+									boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '8px',
+								}}
+							>
+								<Box
+									sx={{
+										width: '100%',
+										height: 'fit-content',
+										display: 'flex',
+										justifyContent: 'center',
+									}}
+								>
+									<Box
+										sx={{
+											borderRadius: '100%',
+											width: '30px',
+											height: '30px',
+											background: '#fff',
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}
+									>
+										<Box>1</Box>
+									</Box>
+								</Box>
+
+								<Box
+									sx={{
+										width: '100%',
+										height: 'fit-content',
+										display: 'flex',
+										justifyContent: 'center',
+									}}
+								>
+									<Box
+										sx={{
+											borderRadius: '100%',
+											width: '30px',
+											height: '30px',
+											background: '#fff',
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}
+									>
+										<Box>1</Box>
+									</Box>
+								</Box>
+							</Box>
+
+							<Box
+								sx={{
+									width: '100%',
+									padding: '10px 20px',
+									minHeight: '100px',
+									background: '#397ded38',
+									border: '1px solid hsl(215, 15%, 89%)',
+									borderRadius: '30px',
+									boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
+								}}
+							></Box>
+						</Box>
 					</Box>
-				</Box>
-				{/* <Stack spacing={2} sx={{ flexGrow: 1 }}>
+					{/* <Stack spacing={2} sx={{ flexGrow: 1 }}>
 					<br />
 					<BorderLinearProgress variant="determinate" value={50} />
 				</Stack> */}
 
-				<Box>
-					<Box
-						sx={{
-							width: '100%',
-							minHeight: '50px',
-							
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '5px',
-							boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
-							border: '1px solid hsl(215, 15%, 89%)',
-							borderRadius: '10px',
-							marginTop:'8px'
-						}}
-					>
-						<Box>dap an 1</Box>
-						<Box>
-							<Checkbox
-								icon={<RadioButtonUncheckedIcon />}
-								checkedIcon={<RadioButtonCheckedIcon />}
-							/>
+					<Box sx={{ padding: '0 5px' }}>
+						<Box
+							sx={{
+								width: '100%',
+								minHeight: '50px',
+								background: '#fff',
+								display: 'flex',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+								padding: '5px',
+								boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
+								border: '1px solid #00000042',
+								borderRadius: '10px',
+								marginTop: '8px',
+							}}
+						>
+							<Box>dap an 1</Box>
+							<Box>
+								<Checkbox
+									icon={<RadioButtonUncheckedIcon />}
+									checkedIcon={<RadioButtonCheckedIcon />}
+								/>
+							</Box>
 						</Box>
-					</Box>
-					<Box
-						sx={{
-							width: '100%',
-							minHeight: '50px',
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '5px',
-							boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
-							border: '1px solid hsl(215, 15%, 89%)',
-							borderRadius: '10px',
-							marginTop:'8px'
-						}}
-					>
-						<Box>dap an 1</Box>
-						<Box>
-							<Checkbox
-								icon={<RadioButtonUncheckedIcon />}
-								checkedIcon={<RadioButtonCheckedIcon />}
-							/>
+						<Box
+							sx={{
+								width: '100%',
+								minHeight: '50px',
+								background: '#fff',
+								display: 'flex',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+								padding: '5px',
+								boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
+								border: '1px solid #00000042',
+								borderRadius: '10px',
+								marginTop: '8px',
+							}}
+						>
+							<Box>dap an 1</Box>
+							<Box>
+								<Checkbox
+									icon={<RadioButtonUncheckedIcon />}
+									checkedIcon={<RadioButtonCheckedIcon />}
+								/>
+							</Box>
 						</Box>
-					</Box>
-					<Box
-						sx={{
-							width: '100%',
-							minHeight: '50px',
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '5px',
-							boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
-							border: '1px solid hsl(215, 15%, 89%)',
-							borderRadius: '10px',
-							marginTop:'8px'
-						}}
-					>
-						<Box>dap an 1</Box>
-						<Box>
-							<Checkbox
-								icon={<RadioButtonUncheckedIcon />}
-								checkedIcon={<RadioButtonCheckedIcon />}
-							/>
+						<Box
+							sx={{
+								width: '100%',
+								minHeight: '50px',
+								background: '#fff',
+								display: 'flex',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+								padding: '5px',
+								boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
+								border: '1px solid #00000042',
+								borderRadius: '10px',
+								marginTop: '8px',
+							}}
+						>
+							<Box>dap an 1</Box>
+							<Box>
+								<Checkbox
+									icon={<RadioButtonUncheckedIcon />}
+									checkedIcon={<RadioButtonCheckedIcon />}
+								/>
+							</Box>
 						</Box>
 					</Box>
 				</Box>
