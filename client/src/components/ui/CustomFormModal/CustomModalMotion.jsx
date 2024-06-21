@@ -33,7 +33,7 @@ function CustomModalMotion({
 						animate="open"
 						exit="collapsed"
 						variants={{
-							open: { y: 0, height: '84%' },
+							open: { y: 0, height: '88%' },
 							collapsed: { y: '100%', height: 0 },
 						}}
 						transition={{
