@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'column',
-		height: '100%',
+		height: `calc(100vh - 250px)`,
 	},
 	card: {
 		backgroundColor: '#fff',
@@ -56,17 +56,21 @@ const useStyles = makeStyles({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		marginTop: 10,
+		width:"100%"
 	},
 	buttonsBox: {
 		display: 'flex',
 		justifyContent: 'center',
 		fontSize: "16px",
 		marginTop: 10,
-		gap: 10
+		gap: 3
 	},
 	button: {
-		margin: 5,
+		margin: 2,
+		width: '100%',
+		padding:"10px 0"
 	},
+
 	account: {
 		marginTop: 20,
 		fontSize: 12,
@@ -138,7 +142,7 @@ function ResultsLevel1({ result, question ,text}) {
 								variant="contained"
 								color="primary"
 								size='small'
-								className={classes.buttons}
+								className={classes.button}
 							>
 								Quay lại
 							</Button>
@@ -146,7 +150,7 @@ function ResultsLevel1({ result, question ,text}) {
 								variant="contained"
 										color="secondary"
 										size='small'
-								className={classes.buttons}
+								className={classes.button}
 							>
 								Nâng cấp Level
 							</Button>

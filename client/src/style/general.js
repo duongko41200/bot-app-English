@@ -8,7 +8,7 @@ export const styles = {
 		boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 2,
+		gap: 1,
 	},
 	questionBox: {
 		color: 'hsl(215, 15%, 12%)',
@@ -26,7 +26,7 @@ export const styles = {
 		borderRadius: '15px',
 		boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
 		display: 'flex',
-		gap: '6xp',
+		gap: '6px',
 	},
 
 	questionTextBox: {
@@ -51,6 +51,8 @@ export const styles = {
 	},
 	optionsContainer: {
 		padding: '0 5px',
+		maxHeight: "200px",
+		overflow: "auto"
 	},
 	optionBox: (isChecked) => ({
 		width: '100%',
