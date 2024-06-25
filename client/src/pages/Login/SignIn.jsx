@@ -60,6 +60,8 @@ function SignIn() {
 			}
 
 			if (err && err.message.includes('Authentication failed')) {
+
+				console.log("Error:",err)
 				toast.error(`Mật khẩu không chính xác `, {
 					duration: 4000,
 					position: 'top-right',
