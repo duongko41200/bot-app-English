@@ -79,7 +79,9 @@ function SignIn() {
 			}
 
 			if (err) {
+				console.log("Error:",err)
 				toast.error(`Hãy thử đăng nhập lại xem `, {
+
 					duration: 4000,
 					position: 'top-right',
 
