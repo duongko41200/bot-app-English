@@ -5,11 +5,13 @@ import dayjs from 'dayjs';
 import TextService from '../../../services/API/tex.service';
 import { RES_DATA } from '../../../Constant/global';
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
+import { Box } from '@mui/material';
 
 function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
 
 	const [listChecking, setListChecking] = useState([]);
+	const [textChoose, setTextChoose] =useState('')
 
 	const fetchData = async () => {
 		try {
@@ -66,8 +68,11 @@ function CheckList() {
 
 		setListChecking(cloneListChecking);
 	};
-	const handleShowListTest = () => {
+	const handleShowListTest = (value) => {
+
+		console.log("value: ",value)
 		setOpenModalTest(true);
+		setTextChoose(value.text)
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -160,10 +165,10 @@ function CheckList() {
 											{value.metaData &&
 												value.metaData?.map((value, idx) => {
 													return (
-														<div
+														<Box
 															key={idx}
 															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
-															onClick={handleShowListTest}
+															onClick={()=>handleShowListTest(value)}
 														>
 															<div className="detail-list__top flex justify-between">
 																<div className="flex gap-2">
@@ -212,7 +217,7 @@ function CheckList() {
 																	Cấp {value.repeat}
 																</div>
 															</div>
-														</div>
+														</Box>
 													);
 												})}
 										</motion.div>
@@ -226,6 +231,7 @@ function CheckList() {
 			<DetailChecking
 				open={openModalTest}
 				closeModalBottom={closeModalBottom}
+				text = {textChoose}
 			></DetailChecking>
 		</>
 	);
