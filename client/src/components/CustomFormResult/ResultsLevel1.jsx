@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'column',
-		height: `calc(100vh - 250px)`,
+		height: `calc(100vh - 170px)`,
 	},
 	card: {
 		backgroundColor: '#fff',
@@ -57,6 +57,12 @@ const useStyles = makeStyles({
 		justifyContent: 'center',
 		marginTop: 10,
 		width:"100%"
+	},
+	buttonss: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		marginTop: 10,
 	},
 	buttonsBox: {
 		display: 'flex',
@@ -142,7 +148,7 @@ function ResultsLevel1({ result, question ,text}) {
 								variant="contained"
 								color="primary"
 								size='small'
-								className={classes.button}
+								className={classes.buttonss}
 							>
 								Quay lại
 							</Button>
@@ -150,7 +156,7 @@ function ResultsLevel1({ result, question ,text}) {
 								variant="contained"
 										color="secondary"
 										size='small'
-								className={classes.button}
+								className={classes.buttonss}
 							>
 								Nâng cấp Level
 							</Button>

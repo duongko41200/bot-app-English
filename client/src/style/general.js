@@ -51,7 +51,7 @@ export const styles = {
 	},
 	optionsContainer: {
 		padding: '0 5px',
-		maxHeight: "200px",
+		maxHeight: "250px",
 		overflow: "auto"
 	},
 	optionBox: (isChecked) => ({
