@@ -19,13 +19,13 @@
   
   .card {
 	width: 100%;
-	height: calc(100vh - 179px);
+	height: calc(100vh - 155px);
 	perspective: 1000px;
   }
   
   .card__inner {
 	width: 100%;
-	height: calc(100vh - 179px);
+	height: calc(100vh - 155px);
 	transition: transform 0.8s;
 	transform-style: preserve-3d;
 	cursor: pointer;
@@ -34,6 +34,7 @@
   
   .card__inner.is-flipped {
 	transform: rotateY(180deg);
+	height: 100vh;
   }
   
   
@@ -63,6 +64,8 @@
   .card__face--back {
 	background-color: var(--light);
 	transform: rotateY(180deg);
+	min-height: 500px;
+	height: fit-content;
   }
   
   .card__content {
@@ -117,7 +120,7 @@
   
   
   .card__body {
-	padding: 30px;
+	padding: 20px;
   }
   
   .card__body h3 {

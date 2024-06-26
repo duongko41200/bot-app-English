@@ -9,6 +9,12 @@ const ruleQues = (text) => {
 	return roleAll;
 };
 
+const ruleResult1 = () => {
+	const rule = `value of scenarios by VietNamese , value of example by English`
+
+	return rule
+}
+
 const promptExam = (level, text) => {
 	switch (level) {
 		case 1:
@@ -23,4 +29,16 @@ const promptExam = (level, text) => {
 	}
 };
 
-export { promptExam };
+const promptResearch = (level, text) => {
+	switch (level) {
+		case 1:
+		return `I want 3-5 scenarios for using the phrase '${text}'. The response should be in the following Format:{"data":[{"id":0,"scenarios":"", "example":""]}. Note: Same output as Format and do Not add any other characters and ${ruleResult1()}`;
+		case 2:
+			return;
+
+		default:
+			break;
+	}
+};
+
+export { promptExam ,promptResearch};

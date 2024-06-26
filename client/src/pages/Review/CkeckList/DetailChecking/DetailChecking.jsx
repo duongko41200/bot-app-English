@@ -9,15 +9,20 @@ import {
 } from '../../../../Constant/DetailChecking';
 import { useQuiz } from '../../../../hook/useQuiz';
 import { useSubmitQuiz } from '../../../../hook/useSubmitQuiz';
-import { getGeminiAi } from '../../../../services/AI/Gemini';
+import {
+	getGeminiAi,
+	getGeminiAiResearch,
+} from '../../../../services/AI/Gemini';
 
-const DetailChecking = ({ open, closeModalBottom,text }) => {
+const DetailChecking = ({ open, closeModalBottom, text }) => {
+	const [resGeminiResearch, setResGeminiResearch] = useState([]);
 	const {
 		question,
 		currentStep,
 		handleStepChange,
 		handleSelected,
 		setQuestion,
+		setCurrentStep,
 	} = useQuiz();
 	const { isSubmit, countScore, setIsSubmit, handleSubmit } =
 		useSubmitQuiz(question);
@@ -26,10 +31,7 @@ const DetailChecking = ({ open, closeModalBottom,text }) => {
 	const handleSaveUpdate = async () => {
 		setShowSpinner(true);
 		try {
-			const reponseOfGemini = await getGeminiAi(
-				1,
-				text
-			);
+			const reponseOfGemini = await getGeminiAi(1, text);
 
 			console.log({ reponseOfGemini });
 			setQuestion(reponseOfGemini.question);
@@ -64,10 +66,30 @@ const DetailChecking = ({ open, closeModalBottom,text }) => {
 
 	useEffect(() => {
 		setIsSubmit(false);
+		setCurrentStep(0);
+		setResGeminiResearch([]);
+
 		if (open) {
 			handleSaveUpdate();
 		}
 	}, [open]);
+
+	const getDataGeminiAi = async () => {
+		try {
+			const res = await getGeminiAiResearch(1, text);
+
+			setResGeminiResearch(res.data);
+		} catch (error) {
+			console.log({ error });
+			setResGeminiResearch([]);
+		}
+	};
+
+	useEffect(() => {
+		if (isSubmit) {
+			getDataGeminiAi();
+		}
+	}, [isSubmit]);
 
 	return (
 		<CustomModalMotion
@@ -83,7 +105,12 @@ const DetailChecking = ({ open, closeModalBottom,text }) => {
 					!isSubmit ? (
 						<FormComponent {...props} />
 					) : (
-						<ResultsLevel1 result={countScore} question={question} text={text} />
+						<ResultsLevel1
+							result={countScore}
+							question={question}
+							text={text}
+							resGeminiResearch={resGeminiResearch}
+						/>
 					)
 				) : (
 					<Box

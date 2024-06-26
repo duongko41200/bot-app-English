@@ -71,5 +71,6 @@ export const useQuiz = () => {
 		handleStepChange,
 		handleSelected,
 		setQuestion,
+		setCurrentStep
 	};
 };

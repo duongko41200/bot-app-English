@@ -15,13 +15,12 @@ const useStyles = makeStyles({
 		// margin: '50px auto',
 		// #ffce0087, #fec948b0
 		padding: 20,
-		background:
-			'linear-gradient(to bottom right, #ffbb00, #fec948b0)',
+		background: 'linear-gradient(to bottom right, #ffbb00, #fec948b0)',
 
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'column',
-		height: `calc(100vh - 170px)`,
+		height: `calc(100vh - 145px)`,
 	},
 	card: {
 		backgroundColor: '#fff',
@@ -46,6 +45,20 @@ const useStyles = makeStyles({
 		fontWeight: '600',
 		color: 'GrayText',
 	},
+	
+	subtitleScenarios: {
+		fontSize: 18,
+		fontWeight: '700',
+		color: 'black',
+	},
+	contex: {
+		
+		fontSize: 16,
+		fontWeight: '500',
+		color: 'GrayText',
+		
+
+	},
 	score: {
 		fontSize: 30,
 		fontWeight: 700,
@@ -56,7 +69,7 @@ const useStyles = makeStyles({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		marginTop: 10,
-		width:"100%"
+		width: '100%',
 	},
 	buttonss: {
 		display: 'flex',
@@ -67,14 +80,14 @@ const useStyles = makeStyles({
 	buttonsBox: {
 		display: 'flex',
 		justifyContent: 'start',
-		fontSize: "16px",
+		fontSize: '16px',
 		marginTop: 10,
-		gap: 3
+		gap: 3,
 	},
 	button: {
 		margin: 2,
 		width: '100%',
-		padding:"10px 0"
+		padding: '10px 0',
 	},
 
 	account: {
@@ -89,13 +102,13 @@ const useStyles = makeStyles({
 	},
 });
 
-function ResultsLevel1({ result, question ,text}) {
+function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 	const classes = useStyles();
 	const [isShowCard, setIsShowCard] = useState(false);
 
 	return (
 		<>
-			<div class="card" onClick={() => setIsShowCard(!isShowCard)}>
+			<div class="card">
 				<div class={`card__inner ${isShowCard ? 'is-flipped' : ''}`}>
 					<div
 						class={`card__face card__face--front ${classes.container} `}
@@ -125,6 +138,7 @@ function ResultsLevel1({ result, question ,text}) {
 								variant="contained"
 								color="primary"
 								className={classes.button}
+								onClick={() => setIsShowCard(!isShowCard)}
 							>
 								Tìm hiểu chi tiết
 							</Button>
@@ -142,35 +156,41 @@ function ResultsLevel1({ result, question ,text}) {
 							<div class="card__header">
 								{/* <div class="pp"></div> */}
 								<h3>Panda</h3>
-								<h4>Đối với "<strong>{text}</strong>": Mình thấy {reviewResult(Math.round((result / 3) * 100))}</h4>
+								<h4>
+									Đối với "<strong>{text}</strong>": Mình thấy{' '}
+									{reviewResult(Math.round((result / 3) * 100))}
+								</h4>
 								<Box className={classes.buttonsBox}>
-							<Button
-								variant="contained"
-								color="primary"
-								size='small'
-								className={classes.buttonss}
-							>
-								Quay lại
-							</Button>
-							<Button
-								variant="contained"
+									<Button
+										variant="contained"
+										color="primary"
+										size="small"
+										className={classes.buttonss}
+										onClick={() => setIsShowCard(!isShowCard)}
+									>
+										Quay lại
+									</Button>
+									<Button
+										variant="contained"
 										color="secondary"
-										size='small'
-								className={classes.buttonss}
-							>
-								Nâng cấp Level
-							</Button>
-						</Box>
+										size="small"
+										className={classes.buttonss}
+									>
+										Nâng cấp Level
+									</Button>
+								</Box>
 							</div>
 							<div class="card__body">
-								<h3>JavaScript Wizard</h3>
-								<p>
-									Lorem ipsum <strong>dolor</strong> sit amet,
-									consectetur <strong>adipiscing</strong> elit. Sed id
-									erat a magna lobortis dictum. Nunc est arcu,{' '}
-									<strong>lacinia</strong> quis sapien placerat,{' '}
-									<strong>laoreet</strong> tincidunt nulla.
-								</p>
+								<h3>Tìm hiểu nâng cao:</h3>
+								{resGeminiResearch &&
+									resGeminiResearch?.map((value, idx) => {
+										return (
+											<Box key={idx}>
+												<Box className={classes.subtitleScenarios}>{value.scenarios}</Box>
+												<Box className={classes.contex}>{value.example}</Box>
+											</Box>
+										);
+									})}
 							</div>
 						</div>
 					</div>

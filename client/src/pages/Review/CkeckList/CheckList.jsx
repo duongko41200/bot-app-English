@@ -70,7 +70,6 @@ function CheckList() {
 	};
 	const handleShowListTest = (value) => {
 
-		console.log("value: ",value)
 		setOpenModalTest(true);
 		setTextChoose(value.text)
 	};
