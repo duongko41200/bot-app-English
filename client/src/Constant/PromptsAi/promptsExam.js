@@ -20,7 +20,7 @@ const promptExam = (level, text) => {
 		case 1:
 			return `you are a quiz master. generate 3 random questions about ${ruleQues(
 				text
-			)} with 3 multiple choice answers. Also provide the answer separately. The response should be in the following Format:{"question":[{"id":0,"questions":"", "options":[{"name": "option1","isCheck":false},...],"answer":""},...}]}. Note: Same output as Format, do not add any other characters and Set the isCheck property to false`;
+			)} with 3 multiple choice answers. Also provide the answer separately. The response should be in the following FORMAT:{"question":[{"id":0,"questions":"", "options":[{"name": "option1","isCheck":false},...],"answer":""},...}]}. Note: Same output as FORMAT, do not add any other characters and Set the isCheck property to false`;
 		case 2:
 			return;
 
@@ -32,7 +32,7 @@ const promptExam = (level, text) => {
 const promptResearch = (level, text) => {
 	switch (level) {
 		case 1:
-		return `I want 3-5 scenarios for using the phrase '${text}'. The response should be in the following Format:{"data":[{"id":0,"scenarios":"", "example":""]}. Note: Same output as Format and do Not add any other characters and ${ruleResult1()}`;
+		return `I want 3-5 scenarios for using the phrase '${text}'. The response should be in the following FORMAT:{"data":[{"id":0,"scenarios":"", "example":""]}. Note: Same output as FORMAT and do Not add any other characters and ${ruleResult1()}`;
 		case 2:
 			return;
 
