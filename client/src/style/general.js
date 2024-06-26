@@ -1,13 +1,15 @@
 export const styles = {
 	container: {
 		width: '100%',
-		height: '500px',
+		height: 'calc(100vh - 180px)',
 		background: 'linear-gradient(to bottom right, rgb(254, 254, 139), #fec948b0)',
 		border: '1px solid hsl(215, 15%, 89%)',
 		borderRadius: '30px',
 		boxShadow: 'rgba(223, 226, 231, 0.6) 0px 4px 8px',
 		display: 'flex',
 		flexDirection: 'column',
+		justifyContent: 'space-between',
+		paddingBottom:"16px",
 		gap: 1,
 	},
 	questionBox: {
@@ -51,7 +53,7 @@ export const styles = {
 	},
 	optionsContainer: {
 		padding: '0 5px',
-		maxHeight: "250px",
+		maxHeight: "calc(100vh - 180px - 235px)",
 		overflow: "auto"
 	},
 	optionBox: (isChecked) => ({
@@ -73,7 +75,7 @@ export const styles = {
 	buttonContainer: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		padding: '0 5px',
+		padding: '0 16px',
 	},
 	backButton: {
 		width: '50px',

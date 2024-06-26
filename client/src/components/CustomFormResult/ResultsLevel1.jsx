@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 		// #ffce0087, #fec948b0
 		padding: 20,
 		background:
-			'linear-gradient(to bottom right, #ffce0087, #fec948b0)',
+			'linear-gradient(to bottom right, #ffbb00, #fec948b0)',
 
 		display: 'flex',
 		justifyContent: 'space-between',
@@ -66,7 +66,7 @@ const useStyles = makeStyles({
 	},
 	buttonsBox: {
 		display: 'flex',
-		justifyContent: 'center',
+		justifyContent: 'start',
 		fontSize: "16px",
 		marginTop: 10,
 		gap: 3
