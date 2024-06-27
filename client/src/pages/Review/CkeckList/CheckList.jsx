@@ -124,9 +124,9 @@ function CheckList() {
 							return (
 								<div key={idx}>
 									<div
-										className={`detail-list__top flex justify-between pt-2 px-2 rounded-t-xl bg-slate-100 border shadow-md ${
+										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
 											!value.isShow
-												? 'pb-3 rounded-b-xl'
+												? ' rounded-b-xl h-[50px]'
 												: 'bg-slate-200 pb-3'
 										} `}
 										key={idx}
