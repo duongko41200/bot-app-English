@@ -88,7 +88,7 @@ function CheckList() {
 
 	const testLogics = () => {
 		ToastError(NOT_REQUIRED);
-	};
+	}
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
 	};
@@ -133,33 +133,41 @@ function CheckList() {
 			</div>
 
 			<div className="wrapper-lists flex flex-col gap-3 pt-4">
-				<div onClick={testLogics} className="bg-yellow-500 p-2">
+				<div onClick={()=>testLogics('duong')} className="bg-yellow-500 p-2">
 					Test click
 				</div>
 				<div className={`detail-list flex flex-col gap-3 rounded-lg`}>
-					{listChecking &&
-						listChecking.map((value, idx) => {
+					{listChecking?.length >0 &&
+						listChecking?.map((value, idx) => {
 							return (
-								<div
-									className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
-										!value.isShow
-											? ' rounded-b-xl h-[50px]'
-											: 'bg-slate-200 pb-3'
-									} `}
-									onClick={() => handleOpenListChek(value)}
-									key={idx}
-								>
-									<div className="flex gap-2">
-										<div className=" px-2 w-fit rounded-lg">
-											<ArrowDropDownIcon />
-										</div>
-										<div className="font-bold flex items-end text-sm text-end">
-											<div>{value.day}</div>
-										</div>
+								<div>
+									<div
+										onClick={() => handleOpenListChek(value)}
+										className="bg-yellow-500 p-2"
+									>
+										Test skdfjkd {test[0].metaData[0]._id}
 									</div>
+									<div
+										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
+											!value.isShow
+												? ' rounded-b-xl h-[50px]'
+												: 'bg-slate-200 pb-3'
+										} `}
+										onClick={() => handleOpenListChek(value)}
+										key={idx}
+									>
+										<div className="flex gap-2">
+											<div className=" px-2 w-fit rounded-lg">
+												<ArrowDropDownIcon />
+											</div>
+											<div className="font-bold flex items-end text-sm text-end">
+												<div>{value.day}</div>
+											</div>
+										</div>
 
-									<div className="text-sm italic text-gray-400 flex items-end ">
-										<div>Tổng: {value.metaData?.length} câu/từ</div>
+										<div className="text-sm italic text-gray-400 flex items-end ">
+											<div>Tổng: {value.metaData?.length} câu/từ</div>
+										</div>
 									</div>
 
 									<div className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md">
