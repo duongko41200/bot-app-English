@@ -140,13 +140,8 @@ function CheckList() {
 					{listChecking &&
 						listChecking.map((value, idx) => {
 							return (
-								<div>
-									<div
-										onClick={() => handleOpenListChek(value)}
-										className="bg-yellow-500 p-2"
-									>
-										Test skdfjkd {test[0].metaData[0]._id}
-									</div>
+							<>
+
 									<div
 										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
 											!value.isShow
@@ -231,7 +226,7 @@ function CheckList() {
 												);
 											})}
 									</div>
-								</div>
+									</>
 							);
 						})}
 				</div>
