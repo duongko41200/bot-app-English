@@ -45,16 +45,19 @@ const useStyles = makeStyles({
 		fontWeight: '600',
 		color: 'GrayText',
 	},
-
+	
 	subtitleScenarios: {
 		fontSize: 18,
 		fontWeight: '700',
 		color: 'black',
 	},
 	contex: {
+		
 		fontSize: 16,
 		fontWeight: '500',
 		color: 'GrayText',
+		
+
 	},
 	score: {
 		fontSize: 30,
@@ -130,7 +133,6 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 								</CardContent>
 							</Card>
 						</Box>
-
 						<Box className={classes.buttons}>
 							<Button
 								variant="contained"
@@ -149,8 +151,7 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 							</Button>
 						</Box>
 					</div>
-
-					<div class={`card__face card__face--back `}>
+					<div class="card__face card__face--back">
 						<div class="card__content">
 							<div class="card__header">
 								{/* <div class="pp"></div> */}
@@ -185,12 +186,8 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 									resGeminiResearch?.map((value, idx) => {
 										return (
 											<Box key={idx}>
-												<Box className={classes.subtitleScenarios}>
-													{value.scenarios}
-												</Box>
-												<Box className={classes.contex}>
-													{value.example}
-												</Box>
+												<Box className={classes.subtitleScenarios}>{value.scenarios}</Box>
+												<Box className={classes.contex}>{value.example}</Box>
 											</Box>
 										);
 									})}

@@ -60,7 +60,8 @@ function CheckList() {
 		console.log({ valueCheck, listChecking });
 		let cloneListChecking = structuredClone(listChecking);
 		cloneListChecking = cloneListChecking.map((value, idx) => {
-			if (value.day === valueCheck.day) {
+			if (value.day == valueCheck.day) {
+				console.log("vaof day")
 				value.isShow = !value.isShow;
 			}
 
