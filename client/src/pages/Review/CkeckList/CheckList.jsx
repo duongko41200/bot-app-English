@@ -6,9 +6,6 @@ import TextService from '../../../services/API/tex.service';
 import { RES_DATA } from '../../../Constant/global';
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
 import { Box } from '@mui/material';
-import { ToastError } from '../../../utils/Toast.js';
-import { Toaster } from 'react-hot-toast';
-import { NOT_REQUIRED } from '../../../Constant/toast.js';
 
 function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
@@ -16,8 +13,6 @@ function CheckList() {
 	const [listChecking, setListChecking] = useState([]);
 	const [textChoose, setTextChoose] = useState('');
 	const [level, setLevel] = useState('');
-
-	const [test, setTest] = useState([]);
 
 	const fetchData = async () => {
 		try {
@@ -27,10 +22,6 @@ function CheckList() {
 			let localStorageChecking =
 				JSON.parse(localStorage.getItem('listChecking')) || [];
 			const localStorageDayPending = localStorage.getItem('dayPending');
-
-			console.log({ localStorageChecking });
-
-			setTest(localStorageChecking);
 
 			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
 			if (localStorageDayPending !== currentDay) {
@@ -66,35 +57,23 @@ function CheckList() {
 	};
 
 	const handleOpenListChek = (valueCheck) => {
-
-		console.log({valueCheck})
-		ToastError(NOT_REQUIRED);
+		console.log({ valueCheck, listChecking });
 		let cloneListChecking = structuredClone(listChecking);
-		cloneListChecking = cloneListChecking.map((value) => {
-
-			ToastError("vao trong lopp");
-			if (value.day == valueCheck.day) {
+		cloneListChecking = cloneListChecking.map((value, idx) => {
+			if (value.day === valueCheck.day) {
 				value.isShow = !value.isShow;
-				ToastError("test");
 			}
 
 			return value;
 		});
 
-		console.log({cloneListChecking})
-
-		ToastError("ra ngoai");
 		setListChecking(cloneListChecking);
 	};
 	const handleShowListTest = (value) => {
+		console.log('value text:', value);
 		setOpenModalTest(true);
 		setTextChoose(value.text);
 		setLevel(value.repeat);
-		ToastError(NOT_REQUIRED);
-	};
-
-	const testLogics = () => {
-		ToastError(NOT_REQUIRED);
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -140,29 +119,18 @@ function CheckList() {
 			</div>
 
 			<div className="wrapper-lists flex flex-col gap-3 pt-4">
-				<div
-					onClick={() => testLogics('duong')}
-					className="bg-yellow-500 p-2"
-				>
-					Test click
-				</div>
 				<div className={`detail-list flex flex-col gap-3 rounded-lg`}>
-					{listChecking?.length > 0 &&
-						listChecking?.map((value, idx) => {
+					{listChecking &&
+						listChecking.map((value, idx) => {
 							return (
 								<div key={idx}>
 									<div
-										onClick={() => handleOpenListChek(value)}
-										className="bg-yellow-500 p-2"
-									>
-										Test skdfjkd {value.day}
-									</div>
-									<div
-										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
+										className={`detail-list__top flex justify-between pt-2 px-2 rounded-t-xl bg-slate-100 border shadow-md ${
 											!value.isShow
-												? ' rounded-b-xl h-[50px]'
+												? 'pb-3 rounded-b-xl'
 												: 'bg-slate-200 pb-3'
 										} `}
+										key={idx}
 										onClick={() => handleOpenListChek(value)}
 									>
 										<div className="flex gap-2">
@@ -175,15 +143,30 @@ function CheckList() {
 										</div>
 
 										<div className="text-sm italic text-gray-400 flex items-end ">
-											<div>Tổng: {value?.metaData?.length} câu/từ</div>
+											<div>Tổng: {value.metaData?.length} câu/từ</div>
 										</div>
 									</div>
 
-									<div className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md">
-										{value?.isShow &&
-											value?.metaData?.map((value, idx) => {
+									{/* {value.isShow && ( */}
+									<motion.div
+										key="content"
+										initial="collapsed"
+										animate="open"
+										exit="collapsed"
+										variants={{
+											open: { y: 0, height: 'auto' },
+											collapsed: { y: 0, height: 0 },
+										}}
+										transition={{
+											duration: 0,
+											ease: [0.04, 0.62, 0.23, 0.98],
+										}}
+										className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md"
+									>
+										{value.metaData &&
+											value.metaData?.map((value, idx) => {
 												return (
-													<div
+													<Box
 														key={idx}
 														className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
 														onClick={() => handleShowListTest(value)}
@@ -235,10 +218,11 @@ function CheckList() {
 																Cấp {value.repeat}
 															</div>
 														</div>
-													</div>
+													</Box>
 												);
 											})}
-									</div>
+									</motion.div>
+									{/* )} */}
 								</div>
 							);
 						})}
@@ -251,7 +235,6 @@ function CheckList() {
 				text={textChoose}
 				level={level}
 			></DetailChecking>
-			<Toaster />
 		</>
 	);
 }
