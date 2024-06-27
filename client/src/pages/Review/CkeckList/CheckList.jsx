@@ -11,8 +11,8 @@ function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
 
 	const [listChecking, setListChecking] = useState([]);
-	const [textChoose, setTextChoose] = useState('')
-	const [level,setLevel] = useState('')
+	const [textChoose, setTextChoose] = useState('');
+	const [level, setLevel] = useState('');
 
 	const fetchData = async () => {
 		try {
@@ -57,7 +57,6 @@ function CheckList() {
 	};
 
 	const handleOpenListChek = (valueCheck) => {
-		console.log({ valueCheck });
 		let cloneListChecking = structuredClone(listChecking);
 		cloneListChecking = cloneListChecking.map((value) => {
 			if (value.day === valueCheck.day) {
@@ -71,8 +70,8 @@ function CheckList() {
 	};
 	const handleShowListTest = (value) => {
 		setOpenModalTest(true);
-		setTextChoose(value.text)
-		setLevel(value.repeat)
+		setTextChoose(value.text);
+		setLevel(value.repeat);
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -146,29 +145,16 @@ function CheckList() {
 										</div>
 									</div>
 
+									<div className='px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md'>
+
 									{value.isShow && (
-										<motion.div
-											key="content"
-											initial="collapsed"
-											animate="open"
-											exit="collapsed"
-											variants={{
-												open: { y: 0, height: 'auto' },
-												collapsed: { y: 0, height: 0 },
-											}}
-											transition={{
-												duration: 0,
-												ease: [0.04, 0.62, 0.23, 0.98],
-											}}
-											className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md"
-										>
-											{value.metaData &&
+										value.metaData &&
 												value.metaData?.map((value, idx) => {
 													return (
 														<Box
 															key={idx}
 															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
-															onClick={()=>handleShowListTest(value)}
+															onClick={() => handleShowListTest(value)}
 														>
 															<div className="detail-list__top flex justify-between">
 																<div className="flex gap-2">
@@ -219,9 +205,10 @@ function CheckList() {
 															</div>
 														</Box>
 													);
-												})}
-										</motion.div>
-									)}
+												})
+										
+										)}
+										</div>
 								</div>
 							);
 						})}
@@ -232,7 +219,7 @@ function CheckList() {
 				open={openModalTest}
 				closeModalBottom={closeModalBottom}
 				text={textChoose}
-				level= {level}
+				level={level}
 			></DetailChecking>
 		</>
 	);
