@@ -19,13 +19,13 @@
   
   .card {
 	width: 100%;
-	height: calc(100vh - 155px);
+	height: calc(100vh - 150px);
 	perspective: 1000px;
   }
   
   .card__inner {
 	width: 100%;
-	height: calc(100vh - 155px);
+	height: calc(100vh - 150px);
 	transition: transform 0.8s;
 	transform-style: preserve-3d;
 	cursor: pointer;
@@ -34,7 +34,7 @@
   
   .card__inner.is-flipped {
 	transform: rotateY(180deg);
-	height: 100vh;
+	height: fit-content;
   }
   
   
@@ -134,4 +134,7 @@
 	color: var(--dark);
 	font-size: 18px;
 	line-height: 1.4;
+  }
+  .zIndex{
+	z-index: 100;
   }

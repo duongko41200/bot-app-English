@@ -45,19 +45,16 @@ const useStyles = makeStyles({
 		fontWeight: '600',
 		color: 'GrayText',
 	},
-	
+
 	subtitleScenarios: {
 		fontSize: 18,
 		fontWeight: '700',
 		color: 'black',
 	},
 	contex: {
-		
 		fontSize: 16,
 		fontWeight: '500',
 		color: 'GrayText',
-		
-
 	},
 	score: {
 		fontSize: 30,
@@ -110,6 +107,8 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 		<>
 			<div class="card">
 				<div class={`card__inner ${isShowCard ? 'is-flipped' : ''}`}>
+
+					
 					<div
 						class={`card__face card__face--front ${classes.container} `}
 					>
@@ -133,25 +132,31 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 								</CardContent>
 							</Card>
 						</Box>
-						<Box className={classes.buttons}>
-							<Button
-								variant="contained"
-								color="primary"
-								className={classes.button}
-								onClick={() => setIsShowCard(!isShowCard)}
-							>
-								Tìm hiểu chi tiết
-							</Button>
-							<Button
-								variant="contained"
-								color="secondary"
-								className={classes.button}
-							>
-								Nâng cấp Level
-							</Button>
-						</Box>
+
+												<Box className={classes.buttons}>
+													
+												<Button
+													variant="contained"
+													color="primary"
+													className={classes.button}
+													onClick={() => setIsShowCard(!isShowCard)}
+												>
+													Tìm hiểu chi tiết
+												</Button>
+												<Button
+													variant="contained"
+													color="secondary"
+													className={classes.button}
+												>
+													Nâng cấp Level
+												</Button>
+											</Box>
+						
+						
+
 					</div>
-					<div class="card__face card__face--back">
+
+					<div class={`card__face card__face--back ${isShowCard ? 'zIndex' : ''}`}>
 						<div class="card__content">
 							<div class="card__header">
 								{/* <div class="pp"></div> */}
@@ -186,8 +191,12 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 									resGeminiResearch?.map((value, idx) => {
 										return (
 											<Box key={idx}>
-												<Box className={classes.subtitleScenarios}>{value.scenarios}</Box>
-												<Box className={classes.contex}>{value.example}</Box>
+												<Box className={classes.subtitleScenarios}>
+													{value.scenarios}
+												</Box>
+												<Box className={classes.contex}>
+													{value.example}
+												</Box>
 											</Box>
 										);
 									})}

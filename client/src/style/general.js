@@ -1,7 +1,7 @@
 export const styles = {
 	container: {
 		width: '100%',
-		height: 'calc(100vh - 155px)',
+		height: 'calc(100vh - 150px)',
 		background: 'linear-gradient(to bottom right, rgb(254, 254, 139), #fec948b0)',
 		border: '1px solid hsl(215, 15%, 89%)',
 		borderRadius: '30px',
