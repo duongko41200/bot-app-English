@@ -88,7 +88,7 @@ function CheckList() {
 
 	const testLogics = () => {
 		ToastError(NOT_REQUIRED);
-	}
+	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
 	};
@@ -133,11 +133,14 @@ function CheckList() {
 			</div>
 
 			<div className="wrapper-lists flex flex-col gap-3 pt-4">
-				<div onClick={()=>testLogics('duong')} className="bg-yellow-500 p-2">
+				<div
+					onClick={() => testLogics('duong')}
+					className="bg-yellow-500 p-2"
+				>
 					Test click
 				</div>
 				<div className={`detail-list flex flex-col gap-3 rounded-lg`}>
-					{listChecking?.length >0 &&
+					{listChecking?.length > 0 &&
 						listChecking?.map((value, idx) => {
 							return (
 								<div>
@@ -172,8 +175,7 @@ function CheckList() {
 
 									<div className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md">
 										{value.isShow &&
-											value.metaData &&
-											value.metaData?.map((value, idx) => {
+											value?.metaData?.map((value, idx) => {
 												return (
 													<Box
 														key={idx}
