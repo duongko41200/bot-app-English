@@ -66,18 +66,24 @@ function CheckList() {
 	};
 
 	const handleOpenListChek = (valueCheck) => {
+
+		console.log({valueCheck})
 		ToastError(NOT_REQUIRED);
 		let cloneListChecking = structuredClone(listChecking);
 		cloneListChecking = cloneListChecking.map((value) => {
-			if (value.day === valueCheck.day) {
+
+			ToastError("vao trong lopp");
+			if (value.day == valueCheck.day) {
 				value.isShow = !value.isShow;
+				ToastError("test");
 			}
 
 			return value;
 		});
 
-		ToastError(NOT_REQUIRED);
+		console.log({cloneListChecking})
 
+		ToastError("ra ngoai");
 		setListChecking(cloneListChecking);
 	};
 	const handleShowListTest = (value) => {
@@ -144,7 +150,7 @@ function CheckList() {
 					{listChecking?.length > 0 &&
 						listChecking?.map((value, idx) => {
 							return (
-								<div>
+								<div key={idx}>
 									<div
 										onClick={() => handleOpenListChek(value)}
 										className="bg-yellow-500 p-2"
@@ -158,7 +164,6 @@ function CheckList() {
 												: 'bg-slate-200 pb-3'
 										} `}
 										onClick={() => handleOpenListChek(value)}
-										key={idx}
 									>
 										<div className="flex gap-2">
 											<div className=" px-2 w-fit rounded-lg">
