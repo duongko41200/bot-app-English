@@ -140,29 +140,26 @@ function CheckList() {
 					{listChecking &&
 						listChecking.map((value, idx) => {
 							return (
-							<>
-
-									<div
-										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
-											!value.isShow
-												? ' rounded-b-xl h-[50px]'
-												: 'bg-slate-200 pb-3'
-										} `}
-										onClick={() => handleOpenListChek(value)}
-										key={idx}
-									>
-										<div className="flex gap-2">
-											<div className=" px-2 w-fit rounded-lg">
-												<ArrowDropDownIcon />
-											</div>
-											<div className="font-bold flex items-end text-sm text-end">
-												<div>{value.day}</div>
-											</div>
+								<div
+									className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
+										!value.isShow
+											? ' rounded-b-xl h-[50px]'
+											: 'bg-slate-200 pb-3'
+									} `}
+									onClick={() => handleOpenListChek(value)}
+									key={idx}
+								>
+									<div className="flex gap-2">
+										<div className=" px-2 w-fit rounded-lg">
+											<ArrowDropDownIcon />
 										</div>
-
-										<div className="text-sm italic text-gray-400 flex items-end ">
-											<div>Tổng: {value.metaData?.length} câu/từ</div>
+										<div className="font-bold flex items-end text-sm text-end">
+											<div>{value.day}</div>
 										</div>
+									</div>
+
+									<div className="text-sm italic text-gray-400 flex items-end ">
+										<div>Tổng: {value.metaData?.length} câu/từ</div>
 									</div>
 
 									<div className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md">
@@ -226,7 +223,7 @@ function CheckList() {
 												);
 											})}
 									</div>
-									</>
+								</div>
 							);
 						})}
 				</div>
