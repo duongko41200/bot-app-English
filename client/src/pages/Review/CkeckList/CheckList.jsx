@@ -11,7 +11,8 @@ function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
 
 	const [listChecking, setListChecking] = useState([]);
-	const [textChoose, setTextChoose] =useState('')
+	const [textChoose, setTextChoose] = useState('')
+	const [level,setLevel] = useState('')
 
 	const fetchData = async () => {
 		try {
@@ -69,9 +70,9 @@ function CheckList() {
 		setListChecking(cloneListChecking);
 	};
 	const handleShowListTest = (value) => {
-
 		setOpenModalTest(true);
 		setTextChoose(value.text)
+		setLevel(value.repeat)
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -230,7 +231,8 @@ function CheckList() {
 			<DetailChecking
 				open={openModalTest}
 				closeModalBottom={closeModalBottom}
-				text = {textChoose}
+				text={textChoose}
+				level= {level}
 			></DetailChecking>
 		</>
 	);

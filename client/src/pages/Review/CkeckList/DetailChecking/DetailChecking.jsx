@@ -14,7 +14,7 @@ import {
 	getGeminiAiResearch,
 } from '../../../../services/AI/Gemini';
 
-const DetailChecking = ({ open, closeModalBottom, text }) => {
+const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 	const [resGeminiResearch, setResGeminiResearch] = useState([]);
 	const {
 		question,
@@ -31,7 +31,7 @@ const DetailChecking = ({ open, closeModalBottom, text }) => {
 	const handleSaveUpdate = async () => {
 		setShowSpinner(true);
 		try {
-			const reponseOfGemini = await getGeminiAi(1, text);
+			const reponseOfGemini = await getGeminiAi(level, text);
 
 			console.log({ reponseOfGemini });
 			setQuestion(reponseOfGemini.question);
@@ -62,7 +62,7 @@ const DetailChecking = ({ open, closeModalBottom, text }) => {
 	);
 
 	const FormComponent = FORM_COMPONENTS[1];
-	const props = getProps(1, formProps);
+	const props = getProps(level, formProps);
 
 	useEffect(() => {
 		setIsSubmit(false);
@@ -76,7 +76,7 @@ const DetailChecking = ({ open, closeModalBottom, text }) => {
 
 	const getDataGeminiAi = async () => {
 		try {
-			const res = await getGeminiAiResearch(1, text);
+			const res = await getGeminiAiResearch(level, text);
 
 			setResGeminiResearch(res.data);
 		} catch (error) {
