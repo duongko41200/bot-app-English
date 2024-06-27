@@ -66,6 +66,7 @@ function CheckList() {
 	};
 
 	const handleOpenListChek = (valueCheck) => {
+		ToastError(NOT_REQUIRED);
 		let cloneListChecking = structuredClone(listChecking);
 		cloneListChecking = cloneListChecking.map((value) => {
 			if (value.day === valueCheck.day) {
@@ -145,10 +146,10 @@ function CheckList() {
 							return (
 								<div>
 									<div
-										onClick={handleOpenListChek}
+										onClick={() => handleOpenListChek(value)}
 										className="bg-yellow-500 p-2"
 									>
-										Test skdfjkd {test[0].metaData[0]._id}
+										Test skdfjkd {value.day}
 									</div>
 									<div
 										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
