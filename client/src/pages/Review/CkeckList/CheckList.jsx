@@ -6,6 +6,9 @@ import TextService from '../../../services/API/tex.service';
 import { RES_DATA } from '../../../Constant/global';
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
 import { Box } from '@mui/material';
+import { ToastError } from '../../../utils/Toast.js';
+import { Toaster } from 'react-hot-toast';
+import { NOT_REQUIRED } from '../../../Constant/toast.js';
 
 function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
@@ -66,12 +69,15 @@ function CheckList() {
 			return value;
 		});
 
+		ToastError(NOT_REQUIRED);
+
 		setListChecking(cloneListChecking);
 	};
 	const handleShowListTest = (value) => {
 		setOpenModalTest(true);
 		setTextChoose(value.text);
 		setLevel(value.repeat);
+		ToastError(NOT_REQUIRED);
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -121,15 +127,15 @@ function CheckList() {
 					{listChecking &&
 						listChecking.map((value, idx) => {
 							return (
-								<div key={idx}>
+								<div >
 									<div
 										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
 											!value.isShow
 												? ' rounded-b-xl h-[50px]'
 												: 'bg-slate-200 pb-3'
 										} `}
-										key={idx}
 										onClick={() => handleOpenListChek(value)}
+										key={idx}
 									>
 										<div className="flex gap-2">
 											<div className=" px-2 w-fit rounded-lg">
@@ -145,70 +151,67 @@ function CheckList() {
 										</div>
 									</div>
 
-									<div className='px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md'>
-
-									{value.isShow && (
-										value.metaData &&
-												value.metaData?.map((value, idx) => {
-													return (
-														<Box
-															key={idx}
-															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
-															onClick={() => handleShowListTest(value)}
-														>
-															<div className="detail-list__top flex justify-between">
-																<div className="flex gap-2">
-																	<div className="flex items-center">
-																		<div
-																			className={` ${
-																				value.typeText === 'word'
-																					? 'type-word'
-																					: 'type-sentence'
-																			} px-2 w-fit rounded-lg text-sm `}
-																		>
-																			{value.typeText === 'word'
-																				? 'Từ'
-																				: 'Câu'}
-																		</div>
-																	</div>
-
-																	{value.typeText === 'word' ? (
-																		<div className="font-bold text-sm">
-																			{value.text}
-																		</div>
-																	) : (
-																		<div className="font-bold text-sm">
-																			{value.attributes.structure}
-																		</div>
-																	)}
-																</div>
-
-																<div className="text-right min-w-[92px] text-sm">
-																	{dayjs(value.createdAt).format(
-																		'DD-MM-YYYY'
-																	)}
-																</div>
-															</div>
-															<div className="detail-list__bottom flex justify-between">
-																<div className="w-[85%] text-sm">
-																	{value.typeText === 'sentence' && (
-																		<div>{value.text}</div>
-																	)}
-																	<div className="translate text-sm">
-																		{value.defind}
+									<div className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md">
+										{value.isShow &&
+											value.metaData &&
+											value.metaData?.map((value, idx) => {
+												return (
+													<Box
+														key={idx}
+														className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
+														onClick={() => handleShowListTest(value)}
+													>
+														<div className="detail-list__top flex justify-between">
+															<div className="flex gap-2">
+																<div className="flex items-center">
+																	<div
+																		className={` ${
+																			value.typeText === 'word'
+																				? 'type-word'
+																				: 'type-sentence'
+																		} px-2 w-fit rounded-lg text-sm `}
+																	>
+																		{value.typeText === 'word'
+																			? 'Từ'
+																			: 'Câu'}
 																	</div>
 																</div>
 
-																<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
-																	Cấp {value.repeat}
+																{value.typeText === 'word' ? (
+																	<div className="font-bold text-sm">
+																		{value.text}
+																	</div>
+																) : (
+																	<div className="font-bold text-sm">
+																		{value.attributes.structure}
+																	</div>
+																)}
+															</div>
+
+															<div className="text-right min-w-[92px] text-sm">
+																{dayjs(value.createdAt).format(
+																	'DD-MM-YYYY'
+																)}
+															</div>
+														</div>
+														<div className="detail-list__bottom flex justify-between">
+															<div className="w-[85%] text-sm">
+																{value.typeText === 'sentence' && (
+																	<div>{value.text}</div>
+																)}
+																<div className="translate text-sm">
+																	{value.defind}
 																</div>
 															</div>
-														</Box>
-													);
-												})
-										
-										)}
-										</div>
+
+															<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
+																Cấp {value.repeat}
+															</div>
+														</div>
+													</Box>
+												);
+											})}
+									</div>
 								</div>
 							);
 						})}
@@ -221,6 +224,7 @@ function CheckList() {
 				text={textChoose}
 				level={level}
 			></DetailChecking>
+			<Toaster />
 		</>
 	);
 }
