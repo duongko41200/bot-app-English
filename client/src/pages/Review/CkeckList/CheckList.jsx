@@ -17,6 +17,8 @@ function CheckList() {
 	const [textChoose, setTextChoose] = useState('');
 	const [level, setLevel] = useState('');
 
+	const [test, setTest] = useState([]);
+
 	const fetchData = async () => {
 		try {
 			const currentDay = dayjs(new Date()).format('YYYY/MM/DD');
@@ -25,6 +27,10 @@ function CheckList() {
 			let localStorageChecking =
 				JSON.parse(localStorage.getItem('listChecking')) || [];
 			const localStorageDayPending = localStorage.getItem('dayPending');
+
+			console.log({ localStorageChecking });
+
+			setTest(localStorageChecking);
 
 			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
 			if (localStorageDayPending !== currentDay) {
@@ -79,6 +85,10 @@ function CheckList() {
 		setLevel(value.repeat);
 		ToastError(NOT_REQUIRED);
 	};
+
+	const testLogics = () => {
+		ToastError(NOT_REQUIRED);
+	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
 	};
@@ -123,11 +133,20 @@ function CheckList() {
 			</div>
 
 			<div className="wrapper-lists flex flex-col gap-3 pt-4">
+				<div onClick={testLogics} className="bg-yellow-500 p-2">
+					Test click
+				</div>
 				<div className={`detail-list flex flex-col gap-3 rounded-lg`}>
 					{listChecking &&
 						listChecking.map((value, idx) => {
 							return (
-								<div >
+								<div>
+									<div
+										onClick={() => handleOpenListChek(value)}
+										className="bg-yellow-500 p-2"
+									>
+										Test skdfjkd {test[0].metaData[0]._id}
+									</div>
 									<div
 										className={`detail-list__top flex justify-between items-center px-2 rounded-t-xl bg-slate-100 border shadow-md ${
 											!value.isShow
