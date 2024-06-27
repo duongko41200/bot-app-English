@@ -145,7 +145,7 @@ function CheckList() {
 							return (
 								<div>
 									<div
-										onClick={() => handleOpenListChek(value)}
+										onClick={handleOpenListChek}
 										className="bg-yellow-500 p-2"
 									>
 										Test skdfjkd {test[0].metaData[0]._id}
@@ -169,15 +169,15 @@ function CheckList() {
 										</div>
 
 										<div className="text-sm italic text-gray-400 flex items-end ">
-											<div>Tổng: {value.metaData?.length} câu/từ</div>
+											<div>Tổng: {value?.metaData?.length} câu/từ</div>
 										</div>
 									</div>
 
 									<div className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md">
-										{value.isShow &&
+										{value?.isShow &&
 											value?.metaData?.map((value, idx) => {
 												return (
-													<Box
+													<div
 														key={idx}
 														className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
 														onClick={() => handleShowListTest(value)}
@@ -229,7 +229,7 @@ function CheckList() {
 																Cấp {value.repeat}
 															</div>
 														</div>
-													</Box>
+													</div>
 												);
 											})}
 									</div>
