@@ -61,7 +61,6 @@ function CheckList() {
 		let cloneListChecking = structuredClone(listChecking);
 		cloneListChecking = cloneListChecking.map((value, idx) => {
 			if (value.day == valueCheck.day) {
-				console.log("vaof day")
 				value.isShow = !value.isShow;
 			}
 
@@ -148,82 +147,82 @@ function CheckList() {
 										</div>
 									</div>
 
-									{/* {value.isShow && ( */}
-									<motion.div
-										key="content"
-										initial="collapsed"
-										animate="open"
-										exit="collapsed"
-										variants={{
-											open: { y: 0, height: 'auto' },
-											collapsed: { y: 0, height: 0 },
-										}}
-										transition={{
-											duration: 0,
-											ease: [0.04, 0.62, 0.23, 0.98],
-										}}
-										className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md"
-									>
-										{value.metaData &&
-											value.metaData?.map((value, idx) => {
-												return (
-													<Box
-														key={idx}
-														className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
-														onClick={() => handleShowListTest(value)}
-													>
-														<div className="detail-list__top flex justify-between">
-															<div className="flex gap-2">
-																<div className="flex items-center">
-																	<div
-																		className={` ${
-																			value.typeText === 'word'
-																				? 'type-word'
-																				: 'type-sentence'
-																		} px-2 w-fit rounded-lg text-sm `}
-																	>
-																		{value.typeText === 'word'
-																			? 'Từ'
-																			: 'Câu'}
+									{value.isShow && (
+										<motion.div
+											key="content"
+											initial="collapsed"
+											animate="open"
+											exit="collapsed"
+											variants={{
+												open: { y: 0, height: 'auto' },
+												collapsed: { y: 0, height: 0 },
+											}}
+											transition={{
+												duration: 0,
+												ease: [0.04, 0.62, 0.23, 0.98],
+											}}
+											className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md"
+										>
+											{value.metaData &&
+												value.metaData?.map((value, idx) => {
+													return (
+														<Box
+															key={idx}
+															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
+															onClick={() => handleShowListTest(value)}
+														>
+															<div className="detail-list__top flex justify-between">
+																<div className="flex gap-2">
+																	<div className="flex items-center">
+																		<div
+																			className={` ${
+																				value.typeText === 'word'
+																					? 'type-word'
+																					: 'type-sentence'
+																			} px-2 w-fit rounded-lg text-sm `}
+																		>
+																			{value.typeText === 'word'
+																				? 'Từ'
+																				: 'Câu'}
+																		</div>
+																	</div>
+
+																	{value.typeText === 'word' ? (
+																		<div className="font-bold text-sm">
+																			{value.text}
+																		</div>
+																	) : (
+																		<div className="font-bold text-sm">
+																			{value.attributes.structure}
+																		</div>
+																	)}
+																</div>
+
+																<div className="text-right min-w-[92px] text-sm">
+																	{dayjs(value.createdAt).format(
+																		'DD-MM-YYYY'
+																	)}
+																</div>
+															</div>
+															<div className="detail-list__bottom flex justify-between">
+																<div className="w-[85%] text-sm">
+																	{value.typeText === 'sentence' && (
+																		<div>{value.text}</div>
+																	)}
+																	<div className="translate text-sm">
+																		{value.defind}
 																	</div>
 																</div>
 
-																{value.typeText === 'word' ? (
-																	<div className="font-bold text-sm">
-																		{value.text}
-																	</div>
-																) : (
-																	<div className="font-bold text-sm">
-																		{value.attributes.structure}
-																	</div>
-																)}
-															</div>
-
-															<div className="text-right min-w-[92px] text-sm">
-																{dayjs(value.createdAt).format(
-																	'DD-MM-YYYY'
-																)}
-															</div>
-														</div>
-														<div className="detail-list__bottom flex justify-between">
-															<div className="w-[85%] text-sm">
-																{value.typeText === 'sentence' && (
-																	<div>{value.text}</div>
-																)}
-																<div className="translate text-sm">
-																	{value.defind}
+																<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
+																	Cấp {value.repeat}
 																</div>
 															</div>
-
-															<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
-																Cấp {value.repeat}
-															</div>
-														</div>
-													</Box>
-												);
-											})}
-									</motion.div>
-									{/* )} */}
+														</Box>
+													);
+												})}
+										</motion.div>
+									)}
 								</div>
 							);
 						})}

@@ -18,7 +18,7 @@ function CustomModalMotion({
 			<motion.div
 				animate={
 					open
-						? { opacity: 0.2, zIndex: 1 }
+						? { opacity: 0.5, zIndex: 1 }
 						: { opacity: 0, display: 'none' }
 				}
 				initial={{ opacity: 0 }}
@@ -33,7 +33,7 @@ function CustomModalMotion({
 						animate="open"
 						exit="collapsed"
 						variants={{
-							open: { y: 0, height: '90%' },
+							open: { y: 0, height: 'fit-content' },
 							collapsed: { y: '100%', height: 0 },
 						}}
 						transition={{
@@ -59,7 +59,7 @@ function CustomModalMotion({
 
 							<div>
 								<div
-									className={`h-full flex flex-col min-h-[500px] max-h-[550px] overflow-auto p-${padding} bg-[${bgcolor}]`}
+									className={`h-full flex flex-col min-h-[500px] max-h-[550px] overflow-auto  p-${padding} bg-[${bgcolor}]`}
 								>
 									{children}
 
