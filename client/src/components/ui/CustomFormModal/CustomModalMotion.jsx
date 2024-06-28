@@ -40,7 +40,7 @@ function CustomModalMotion({
 							duration: 0.2,
 							ease: [0.04, 0.62, 0.23, 0.98],
 						}}
-						className="border-gray-50 fixed bottom-0 min-h-[550px] right-0 left-0 x-10 w-full rounded-t-xl border-3 z-10 border-b-0 bg-white shadow-[0px_-8px_20px_-6px_rgba(0,0,0,0.3)]"
+						className="border-gray-50 fixed bottom-0 h-fit right-0 left-0 x-10 w-full rounded-t-xl border-3 z-10 border-b-0 bg-white shadow-[0px_-8px_20px_-6px_rgba(0,0,0,0.3)]"
 					>
 						<div className="h-[90%] px-4 pt-2">
 							<div className="flex justify-between mb-2">
