@@ -1,7 +1,8 @@
 export const styles = {
 	container: {
 		width: '100%',
-		height: 'fit-content',
+		height: '100%',
+		position: 'absolute',
 		background: 'linear-gradient(to bottom right, rgb(254, 254, 139), #fec948b0)',
 		border: '1px solid hsl(215, 15%, 89%)',
 		borderRadius: '30px',

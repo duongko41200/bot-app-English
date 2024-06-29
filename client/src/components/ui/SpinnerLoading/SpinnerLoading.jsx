@@ -3,7 +3,7 @@ import './SpinnerLoading.css';
 function SpinnerLoading({ show, children }) {
 	return (
 		<>
-			<div className="relative h-screen">
+			<div className="relative min-h-[500px]">
 				{show === true && (
 					<>
 						<div className=" absolute w-full h-full flex justify-center bg-white opacity-50 items-center z-10"></div>
