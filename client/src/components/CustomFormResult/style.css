@@ -23,6 +23,7 @@
 	position: absolute;
 	perspective: 1000px;
 	overflow: auto;
+	max-width: 520px;
 	z-index: 10;
   }
   
