@@ -63,7 +63,7 @@ function CustomModalMotion({
 								>
 									{children}
 
-									<div className="mt-8 flex justify-between">
+									<div className="mt-4 flex justify-between">
 										{showRefresh && (
 											<div
 												className="border min-w-[80px] fit-w py-2 text-center rounded shadow-md font-bold bg-white border-black "
