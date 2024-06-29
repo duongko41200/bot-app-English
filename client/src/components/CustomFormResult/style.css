@@ -36,7 +36,7 @@
   
   .card__inner.is-flipped {
 	/* transform: rotateY(180deg); */
-	height: 500px;
+	/* height: 500px; */
   }
   
   
