@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import dayjs from 'dayjs';
 import TextService from '../../../services/API/tex.service';
-import { RES_DATA } from '../../../Constant/global';
+import { BG_COLOR, RES_DATA } from '../../../Constant/global';
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
 import { Box } from '@mui/material';
 
 function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
-
 	const [listChecking, setListChecking] = useState([]);
 	const [textChoose, setTextChoose] = useState('');
 	const [level, setLevel] = useState('');
@@ -70,7 +69,6 @@ function CheckList() {
 		setListChecking(cloneListChecking);
 	};
 	const handleShowListTest = (value) => {
-		console.log('value text:', value);
 		setOpenModalTest(true);
 		setTextChoose(value.text);
 		setLevel(value.repeat);
@@ -214,7 +212,11 @@ function CheckList() {
 																	</div>
 																</div>
 
-																<div className="bg-[#EDC349] text-white p-1 h-fit text-xs align-center rounded-lg">
+																<div
+																	className={`bg-[${
+																		BG_COLOR[value.repeat]
+																	}] text-white p-1 h-fit text-xs align-center rounded-lg`}
+																>
 																	Cấp {value.repeat}
 																</div>
 															</div>

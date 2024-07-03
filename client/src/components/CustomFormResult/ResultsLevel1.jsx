@@ -6,98 +6,9 @@ import {
 	Box,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import './style.css';
 import { reviewResult } from '../../Constant/DetailChecking';
-
-const useStyles = makeStyles({
-	container: {
-		// margin: '50px auto',
-		// #ffce0087, #fec948b0
-		padding: 20,
-		background: 'linear-gradient(to bottom right, #ffbb00, #fec948b0)',
-
-		display: 'flex',
-		justifyContent: 'space-between',
-		flexDirection: 'column',
-		height: '100%',
-	},
-	card: {
-		backgroundColor: '#fff',
-		borderRadius: '100%', // Khung tròn
-		boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-		padding: 10,
-		textAlign: 'center',
-		width: 'fit-content',
-		display: 'flex',
-		justifyContent: 'center',
-		flexDirection: 'column',
-		textAlign: 'center',
-	},
-	title: {
-		fontSize: 30,
-		fontWeight: 'bold',
-		marginBottom: 20,
-		textAlign: 'center',
-	},
-	subtitle: {
-		fontSize: 17,
-		fontWeight: '600',
-		color: 'GrayText',
-	},
-
-	subtitleScenarios: {
-		fontSize: 18,
-		fontWeight: '700',
-		color: 'black',
-	},
-	contex: {
-		fontSize: 16,
-		fontWeight: '500',
-		color: 'GrayText',
-	},
-	score: {
-		fontSize: 30,
-		fontWeight: 700,
-		color: 'forestgreen',
-	},
-	buttons: {
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'center',
-		marginTop: 10,
-		width: '100%',
-	},
-	buttonss: {
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'center',
-		marginTop: 10,
-	},
-	buttonsBox: {
-		display: 'flex',
-		justifyContent: 'start',
-		fontSize: '16px',
-		marginTop: 10,
-		gap: 3,
-	},
-	button: {
-		margin: 2,
-		width: '100%',
-		padding: '10px 0',
-	},
-
-	account: {
-		marginTop: 20,
-		fontSize: 12,
-		color: '#999',
-	},
-	center: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-});
+import { useStyles } from '../../style/general';
 
 function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 	const classes = useStyles();
@@ -132,7 +43,7 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 											variant="h5"
 											className={classes.subtitle}
 										>
-											{result}/3
+											{result}/{question?.length}
 										</Typography>
 									</CardContent>
 								</Card>
@@ -159,11 +70,12 @@ function ResultsLevel1({ result, question, text, resGeminiResearch }) {
 						<div class="card__face card__face--back">
 							<div class="card__content">
 								<div class="card__header">
-									{/* <div class="pp"></div> */}
 									<h3>Panda</h3>
 									<h4>
 										Đối với "<strong>{text}</strong>": Mình thấy{' '}
-										{reviewResult(Math.round((result / 3) * 100))}
+										{reviewResult(
+											Math.round((result / question?.length) * 100)
+										)}
 									</h4>
 									<Box className={classes.buttonsBox}>
 										<Button

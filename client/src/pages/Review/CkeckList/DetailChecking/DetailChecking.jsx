@@ -13,6 +13,7 @@ import {
 	getGeminiAi,
 	getGeminiAiResearch,
 } from '../../../../services/AI/Gemini';
+import { questionLevel3 } from '../../../../Constant/DetailChecking/Question/question';
 
 const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 	const [resGeminiResearch, setResGeminiResearch] = useState([]);
@@ -22,6 +23,7 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 		handleStepChange,
 		handleSelected,
 		setQuestion,
+		isCheckChangeStep,
 		setCurrentStep,
 	} = useQuiz();
 	const { isSubmit, countScore, setIsSubmit, handleSubmit } =
@@ -41,13 +43,26 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 			setShowSpinner(false);
 		}
 	};
+	const updateAnswer = (answer) => {
+		let answers = question?.map((value, idx) => {
+			if (idx === currentStep) {
+				value.answer = answer;
+			}
+
+			return value;
+		});
+
+		setQuestion(answers);
+	};
 
 	const formProps = useMemo(
 		() => ({
 			question,
+			isCheckChangeStep,
 			currentStep,
 			handleNextStep: () => handleStepChange(1),
 			handleBackStep: () => handleStepChange(-1),
+			updateAnswer,
 			handleSelected,
 			handleSaveUpdate,
 			handleSubmit,
@@ -55,24 +70,16 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 		[
 			question,
 			currentStep,
+			isCheckChangeStep,
+			updateAnswer,
 			handleStepChange,
 			handleSelected,
 			handleSubmit,
 		]
 	);
 
-	const FormComponent = FORM_COMPONENTS[1];
-	const props = getProps(level, formProps);
-
-	useEffect(() => {
-		setIsSubmit(false);
-		setCurrentStep(0);
-		setResGeminiResearch([]);
-
-		if (open) {
-			handleSaveUpdate();
-		}
-	}, [open]);
+	const FormComponent = FORM_COMPONENTS[level];
+	const props = getProps(level, formProps, text);
 
 	const getDataGeminiAi = async () => {
 		try {
@@ -85,9 +92,39 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 		}
 	};
 
+	
+	// const getGeminiAiResult = async () => {
+	// 	try {
+	// 		const res = await getGeminiAiResearch(level, text);
+
+	// 		setResGeminiResearch(res.data);
+	// 	} catch (error) {
+	// 		console.log({ error });
+	// 		setResGeminiResearch([]);
+	// 	}
+	// };
+
+	useEffect(() => {
+		setIsSubmit(false);
+		setCurrentStep(0);
+		setResGeminiResearch([]);
+		setQuestion('')
+
+		if (open) {
+			if (level === 1 || level === 2) {
+				handleSaveUpdate();
+			}
+			if (level === 3) {
+				setQuestion(questionLevel3(text));
+			}
+		}
+	}, [open]);
+
 	useEffect(() => {
 		if (isSubmit) {
-			getDataGeminiAi();
+			if (level === 1 || level === 2) {
+				getDataGeminiAi();
+			}
 		}
 	}, [isSubmit]);
 

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { questionLevel3 } from '../Constant/DetailChecking/Question/question';
 
 const initialQuestions = [
 	{
@@ -8,7 +9,7 @@ const initialQuestions = [
 			{ name: 'Sydney', isCheck: false },
 			{ name: 'Melbourne', isCheck: false },
 			{ name: 'Canberra', isCheck: false },
-		],
+		], 
 		answer: 'Canberra',
 	},
 	{
@@ -34,19 +35,24 @@ const initialQuestions = [
 ];
 
 export const useQuiz = () => {
-	const [question, setQuestion] = useState(initialQuestions);
+	const [question, setQuestion] = useState();
 	const [currentStep, setCurrentStep] = useState(0);
+	const [isCheckChangeStep, setIsCheckChangeStep] = useState(Math.floor(Math.random() * 100))
+
 
 	const handleStepChange = useCallback(
 		(stepChange) => {
 			setCurrentStep((prevStep) => {
 				const newStep = prevStep + stepChange;
-				return newStep >= 0 && newStep < question.length
+				return newStep >= 0 && newStep < question?.length
 					? newStep
 					: prevStep;
 			});
+
+			console.log("change step",isCheckChangeStep)
+			setIsCheckChangeStep(Math.floor(Math.random() * 100))
 		},
-		[question.length]
+		[question?.length]
 	);
 
 	const handleSelected = useCallback(
@@ -61,6 +67,7 @@ export const useQuiz = () => {
 				}));
 				return updatedQuestions;
 			});
+		
 		},
 		[currentStep]
 	);
@@ -71,6 +78,7 @@ export const useQuiz = () => {
 		handleStepChange,
 		handleSelected,
 		setQuestion,
-		setCurrentStep
+		setCurrentStep,
+		isCheckChangeStep
 	};
 };

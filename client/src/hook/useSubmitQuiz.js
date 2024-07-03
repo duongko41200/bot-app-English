@@ -4,7 +4,6 @@ export const useSubmitQuiz = (question) => {
     const [isSubmit, setIsSubmit] = useState(false);
     const [countScore, setCountScore] = useState(0);
 
-    console.log("question",question)
 
     const handleSubmit = useCallback(async() => {
         const correctAnswersCount = question.reduce((count, q) => {
