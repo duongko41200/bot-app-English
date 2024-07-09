@@ -25,5 +25,6 @@ router.get(
 router.delete('/delete', asyncHandle(TextFormController.deleteText));
 router.patch('/update-id', asyncHandle(TextFormController.updateTextbyId));
 router.get('/listPending', asyncHandle(TextFormController.getPendingReview));
+router.patch('/update-level', asyncHandle(TextFormController.updateLevelText));
 
 module.exports = router;

@@ -11,7 +11,12 @@ function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
 	const [listChecking, setListChecking] = useState([]);
 	const [textChoose, setTextChoose] = useState('');
+	const [define, setDefine] = useState('');
+	const [idText, setIdText] = useState('');
 	const [level, setLevel] = useState('');
+	const [dayReview, setDayReview] = useState('')
+	
+	const [valueReview, setValueReview] = useState('')
 
 	const fetchData = async () => {
 		try {
@@ -72,6 +77,11 @@ function CheckList() {
 		setOpenModalTest(true);
 		setTextChoose(value.text);
 		setLevel(value.repeat);
+		setDefine(value.defind);
+		setIdText(value._id);
+		setDayReview(value.dayReview)
+
+		setValueReview(value)
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -236,6 +246,12 @@ function CheckList() {
 				closeModalBottom={closeModalBottom}
 				text={textChoose}
 				level={level}
+				define={define}
+				idText={idText}
+				dayReview={dayReview}
+
+				valueReview={valueReview}
+				setListChecking={setListChecking}
 			></DetailChecking>
 		</>
 	);

@@ -21,7 +21,6 @@ const MainDash = () => {
 					<div className="sub-heading--size">Tổng quan</div>
 				</div>
 				<Cards />
-				{/* <Table /> */}
 				<Bars />
 				<RightSide />
 			</div>

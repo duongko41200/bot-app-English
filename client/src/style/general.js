@@ -181,3 +181,24 @@ export const useStyles = makeStyles({
 		alignItems: 'center',
 	},
 });
+
+export const useStylesResearch3 = makeStyles({
+	subComment: {
+		fontSize: 16,
+		fontWeight: '700',
+		color: 'black',
+	},
+	contex: {
+		fontSize: 16,
+		fontWeight: '500',
+		color: 'GrayText',
+	},
+
+	wraperBox: {
+		background: '#25b09b2b',
+		padding: '8px 12px',
+		borderRadius: '8px',
+		border: '1px solid #dae2ed',
+		boxShadow: ' 0px 3px 4px #fff',
+	},
+});

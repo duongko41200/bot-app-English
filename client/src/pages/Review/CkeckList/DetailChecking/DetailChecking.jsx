@@ -2,20 +2,31 @@ import React, { useEffect, useState, useMemo } from 'react';
 import CustomModalMotion from '../../../../components/ui/CustomFormModal/CustomModalMotion';
 import { Box } from '@mui/material';
 import SpinnerLoading from '../../../../components/ui/SpinnerLoading/SpinnerLoading';
-import ResultsLevel1 from '../../../../components/CustomFormResult/ResultsLevel1';
-import {
-	FORM_COMPONENTS,
-	getProps,
-} from '../../../../Constant/DetailChecking';
+import ResultsLevel1 from '../../../../components/CustomFormResult/ResultsLevel';
+import { getProps } from '../../../../Constant/DetailChecking';
 import { useQuiz } from '../../../../hook/useQuiz';
 import { useSubmitQuiz } from '../../../../hook/useSubmitQuiz';
 import {
 	getGeminiAi,
 	getGeminiAiResearch,
 } from '../../../../services/AI/Gemini';
-import { questionLevel3 } from '../../../../Constant/DetailChecking/Question/question';
+import {
+	questionLevel3,
+	questionLevel4,
+} from '../../../../Constant/DetailChecking/Question/question';
+import { FORM_COMPONENTS } from '../../../../Constant/DetailChecking/maneger-component';
 
-const DetailChecking = ({ open, closeModalBottom, text, level }) => {
+const DetailChecking = ({
+	open,
+	closeModalBottom,
+	text,
+	level,
+	define,
+	idText,
+	dayReview,
+	valueReview,
+	setListChecking,
+}) => {
 	const [resGeminiResearch, setResGeminiResearch] = useState([]);
 	const {
 		question,
@@ -27,7 +38,7 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 		setCurrentStep,
 	} = useQuiz();
 	const { isSubmit, countScore, setIsSubmit, handleSubmit } =
-		useSubmitQuiz(question);
+		useSubmitQuiz(question, level);
 	const [showSpinner, setShowSpinner] = useState(false);
 
 	const handleSaveUpdate = async () => {
@@ -92,23 +103,24 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 		}
 	};
 
-	
-	// const getGeminiAiResult = async () => {
-	// 	try {
-	// 		const res = await getGeminiAiResearch(level, text);
+	const geminiAiResultLevel3 = async () => {
+		try {
+			console.log({ question });
 
-	// 		setResGeminiResearch(res.data);
-	// 	} catch (error) {
-	// 		console.log({ error });
-	// 		setResGeminiResearch([]);
-	// 	}
-	// };
+			const res = await getGeminiAiResearch(level, question);
+
+			setResGeminiResearch(res.data);
+		} catch (error) {
+			console.log({ error });
+			setResGeminiResearch([]);
+		}
+	};
 
 	useEffect(() => {
 		setIsSubmit(false);
 		setCurrentStep(0);
 		setResGeminiResearch([]);
-		setQuestion('')
+		setQuestion('');
 
 		if (open) {
 			if (level === 1 || level === 2) {
@@ -117,6 +129,9 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 			if (level === 3) {
 				setQuestion(questionLevel3(text));
 			}
+			if (level === 4) {
+				setQuestion(questionLevel4(text, define));
+			}
 		}
 	}, [open]);
 
@@ -124,6 +139,9 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 		if (isSubmit) {
 			if (level === 1 || level === 2) {
 				getDataGeminiAi();
+			}
+			if (level === 3 || level === 4) {
+				geminiAiResultLevel3();
 			}
 		}
 	}, [isSubmit]);
@@ -146,6 +164,12 @@ const DetailChecking = ({ open, closeModalBottom, text, level }) => {
 							result={countScore}
 							question={question}
 							text={text}
+							level={level}
+							idText={idText}
+							dayReview={dayReview}
+							valueReview={valueReview}
+							setListChecking={setListChecking}
+							closeModalBottom={closeModalBottom}
 							resGeminiResearch={resGeminiResearch}
 						/>
 					)

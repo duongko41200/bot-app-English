@@ -24,6 +24,18 @@ const ruleQues2 = (text) => {
 
 	return roleAll;
 };
+const ruleQues3 = (text) => {
+
+	const rule1 = `General comments on the question and answer of this quesstion 1: ${text[0].questions} - answer 1: ${text[0].answer},  quesstion 2: ${text[1].questions} - answer 2: ${text[1].answer}, to see if they are compatible with each other and If not correct, please explain why it is incorrect `;
+	const rule2 = `with correct: if the answer is not grammatically correct or not appropriate to the question. Analyze the points that didn't correct and recoment suggestions to avoid mistakes`;
+	const rule3 = `with reference: Write corfect answers for each question:quesstion 1: ${text[0].questions} - answer 1: ${text[0].answer},  quesstion 2: ${text[1].questions} - answer 2: ${text[1].answer}`;
+	const rule4 = `with score: I want you to evaluate the fit between the question and the answer. on a scale of 1 to 10: ${text[0].questions} - answer 1: ${text[0].answer},  quesstion 2: ${text[1].questions} - answer 2: ${text[1].answer}`
+	const rule = `You are an English master.`;
+
+	const roleAll = `${rule}. ${rule1}. ${rule2}. ${rule3}. ${rule4}`;
+
+	return roleAll;
+};
 
 const getRule = (level, text) => {
 	switch (level) {
@@ -50,7 +62,7 @@ const promptExam = (level, text) => {
 			return `you are a quiz master. generate 3 random questions about ${getRule(
 				level,
 				text
-			)} with 3 multiple choice answers. Also provide the answer separately. The response should be in the following FORMAT:{"question":[{"id":0,"questions":"", "options":[{"name": "option1","isCheck":false},...],"answer":""},...}]}. Note: Same output as FORMAT, do not add any other characters and Set the isCheck property to false`;
+			)} with 3 multiple choice answers. Also provide the answer separately. The response should be in the following FORMAT:{"question":[{"id":0,"questions":"", "options":[{"name": "option1","isCheck":false},...],"answer":""},...}]}. Note:Identical to FORMAT and do not add any other characters and Set the isCheck property to false`;
 		case 3:
 			return;
 
@@ -64,8 +76,9 @@ const promptResearch = (level, text) => {
 		case 1:
 		case 2:
 			return `I want 3-5 scenarios for using the phrase '${text}'. The response should be in the following FORMAT:{"data":[{"id":0,"scenarios":"", "example":""]}. Note: Same output as FORMAT and do Not add any other characters and ${ruleResult1()}`;
-		// case 2:
-		// 	return;
+		case 3:
+		case 4 :
+			return `The response should be in the following FORMAT:{"data":[{"comment":"", "correct":"", "reference":"","score":""}]}. Note: Identical to FORMAT and do Not add any other characters and ${ruleQues3(text)}`;
 
 		default:
 			break;

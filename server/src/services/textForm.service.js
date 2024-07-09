@@ -9,6 +9,7 @@ const {
 	deleteText,
 	updateTextById,
 	pendingReview,
+	updateLevelText,
 } = require('../models/respositories/text.repo');
 const dayjs = require('dayjs');
 
@@ -74,6 +75,13 @@ class TextFormFactory {
 			level,
 			date,
 			typeText,
+			model: text,
+		});
+	}
+
+	static async updateLevelText(request) {
+		return await updateLevelText({
+			...request,
 			model: text,
 		});
 	}

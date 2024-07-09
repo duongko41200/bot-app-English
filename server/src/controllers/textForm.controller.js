@@ -48,7 +48,7 @@ class TextFormController {
 	};
 
 	deleteText = async (req, res, next) => {
-		console.log("request:",req.query)
+		console.log('request:', req.query);
 		new SuccessResponse({
 			message: 'delete textFrom success!',
 			metadata: await TextFormService.deleteText({
@@ -63,28 +63,37 @@ class TextFormController {
 		}).send(res);
 	};
 
-	updateTextbyId= async (req, res, next) => {
-		console.log("request:::",req.body)
+	updateTextbyId = async (req, res, next) => {
+		console.log('request:::', req.body);
 		new SuccessResponse({
 			message: 'update text success!',
 			metadata: await TextFormService.updateTextbyId({
 				userId: req.user.userId,
 				textId: req.body.textId,
 				textName: req.body.text,
-				defind:req.body.defind,
+				defind: req.body.defind,
 				typeText: req.body.typeText,
-				attributes:req.body.attributes,
+				attributes: req.body.attributes,
 				topicId: req.body.topicId,
-				
 			}),
 		}).send(res);
 	};
 
-	getPendingReview= async (req, res, next) => {
-		// console.log("request:::",req.body)
+	updateLevelText = async (req, res, next) => {
+		console.log('request:::', req.body);
+
+		new SuccessResponse({
+			message: 'update text success!',
+			metadata: await TextFormService.updateLevelText(req.body),
+		}).send(res);
+	};
+
+	getPendingReview = async (req, res, next) => {
 		new SuccessResponse({
 			message: 'Get list pending success!',
-			metadata: await TextFormService.pendingReview({	userId: req.user.userId,}),
+			metadata: await TextFormService.pendingReview({
+				userId: req.user.userId,
+			}),
 		}).send(res);
 	};
 

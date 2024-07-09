@@ -10,7 +10,10 @@ import {
 	getAllText,
 } from '../../../store/feature/word';
 import SpinnerLoading from '../../../components/ui/SpinnerLoading/SpinnerLoading';
-import { LIMIT_LIST_TEXT_OF_PAGE, LIMIT_TEXT_OF_PAGE } from '../../../Constant/global';
+import {
+	LIMIT_LIST_TEXT_OF_PAGE,
+	LIMIT_TEXT_OF_PAGE,
+} from '../../../Constant/global';
 
 const RightSide = () => {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -21,10 +24,11 @@ const RightSide = () => {
 	const dispatch = useDispatch();
 
 	const handleChangePage = async (event, value) => {
-		
 		if (currentPage != value) {
 			setIsShow(true);
-			await dispatch(getAllText({ page: value,limit:LIMIT_LIST_TEXT_OF_PAGE }));
+			await dispatch(
+				getAllText({ page: value, limit: LIMIT_LIST_TEXT_OF_PAGE })
+			);
 			setIsShow(false);
 			setCurrentPage(value);
 		}
@@ -40,7 +44,10 @@ const RightSide = () => {
 		} else {
 			setIsShow(true);
 			await dispatch(
-				getAllText({ page: currentPage, limit: LIMIT_LIST_TEXT_OF_PAGE })
+				getAllText({
+					page: currentPage,
+					limit: LIMIT_LIST_TEXT_OF_PAGE,
+				})
 			);
 			setIsShow(false);
 		}
@@ -57,7 +64,6 @@ const RightSide = () => {
 						<div className="title-bar">Câu/từ đã nạp</div>
 						<div className="title-detail !no-underline">
 							<Stack spacing={2}>
-								{/* <Pagination count={10} shape="rounded" /> */}
 								<Pagination
 									count={Number(totalPages)}
 									variant="outlined"

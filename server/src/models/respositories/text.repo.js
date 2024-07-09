@@ -21,7 +21,6 @@ const findAllInfoText = async ({ model, query, limit, page }) => {
 		resDataPromise,
 	]);
 
-
 	return {
 		total: count,
 		// count: AllRecords.length,
@@ -111,9 +110,7 @@ const deleteText = async ({
 };
 
 const updateTextById = async ({
-	userId,
 	textId,
-	typeText,
 	textName,
 	defind,
 	attributes,
@@ -163,6 +160,26 @@ const getAllTopc = async () => {
 	return await TopicModel.find();
 };
 
+const updateLevelText = async ({
+	textId,
+	repeat,
+	dayReview,
+	model,
+}) => {
+	try {
+		const textUpdate = await model.findOneAndUpdate(
+			{ _id: textId },
+			{ repeat, dayReview },
+			{ new: true }
+		);
+
+		return { contents: textUpdate };
+	} catch (error) {
+		console.log({ error });
+		throw error;
+	}
+};
+
 module.exports = {
 	findAllInfoText,
 	createTopic,
@@ -171,4 +188,5 @@ module.exports = {
 	deleteText,
 	updateTextById,
 	pendingReview,
+	updateLevelText,
 };

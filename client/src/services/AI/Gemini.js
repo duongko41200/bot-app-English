@@ -28,6 +28,8 @@ const getGeminiAiResearch = async (level, texts) => {
 		model: 'gemini-1.5-flash',
 	});
 	const prompt = promptResearch(level, texts);
+
+	console.log({prompt})
 	const result = await model.generateContent(prompt);
 	const response = result.response;
 	const text = await response.text();

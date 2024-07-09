@@ -22,7 +22,6 @@ function FormWritting({
 	};
 
 	useEffect(() => {
-		console.log('duong abc', question, currentStep, isCheckChangeStep);
 		setAnswer(question ? question[currentStep]?.answer : '');
 	}, [isCheckChangeStep]);
 

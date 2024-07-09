@@ -105,7 +105,20 @@ const TextService = {
 			},
 			{}
 		);
-	}
+	},
+
+	updateLevelText({ textId, repeat, dayReview }) {
+		return ApiService.patch(
+			`${serviceURL}/update-level`,
+			{ textId, repeat, dayReview },
+
+			{
+				'x-api-key': import.meta.env.APP_API_KEY,
+				'x-client-id': localStorage.getItem('userId'),
+				authorization: localStorage.getItem('accessToken'),
+			}
+		);
+	},
 };
 
 export default TextService;
