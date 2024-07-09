@@ -44,7 +44,6 @@ function ModalDetailText({
 	};
 
 	const handleVolumeClick = () => {
-		audioRef.current.play();
 
 		let speech = new SpeechSynthesisUtterance();
 		window.speechSynthesis.cancel();
