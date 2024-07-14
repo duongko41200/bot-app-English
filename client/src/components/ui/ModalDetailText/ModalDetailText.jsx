@@ -53,7 +53,7 @@ function ModalDetailText({
 		speech.volume = 1;
 		// speech.voice = 1;
 		speech.rate = 1;
-		speech.pitch = 1.5;
+		speech.pitch = 1;
 
 		window.speechSynthesis.speak(speech);
 	};
