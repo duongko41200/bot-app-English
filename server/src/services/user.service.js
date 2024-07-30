@@ -37,8 +37,6 @@ const getAllWithQuery = async ({ filter, range, sort }) => {
 	//   ])
 	// );
 
-
-
 	const res = await userModel
 		.find()
 		.sort({ _id: sortOrder === 'ASC' ? 1 : -1 })
@@ -46,12 +44,24 @@ const getAllWithQuery = async ({ filter, range, sort }) => {
 		.limit((end || 0) - (start || 0) + 1)
 		.exec();
 
-	console.log({ res });
-
 	return res;
+};
+
+const getOneById = async (id) => {
+	try {
+		const res = await userModel.findOne({ _id: id }).lean();
+		console.log({ res });
+
+		return res;
+	} catch (error) {
+		console.log('lỗi rồi:', error);
+
+		return []
+	}
 };
 
 module.exports = {
 	findByEmail,
 	getAllWithQuery,
+	getOneById,
 };

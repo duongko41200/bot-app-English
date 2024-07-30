@@ -33,6 +33,28 @@ class TextFormController {
 		}).send(res);
 	};
 
+	getAllWithQuery = async (req, res, next) => {
+		const params = req.query;
+
+		console.log({ params });
+		const filter = JSON.parse(params.filter);
+
+		const range = JSON.parse(params.range);
+
+		const sort = JSON.parse(params.sort);
+		const userId = req.user.userId;
+
+		new SuccessResponse({
+			message: 'get all textFrom success!',
+			metadata: await TextFormService.getAllWithQuery({
+				filter,
+				range,
+				sort,
+				userId,
+			}),
+		}).send(res);
+	};
+
 	getListTextByFilter = async (req, res, next) => {
 		new SuccessResponse({
 			message: 'creat list textFrom success!',
@@ -85,6 +107,15 @@ class TextFormController {
 		new SuccessResponse({
 			message: 'update text success!',
 			metadata: await TextFormService.updateLevelText(req.body),
+		}).send(res);
+	};
+
+	synchDataText = async (req, res, next) => {
+		console.log('request:::', req.body);
+
+		new SuccessResponse({
+			message: 'update text success!',
+			metadata: await TextFormService.synchDataText(req.body),
 		}).send(res);
 	};
 

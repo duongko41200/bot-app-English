@@ -1,8 +1,9 @@
 'use strict';
-
+const mongoose = require('mongoose');
 const safetyCount = require('../../helpers/safetyCount');
 const { text, word, sentence } = require('../../models/textform.model');
 const TopicModel = require('../../models/topic.model');
+const { Types } = mongoose;
 const dayjs = require('dayjs');
 
 const findAllInfoText = async ({ model, query, limit, page }) => {
@@ -180,6 +181,111 @@ const updateLevelText = async ({
 	}
 };
 
+const synchData = async ({
+	dataCreate,
+	dataDelete,
+	dataUpdate,
+	model,
+}) => {
+	const bulkOperations = [];
+
+	console.log('kdjfksjdkf');
+
+	console.log({ dataCreate, dataDelete, dataUpdate });
+	try {
+		let dataCreates = JSON.parse(dataCreate) ?? [];
+		let dataDeletes = JSON.parse(dataDelete) ?? [];
+		let dataUpdates = JSON.parse(dataUpdate) ?? [];
+
+		console.log({ dataCreates, dataDeletes, dataUpdates });
+
+		if (dataCreates.length > 0) {
+			dataCreates = dataCreates.map((value) => {
+				delete value._id;
+
+				return value;
+			});
+		}
+
+		if (dataCreates.length > 0) {
+			dataCreates.forEach((doc) => {
+				bulkOperations.push({ insertOne: { document: doc } });
+			});
+		}
+
+		if (dataUpdates.length > 0) {
+			dataUpdates.forEach((doc) => {
+				bulkOperations.push({
+					updateOne: {
+						filter: { _id: doc._id },
+						update: { $set: doc },
+						upsert: true,
+					},
+				});
+			});
+		}
+
+		if (dataDeletes.length > 0) {
+			dataDeletes.forEach((doc) => {
+				bulkOperations.push({
+					deleteOne: {
+						filter: { _id: doc._id },
+					},
+				});
+			});
+		}
+
+
+		const result = await model.bulkWrite(bulkOperations);
+
+		return 'ok';
+	} catch (error) {
+		console.error('Error performing bulk operations:', error);
+	}
+};
+
+const getAllWithQuery = async ({
+	filter,
+	range,
+	sort,
+	userId,
+	model,
+}) => {
+	const [sortField, sortOrder] = sort;
+	const [start, end] = range;
+
+	console.log({ sort });
+
+	// console.log()
+	// const [sortField, sortOrder] = sort;
+	// const [start, end] = range;
+
+	// const whereClause = Object.fromEntries(
+	//   Object.entries(filter).map(([key, value]) => [
+	//     key,
+	//     {
+	//       search: (value)
+	//         .trim()
+	//         .split(' ')
+	//         .map((word) => `${word} ${word}*`.toLowerCase())
+	//         .join(' '),
+	//     },
+	//   ])
+	// );
+
+	try {
+		const res = await model
+			.find({ _id: userId })
+			.sort({ _id: sortOrder === 'ASC' ? 1 : -1 })
+			.skip(start || 0)
+			.limit((end || 0) - (start || 0) + 1)
+			.exec();
+		return res;
+	} catch (error) {
+		console.log('error:', error);
+	}
+};
+
 module.exports = {
 	findAllInfoText,
 	createTopic,
@@ -189,4 +295,6 @@ module.exports = {
 	updateTextById,
 	pendingReview,
 	updateLevelText,
+	getAllWithQuery,
+	synchData,
 };

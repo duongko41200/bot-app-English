@@ -15,6 +15,6 @@ router.use(authenticationV2);
 router.get('/', asyncHandle(userController.getAllWithQuery));
 
 // QUERY
-router.get('/all', asyncHandle(TopicController.getAllTopic));
+router.get('/:id', asyncHandle(userController.getOneById));
 
 module.exports = router;

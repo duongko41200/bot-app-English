@@ -18,6 +18,9 @@ router.post(
 
 // QUERY
 router.get('/all', asyncHandle(TextFormController.getAllInfoText));
+router.get('/get-all', asyncHandle(TextFormController.getAllInfoText));
+
+router.get('/', asyncHandle(TextFormController.getAllWithQuery));
 router.get(
 	'/review',
 	asyncHandle(TextFormController.getListTextByFilter)
@@ -26,5 +29,6 @@ router.delete('/delete', asyncHandle(TextFormController.deleteText));
 router.patch('/update-id', asyncHandle(TextFormController.updateTextbyId));
 router.get('/listPending', asyncHandle(TextFormController.getPendingReview));
 router.patch('/update-level', asyncHandle(TextFormController.updateLevelText));
+router.post('/synch', asyncHandle(TextFormController.synchDataText));
 
 module.exports = router;

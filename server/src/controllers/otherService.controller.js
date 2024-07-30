@@ -23,7 +23,6 @@ class OtherController {
 			text
 		)}`;
 
-		// Sử dụng Axios để gọi API và nhận dữ liệu trả về
 		const data = await axios.get(url, { responseType: 'arraybuffer' });
 
 		const audioData = Buffer.from(data.data, 'binary').toString(

@@ -114,6 +114,8 @@ function FormWord() {
 			...wordText,
 			typeText,
 		};
+
+		console.log({ paramData });
 		try {
 			setIsShow(true);
 
@@ -136,15 +138,12 @@ function FormWord() {
 				Math.ceil((total + 1) / parseInt(LIMIT_LIST_TEXT_OF_PAGE))
 			);
 
-
 			////
 			// 1. Danh sach hien dau tien
 
-			
 			// let listRievew = JSON.parse(localStorage.getItem('listReview'));
 
 			// console.log({ listRievew })
-			
 
 			// if (listRievew.length >= LIMIT_LIST_TEXT_OF_PAGE) {
 			// 	listRievew.unshift(createWord[RES_DATA].metadata);
@@ -160,12 +159,7 @@ function FormWord() {
 			// );
 			// let total = parseInt(localStorage.getItem('total'));
 
-
-
 			// 2. tong tat cac  riview
-
-
-
 
 			/// nhiều thiết bị đòng bộ localStorage ==> khi thiết bị khác dăng nhập thì sẽ cập nhập lại localSTroge ==>
 			// khi đăng nhập thiết bị khác thì thiết bị còn lại sẽ bị logout _ cái này có rồi xem midleware của axios

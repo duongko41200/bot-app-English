@@ -5,7 +5,7 @@ const {
 	createTopic,
 	getAllTopc,
 } = require('../models/respositories/text.repo.js');
-const { getAllWithQuery } = require('../services/user.service.js');
+const { getAllWithQuery,getOneById } = require('../services/user.service.js');
 
 class UserController {
 	createTopic = async (req, res, next) => {
@@ -24,11 +24,6 @@ class UserController {
 		const params = req.query;
 
 		console.log({ params });
-
-		// let { filter, range, sort } = params;
-
-		// console.log({ filter, range, sort });
-
 		const filter = JSON.parse(params.filter);
 
 		const range = JSON.parse(params.range);
@@ -40,6 +35,16 @@ class UserController {
 			metadata: await getAllWithQuery({ filter, range, sort }),
 		}).send(res);
 	};
+
+	getOneById = async (req, res, next) => {
+		const params = req.params.id;
+
+		new SuccessResponse({
+			message: 'user find success!',
+			metadata: await getOneById(params),
+		}).send(res);
+	};
+
 	//END QUERY
 }
 

@@ -22,7 +22,7 @@ class TopicController {
 	// //QUERY//
 
 	getAllTopic = async (req, res, next) => {
-		console.log('data req:', req.body);
+		// console.log('data req:', req.body);
 
 		new SuccessResponse({
 			message: 'creat new textFrom success!',

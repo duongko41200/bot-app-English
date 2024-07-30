@@ -10,6 +10,8 @@ const {
 	updateTextById,
 	pendingReview,
 	updateLevelText,
+	getAllWithQuery,
+	synchData
 } = require('../models/respositories/text.repo');
 const dayjs = require('dayjs');
 
@@ -37,6 +39,43 @@ class TextFormFactory {
 
 		console.log('limit:', limit, page);
 		return await findAllInfoText({ query, limit, page, model: text });
+	}
+
+	static async getAllWithQuery({ filter, range, sort, userId }) {
+		console.log({ filter, range, sort, userId });
+		const [sortField, sortOrder] = sort;
+		const [start, end] = range;
+
+		console.log({ sort });
+
+		// console.log()
+		// const [sortField, sortOrder] = sort;
+		// const [start, end] = range;
+
+		// const whereClause = Object.fromEntries(
+		//   Object.entries(filter).map(([key, value]) => [
+		//     key,
+		//     {
+		//       search: (value)
+		//         .trim()
+		//         .split(' ')
+		//         .map((word) => `${word} ${word}*`.toLowerCase())
+		//         .join(' '),
+		//     },
+		//   ])
+		// );
+
+		try {
+			const res = await text
+				.find({ userId: userId })
+				.sort({ _id: sortOrder === 'ASC' ? 1 : -1 })
+				// .skip(start || 0)
+				// .limit((end || 0) - (start || 0) + 1)
+				.exec();
+			return res;
+		} catch (error) {
+			console.log('error:', error);
+		}
 	}
 
 	static async findListTextByFilter({
@@ -81,6 +120,12 @@ class TextFormFactory {
 
 	static async updateLevelText(request) {
 		return await updateLevelText({
+			...request,
+			model: text,
+		});
+	}
+	static async synchDataText(request) {
+		return await synchData({
 			...request,
 			model: text,
 		});
