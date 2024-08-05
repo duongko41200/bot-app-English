@@ -128,6 +128,17 @@ class TextFormController {
 		}).send(res);
 	};
 
+	getAll = async (req, res, next) => {
+
+		console .log("id user",req.user.userId)
+		new SuccessResponse({
+			message: 'Get all list success!',
+			metadata: await TextFormService.getAll({
+				userId: req.user.userId,
+			}),
+		}).send(res);
+	};
+
 	//END QUERY
 }
 

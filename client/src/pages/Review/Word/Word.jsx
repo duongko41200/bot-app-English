@@ -29,6 +29,7 @@ import {
 import { TextField } from '@mui/material';
 import ModalCustomTopic from '../../../components/ui/ModalCustom/ModalCustomTopic';
 import ModalCustomPhonetic from '../../../components/ui/ModalCustom/ModalCustomPhonetic';
+import { functionPagination } from '../../../utils/pagination';
 
 function Word() {
 	const [currentPage, setCurrentPage] = useState(1);
@@ -38,9 +39,7 @@ function Word() {
 	const [topics, setTopics] = useState([]);
 	const currentYear = new Date().getFullYear();
 	const currentMonth = new Date().getMonth() + 1;
-	const [selectedMonth, setSelectedMonth] = useState(
-		currentMonth.toString()
-	);
+	const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 	const [selectedYear, setSelectedYear] = useState(
 		currentYear.toString()
 	);
@@ -53,18 +52,16 @@ function Word() {
 	const [topicSelected, setTopicSelected] = useState({});
 	const [phoneTic, setPhoneTic] = useState('');
 
+	const [listData, setListData] = useState([]);
+	const [totalText, setTotalText] = useState('');
+
+	const [totalPages, setTotalPages] = useState(0);
+	const [allDataText, setAllDataText] = useState([]);
+
 	/// REDUX ////
 
 	const dispatch = useDispatch();
-	const totalPages = useSelector(
-		(state) => state.wordStore.totalPagesReview
-	);
-	const listData = useSelector(
-		(state) => state.wordStore.listTextReview
-	);
-	const totalText = useSelector(
-		(state) => state.wordStore.totalListTextReview
-	);
+
 	const open = useSelector(
 		(state) => state.generalStore.openModalBottom
 	);
@@ -73,47 +70,11 @@ function Word() {
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
 			setIsShow(true);
-
 			setCurrentPage(value);
-			await dispatch(
-				SET_ELEMENT_FILTER({
-					content: value,
-					type: 'page',
-				})
-			);
-
-			await dispatch(
-				getListTextByFilter({
-					page: value,
-					limit: LIMIT_LIST_TEXT_OF_PAGE,
-					level: currentLevel,
-					typeText: currentTypeText,
-					date: `${selectedYear}-${selectedMonth}`,
-				})
-			);
+			const dataFilterPage = await functionPagination(value, listData);
+			setListData(dataFilterPage);
 			setIsShow(false);
 		}
-	};
-
-	const getListData = async () => {
-		setIsShow(true);
-		dispatch(
-			SET_ELEMENT_FILTER({
-				content: 1,
-				type: 'page',
-			})
-		);
-		await dispatch(
-			getListTextByFilter({
-				page: '1',
-				limit: LIMIT_LIST_TEXT_OF_PAGE,
-				level: currentLevel,
-				typeText: currentTypeText,
-				date: `${selectedYear}-${selectedMonth}`,
-			})
-		);
-		setIsShow(false);
-		// }
 	};
 
 	const handleShowModalDetail = (textId) => {
@@ -299,9 +260,37 @@ function Word() {
 	};
 
 	useEffect(() => {
-		setCurrentPage(1);
+		const getData = JSON.parse(localStorage.getItem('textData')) ?? [];
+		let allDataTextClone = structuredClone(getData);
 
-		getListData();
+		if (currentLevel != 'all') {
+			allDataTextClone = allDataTextClone.filter(
+				(value) => value.repeat == currentLevel
+			);
+		}
+		if (currentTypeText != 'all') {
+			allDataTextClone = allDataTextClone.filter(
+				(value) => value.typeText == currentTypeText
+			);
+		}
+
+		allDataTextClone = allDataTextClone.filter((value) => {
+			return (
+				dayjs(value.createdAt).format('YYYY-M') ==
+				`${selectedYear}-${selectedMonth}`
+			);
+		});
+		console.log(' currentMonth', currentMonth);
+
+		const dataFilterPage = functionPagination(
+			currentPage,
+			allDataTextClone
+		);
+		setListData(dataFilterPage);
+		setTotalText(allDataTextClone?.length ?? 0);
+		setTotalPages(
+			Math.ceil(allDataTextClone?.length / LIMIT_LIST_TEXT_OF_PAGE)
+		);
 	}, [selectedMonth, currentLevel, currentTypeText, selectedYear]);
 	return (
 		<>
@@ -321,12 +310,6 @@ function Word() {
 											value={currentLevel}
 											onChange={(e) => {
 												setCurrentLevel(e.target.value);
-												dispatch(
-													SET_ELEMENT_FILTER({
-														content: e.target.value,
-														type: 'level',
-													})
-												);
 											}}
 										>
 											<option value="all">tất cả</option>
@@ -354,12 +337,6 @@ function Word() {
 								value={currentTypeText}
 								onChange={(e) => {
 									setCurrentTypeText(e.target.value);
-									dispatch(
-										SET_ELEMENT_FILTER({
-											content: e.target.value,
-											type: 'typeText',
-										})
-									);
 								}}
 							>
 								<option value="word">Từ</option>
@@ -379,12 +356,6 @@ function Word() {
 									value={selectedMonth}
 									onChange={(e) => {
 										setSelectedMonth(e.target.value);
-										dispatch(
-											SET_ELEMENT_FILTER({
-												content: `${selectedYear}-${e.target.value}`,
-												type: 'date',
-											})
-										);
 									}}
 								>
 									<option value="1">1</option>
@@ -409,12 +380,6 @@ function Word() {
 									value={selectedYear}
 									onChange={(e) => {
 										setSelectedYear(e.target.value);
-										dispatch(
-											SET_ELEMENT_FILTER({
-												content: `${e.target.value}-${selectedMonth}`,
-												type: 'date',
-											})
-										);
 									}}
 								>
 									<option value="2024">2024</option>

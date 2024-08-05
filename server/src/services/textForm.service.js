@@ -11,7 +11,8 @@ const {
 	pendingReview,
 	updateLevelText,
 	getAllWithQuery,
-	synchData
+	synchData,
+	getAll,
 } = require('../models/respositories/text.repo');
 const dayjs = require('dayjs');
 
@@ -126,6 +127,13 @@ class TextFormFactory {
 	}
 	static async synchDataText(request) {
 		return await synchData({
+			...request,
+			model: text,
+		});
+	}
+
+	static async getAll(request) {
+		return await getAll({
 			...request,
 			model: text,
 		});

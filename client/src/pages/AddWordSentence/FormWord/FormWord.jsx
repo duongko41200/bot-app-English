@@ -120,9 +120,15 @@ function FormWord() {
 			setIsShow(true);
 
 			const createWord = await TextService.createWord(paramData);
+			const getData = JSON.parse(localStorage.getItem('textData'));
+			getData.unshift(createWord[RES_DATA].metadata);
+			localStorage.setItem(
+				'textData',
+				JSON.stringify(getData)
+			);
+
 
 			//save localStorage từ mới
-
 			let dataLocal = JSON.parse(localStorage.getItem('listText'));
 			let total = parseInt(localStorage.getItem('total'));
 			if (dataLocal.length >= LIMIT_LIST_TEXT_OF_PAGE) {

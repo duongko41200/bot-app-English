@@ -119,6 +119,18 @@ const TextService = {
 			}
 		);
 	},
+	getAll({ userId, accessToken }) {
+		return ApiService.get(
+			`${serviceURL}/all-text`,
+
+			{
+				'x-api-key': import.meta.env.APP_API_KEY,
+				'x-client-id': userId,
+				authorization: accessToken,
+			},
+			{}
+		);
+	},
 };
 
 export default TextService;

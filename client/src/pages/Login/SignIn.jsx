@@ -12,6 +12,9 @@ import {
 import { useDispatch } from 'react-redux';
 import { SET_USER } from '../../store/feature/auth';
 import SpinnerLoading from '../../components/ui/SpinnerLoading/SpinnerLoading';
+import { ToastError, ToastSuccess } from '../../utils/Toast';
+import { CREATE_SUCCESS } from '../../Constant/toast';
+import TextService from '../../services/API/tex.service';
 
 function SignIn() {
 	const [isShow, setIsShow] = useState(false);
@@ -40,77 +43,28 @@ function SignIn() {
 				email: formValues.email,
 				password: formValues.password,
 			});
-			console.log('createUser:', res);
 
 			if (err && err.message.includes('not registered')) {
-				toast.error(`Tài khoản không tồn tại`, {
-					duration: 4000,
-					position: 'top-right',
-					style: {},
-					className: '',
-
-					// Aria
-					ariaProps: {
-						role: 'status',
-						'aria-live': 'polite',
-					},
-				});
+				ToastError('Tài khoản không tồn tại');
 				setIsShow(false);
 				return;
 			}
 
 			if (err && err.message.includes('Authentication failed')) {
-
-				console.log("Error:",err)
-				toast.error(`Mật khẩu không chính xác `, {
-					duration: 4000,
-					position: 'top-right',
-					style: {},
-					className: '',
-
-					// Aria
-					ariaProps: {
-						role: 'status',
-						'aria-live': 'polite',
-					},
-				});
+				console.log('Error:', err);
+				ToastError('Mật khẩu không chính xác');
 				setIsShow(false);
 				return;
 			}
 
 			if (err) {
-				console.log("Error:",err)
-				toast.error(`Hãy thử đăng nhập lại xem `, {
-
-					duration: 4000,
-					position: 'top-right',
-
-					// Styling
-					style: {},
-					className: '',
-					ariaProps: {
-						role: 'status',
-						'aria-live': 'polite',
-					},
-				});
+				console.log('Error:', err);
+				ToastError('Hãy thử đăng nhập lại xem');
 				setIsShow(false);
 				return;
 			}
-			toast.success('chào mừng bạn đến với pikachu', {
-				duration: 4000,
-				position: 'top-right',
 
-				// Styling
-				style: {},
-				className: '',
-
-				// Aria
-				ariaProps: {
-					role: 'status',
-					'aria-live': 'polite',
-				},
-			});
-
+			//set aurthen
 			localStorage.setItem('userId', res.metadata?.user?._id);
 			localStorage.setItem(
 				'accessToken',
@@ -120,6 +74,23 @@ function SignIn() {
 				'refreshToken',
 				res.metadata?.tokens?.refreshToken
 			);
+
+			const getData = JSON.parse(localStorage.getItem('textData'));
+
+			if (!getData || getData?.length <= 0) {
+				const getAllText = await TextService.getAll({
+					userId: res.metadata?.user._id,
+					accessToken: res.metadata?.tokens?.accessToken,
+				});
+
+				localStorage.setItem(
+					'textData',
+					JSON.stringify(getAllText[0]?.metadata?.contents ?? [])
+				);
+			}
+
+			ToastSuccess(CREATE_SUCCESS);
+
 			localStorage.setItem('user', JSON.stringify(res.metadata?.user));
 			dispatch(SET_USER(res.metadata?.user));
 			localStorage.removeItem('listText');
@@ -128,25 +99,12 @@ function SignIn() {
 			// localStorage.removeItem('dayPending');
 			// localStorage.removeItem('topics')
 			// localStorage.removeItem('listChecking')
-			
+
 			setIsShow(false);
 
 			navigate('/');
 		} catch (error) {
-			toast.error(`${error}`, {
-				duration: 4000,
-				position: 'top-right',
-
-				// Styling
-				style: {},
-				className: '',
-
-				// Aria
-				ariaProps: {
-					role: 'status',
-					'aria-live': 'polite',
-				},
-			});
+			ToastError(`${error}`);
 			console.log({ error });
 			setIsShow(false);
 		}

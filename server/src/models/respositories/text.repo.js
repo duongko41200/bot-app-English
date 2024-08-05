@@ -6,6 +6,23 @@ const TopicModel = require('../../models/topic.model');
 const { Types } = mongoose;
 const dayjs = require('dayjs');
 
+const getAll = async ({ userId, model }) => {
+	console.log('userId', userId);
+
+	const getAll = await model
+		.find({ userId })
+		.populate('topicId')
+		.lean();
+
+	return {
+		// total: count,
+		// count: AllRecords.length,
+		// totalPages: Math.ceil(count / limit),
+		// currentPage: parseInt(page),
+		contents: getAll,
+	};
+};
+
 const findAllInfoText = async ({ model, query, limit, page }) => {
 	const countPromise = safetyCount({ model: model, query });
 	console.log({ query });
@@ -152,6 +169,7 @@ const pendingReview = async ({ userId, model }) => {
 		console.log({ error });
 	}
 };
+
 ///TOPIC
 
 const createTopic = async ({ name, userId }) => {
@@ -181,6 +199,7 @@ const updateLevelText = async ({
 	}
 };
 
+// Đồng bộ data từ desktop app sang mobile
 const synchData = async ({
 	dataCreate,
 	dataDelete,
@@ -188,8 +207,6 @@ const synchData = async ({
 	model,
 }) => {
 	const bulkOperations = [];
-
-	console.log('kdjfksjdkf');
 
 	console.log({ dataCreate, dataDelete, dataUpdate });
 	try {
@@ -234,7 +251,6 @@ const synchData = async ({
 				});
 			});
 		}
-
 
 		const result = await model.bulkWrite(bulkOperations);
 
@@ -297,4 +313,5 @@ module.exports = {
 	updateLevelText,
 	getAllWithQuery,
 	synchData,
+	getAll,
 };
