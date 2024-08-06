@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { motion } from 'framer-motion';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import TextService from '../../../services/API/tex.service';
 import { BG_COLOR, RES_DATA } from '../../../Constant/global';
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
 import { Box } from '@mui/material';
 
+function transformData(data) {
+	// Initialize an object to group items by day
+	const groupedByDay = data.reduce((acc, item) => {
+		const day = dayjs(item.dayReview).format('YYYY/MM/DD');
+
+		// If the day doesn't exist in the accumulator, create an entry
+		if (!acc[day]) {
+			acc[day] = [];
+		}
+
+		// Add the item to the appropriate day
+		acc[day].push(item);
+
+		return acc;
+	}, {});
+
+	// Convert the grouped object to the desired array format
+	return Object.keys(groupedByDay)
+		.sort((a, b) => new Date(b) - new Date(a)) // Sort from most recent to oldest
+		.map((day) => ({
+			day: day,
+			metaData: groupedByDay[day],
+			isShow: false,
+		}));
+}
 function CheckList() {
 	const [openModalTest, setOpenModalTest] = useState(false);
 	const [listChecking, setListChecking] = useState([]);
@@ -14,9 +39,9 @@ function CheckList() {
 	const [define, setDefine] = useState('');
 	const [idText, setIdText] = useState('');
 	const [level, setLevel] = useState('');
-	const [dayReview, setDayReview] = useState('')
-	
-	const [valueReview, setValueReview] = useState('')
+	const [dayReview, setDayReview] = useState('');
+
+	const [valueReview, setValueReview] = useState('');
 
 	const fetchData = async () => {
 		try {
@@ -24,36 +49,40 @@ function CheckList() {
 
 			// Lấy dữ liệu từ localStorage
 			let localStorageChecking =
-				JSON.parse(localStorage.getItem('listChecking')) || [];
-			const localStorageDayPending = localStorage.getItem('dayPending');
+				JSON.parse(localStorage.getItem('textData')) || [];
+			// const localStorageDayPending = localStorage.getItem('dayPending');
+
+			const transformedData = transformData(localStorageChecking);
+
+			console.log({ transformedData });
 
 			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
-			if (localStorageDayPending !== currentDay) {
-				const data = await TextService.getListPendding();
-				const response = data[RES_DATA].metadata.contents;
+			// if (localStorageDayPending !== currentDay) {
+			// 	const data = await TextService.getListPendding();
+			// 	const response = data[RES_DATA].metadata.contents;
 
-				// Cập nhật ngày pending và danh sách pending trong localStorage
-				localStorage.setItem('dayPending', currentDay);
-				localStorage.setItem('listPending', JSON.stringify(response)); //danh sách sẽ học trong hôm nay
+			// 	// Cập nhật ngày pending và danh sách pending trong localStorage
+			// 	localStorage.setItem('dayPending', currentDay);
+			// 	localStorage.setItem('listPending', JSON.stringify(response)); //danh sách sẽ học trong hôm nay
 
-				if (response?.length > 0) {
-					const dataRequest = {
-						day: currentDay,
-						metaData: response,
-						isShow: false,
-					};
+			// 	if (response?.length > 0) {
+			// 		const dataRequest = {
+			// 			day: currentDay,
+			// 			metaData: response,
+			// 			isShow: false,
+			// 		};
 
-					// Cập nhật danh sách checking trong localStorage
-					localStorageChecking.unshift(dataRequest);
-					localStorage.setItem(
-						'listChecking',
-						JSON.stringify(localStorageChecking)
-					);
-				}
-			}
+			// 		// Cập nhật danh sách checking trong localStorage
+			// 		localStorageChecking.unshift(dataRequest);
+			// 		localStorage.setItem(
+			// 			'listChecking',
+			// 			JSON.stringify(localStorageChecking)
+			// 		);
+			// 	}
+			// }
 
 			// Cập nhật state của listChecking
-			setListChecking(localStorageChecking);
+			setListChecking(transformedData);
 		} catch (error) {
 			console.log({ error });
 			setIsShow(false);
@@ -79,9 +108,9 @@ function CheckList() {
 		setLevel(value.repeat);
 		setDefine(value.defind);
 		setIdText(value._id);
-		setDayReview(value.dayReview)
+		setDayReview(value.dayReview);
 
-		setValueReview(value)
+		setValueReview(value);
 	};
 	const closeModalBottom = () => {
 		setOpenModalTest(false);
@@ -169,14 +198,14 @@ function CheckList() {
 												duration: 0,
 												ease: [0.04, 0.62, 0.23, 0.98],
 											}}
-											className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md"
+											className="px-1 h-fit bg-[#eef5bd6c] py-2 flex flex-col gap-1 border shadow-md max-h-[450px] overflow-auto"
 										>
 											{value.metaData &&
 												value.metaData?.map((value, idx) => {
 													return (
 														<Box
 															key={idx}
-															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4"
+															className=" flex flex-col gap-2 shadow-md p-2 rounded-md border bg-slate-100 px-4 "
 															onClick={() => handleShowListTest(value)}
 														>
 															<div className="detail-list__top flex justify-between">
@@ -249,7 +278,6 @@ function CheckList() {
 				define={define}
 				idText={idText}
 				dayReview={dayReview}
-
 				valueReview={valueReview}
 				setListChecking={setListChecking}
 			></DetailChecking>

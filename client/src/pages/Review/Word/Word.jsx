@@ -69,11 +69,7 @@ function Word() {
 	/// FUNCTION HANDLE ///
 	const handleChangePage = async (event, value) => {
 		if (currentPage != value) {
-			setIsShow(true);
 			setCurrentPage(value);
-			const dataFilterPage = await functionPagination(value, listData);
-			setListData(dataFilterPage);
-			setIsShow(false);
 		}
 	};
 
@@ -259,7 +255,7 @@ function Word() {
 		}
 	};
 
-	useEffect(() => {
+	const handleData = async () => {
 		const getData = JSON.parse(localStorage.getItem('textData')) ?? [];
 		let allDataTextClone = structuredClone(getData);
 
@@ -280,18 +276,28 @@ function Word() {
 				`${selectedYear}-${selectedMonth}`
 			);
 		});
-		console.log(' currentMonth', currentMonth);
 
-		const dataFilterPage = functionPagination(
+		const dataFilterPage = await functionPagination(
 			currentPage,
 			allDataTextClone
 		);
+
 		setListData(dataFilterPage);
 		setTotalText(allDataTextClone?.length ?? 0);
 		setTotalPages(
 			Math.ceil(allDataTextClone?.length / LIMIT_LIST_TEXT_OF_PAGE)
 		);
-	}, [selectedMonth, currentLevel, currentTypeText, selectedYear]);
+	};
+
+	useEffect(() => {
+		handleData();
+	}, [
+		selectedMonth,
+		currentLevel,
+		currentTypeText,
+		selectedYear,
+		currentPage,
+	]);
 	return (
 		<>
 			<div>
