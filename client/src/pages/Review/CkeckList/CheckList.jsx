@@ -3,9 +3,27 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { motion } from 'framer-motion';
 import dayjs, { Dayjs } from 'dayjs';
 import TextService from '../../../services/API/tex.service';
-import { BG_COLOR, RES_DATA } from '../../../Constant/global';
+import {
+	BG_COLOR,
+	LIMIT_LIST_TEXT_OF_PAGE,
+	RES_DATA,
+} from '../../../Constant/global';
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
-import { Box } from '@mui/material';
+import { Box, Pagination, Stack } from '@mui/material';
+import { functionPagination } from '../../../utils/pagination.js';
+
+function convertToDate(dateString) {
+	const [year, month, day] = dateString.split('/').map(Number);
+	return new Date(year, month - 1, day);
+}
+function filterByDayBeforeToday(data) {
+	const today = new Date();
+
+	return data.filter((item) => {
+		const itemDate = convertToDate(item.day);
+		return itemDate <= today;
+	});
+}
 
 function transformData(data) {
 	// Initialize an object to group items by day
@@ -42,50 +60,57 @@ function CheckList() {
 	const [dayReview, setDayReview] = useState('');
 
 	const [valueReview, setValueReview] = useState('');
+	const [allCheckList, setAllCheckList] = useState([]);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [tempCurrentPage, setTempCurrentPage] = useState('');
+	const [totalPages, setTotalPages] = useState('');
 
 	const fetchData = async () => {
+		// let localStorageChecking = JSON.parse(localStorage.getItem('listChecking')) || [];
 		try {
 			const currentDay = dayjs(new Date()).format('YYYY/MM/DD');
 
-			// Lấy dữ liệu từ localStorage
 			let localStorageChecking =
 				JSON.parse(localStorage.getItem('textData')) || [];
-			// const localStorageDayPending = localStorage.getItem('dayPending');
 
-			const transformedData = transformData(localStorageChecking);
+			const transformedData = await transformData(localStorageChecking);
 
-			console.log({ transformedData });
+			localStorage.setItem(
+				'listChecking',
+				JSON.stringify(transformedData)
+			);
 
-			// Kiểm tra nếu ngày trong localStorage khác với ngày hiện tại
-			// if (localStorageDayPending !== currentDay) {
-			// 	const data = await TextService.getListPendding();
-			// 	const response = data[RES_DATA].metadata.contents;
+			const listChekingFilterDay =
+				filterByDayBeforeToday(transformedData);
 
-			// 	// Cập nhật ngày pending và danh sách pending trong localStorage
-			// 	localStorage.setItem('dayPending', currentDay);
-			// 	localStorage.setItem('listPending', JSON.stringify(response)); //danh sách sẽ học trong hôm nay
+			const dataFilterPage = await functionPagination(
+				currentPage != tempCurrentPage ? currentPage : 1,
+				listChekingFilterDay
+			);
 
-			// 	if (response?.length > 0) {
-			// 		const dataRequest = {
-			// 			day: currentDay,
-			// 			metaData: response,
-			// 			isShow: false,
-			// 		};
-
-			// 		// Cập nhật danh sách checking trong localStorage
-			// 		localStorageChecking.unshift(dataRequest);
-			// 		localStorage.setItem(
-			// 			'listChecking',
-			// 			JSON.stringify(localStorageChecking)
-			// 		);
-			// 	}
-			// }
-
-			// Cập nhật state của listChecking
-			setListChecking(transformedData);
+			setAllCheckList(listChekingFilterDay);
+			setTotalPages(
+				Math.ceil(
+					listChekingFilterDay?.length / LIMIT_LIST_TEXT_OF_PAGE
+				)
+			);
+			setListChecking(dataFilterPage);
 		} catch (error) {
 			console.log({ error });
 			setIsShow(false);
+		}
+	};
+
+	const handleChangePage = async (e, value) => {
+		console.log({ value });
+		if (currentPage != value) {
+			setCurrentPage(value);
+			const dataFilterPage = await functionPagination(
+				currentPage != tempCurrentPage ? currentPage : 1,
+				allCheckList
+			);
+
+			setListChecking(dataFilterPage);
 		}
 	};
 
@@ -121,8 +146,10 @@ function CheckList() {
 	}, []);
 	return (
 		<>
-			<div className={`filter-check flex justify-start pt-4  pb-2 `}>
-				<div className="filter-level">
+			<div
+				className={`filter-check flex justify-start pt-4 w-full pb-2 `}
+			>
+				<div className="filter-level w-full">
 					<div className="filter mb-2 ">
 						<div className="flex justify-between">
 							<div>
@@ -136,21 +163,40 @@ function CheckList() {
 						</div>
 					</div>
 
-					<div className="border-t-2 pt-2">
-						<select
-							id="level"
-							className="font-bold bg-white"
-							// value={currentLevel}
-						>
-							<option value="all">Hàng tháng</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-						</select>
+					<div className="border-t-2 pt-2 flex justify-between w-full">
+						{/* <div>
+							<select
+								id="level"
+								className="font-bold bg-white w-fit"
+								// value={currentLevel}
+							>
+								<option value="all">Hàng tháng</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+							</select>
+						</div> */}
+
+						<div>
+							<Stack spacing={2}>
+								{/* <Pagination count={10} shape="rounded" /> */}
+								<Pagination
+									count={totalPages}
+									variant="outlined"
+									shape="rounded"
+									size="small"
+									defaultPage={currentPage}
+									siblingCount={0}
+									onChange={handleChangePage}
+									page={currentPage}
+									// disabled={isShow}
+								/>
+							</Stack>
+						</div>
 					</div>
 				</div>
 			</div>

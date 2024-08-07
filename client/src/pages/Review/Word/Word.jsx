@@ -57,6 +57,7 @@ function Word() {
 
 	const [totalPages, setTotalPages] = useState(0);
 	const [allDataText, setAllDataText] = useState([]);
+	const [tempCurrentPage, setTempCurrentPage] = useState('');
 
 	/// REDUX ////
 
@@ -257,7 +258,7 @@ function Word() {
 
 	const handleData = async () => {
 		const getData = JSON.parse(localStorage.getItem('textData')) ?? [];
-		let allDataTextClone = structuredClone(getData);
+		let allDataTextClone = getData;
 
 		if (currentLevel != 'all') {
 			allDataTextClone = allDataTextClone.filter(
@@ -278,7 +279,7 @@ function Word() {
 		});
 
 		const dataFilterPage = await functionPagination(
-			currentPage,
+			currentPage != tempCurrentPage ? currentPage : 1,
 			allDataTextClone
 		);
 
@@ -287,6 +288,10 @@ function Word() {
 		setTotalPages(
 			Math.ceil(allDataTextClone?.length / LIMIT_LIST_TEXT_OF_PAGE)
 		);
+
+		if (currentPage != tempCurrentPage) {
+			setTempCurrentPage(currentPage);
+		}
 	};
 
 	useEffect(() => {

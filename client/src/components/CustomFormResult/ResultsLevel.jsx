@@ -58,6 +58,7 @@ function ResultsLevel1({
 	};
 
 	const upgradeLevel = async () => {
+		console.log({ valueReview });
 		try {
 			setSpinerSubmit(true);
 			const param = {
@@ -74,7 +75,9 @@ function ResultsLevel1({
 
 			// filter list text on localStorage
 			localStorageChecking = localStorageChecking.map((value) => {
-				if (value.day == valueReview.dayReview) {
+				if (
+					value.day == dayjs(valueReview.dayReview).format('YYYY/MM/DD')
+				) {
 					value.metaData = value.metaData.filter(
 						(value, idx) => value._id != valueReview._id
 					);
@@ -86,13 +89,29 @@ function ResultsLevel1({
 				(value) => value.metaData.length > 0
 			);
 
+			//Cập nhâp textdata
+			let textData = JSON.parse(localStorage.getItem('textData')) ?? [];
+			if (textData.length > 0) {
+				textData = textData.map((value) => {
+					if (value._id == valueReview._id) {
+						(value.dayReview = dayjs(new Date())
+							.add(parseInt(level) + 1, 'day')
+							.format('YYYY/MM/DD')),
+							(value.repeat = valueReview.repeat + 1);
+					}
+					return value;
+				});
+			}
+			localStorage.setItem('textData', JSON.stringify(textData));
+
 			localStorage.setItem(
 				'listChecking',
 				JSON.stringify(localStorageChecking)
 			);
 			setListChecking(localStorageChecking);
-			setSpinerSubmit(false);
+
 			closeModalBottom();
+			setSpinerSubmit(false);
 		} catch (error) {
 			console.log({ error });
 			setSpinerSubmit(false);
