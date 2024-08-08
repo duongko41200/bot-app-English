@@ -31,9 +31,7 @@ function ModalDetailText({
 
 	function findFemaleVoice(voices) {
 		let femaleVoice = voices.find(
-			(voice) =>
-				voice.name.toLowerCase() ==
-				'Google UK English Female'.toLowerCase()
+			(voice) => voice.name.toLowerCase() == 'Anna'.toLowerCase()
 		);
 		if (femaleVoice) {
 			return femaleVoice;
@@ -41,7 +39,7 @@ function ModalDetailText({
 			console.warn(
 				'Giọng nói nữ không tìm thấy. Sẽ sử dụng giọng nói mặc định.'
 			);
-			return voices[6]; // Trả về giọng nói đầu tiên nếu không tìm thấy giọng nói nữ
+			return voices[4]; // Trả về giọng nói đầu tiên nếu không tìm thấy giọng nói nữ
 		}
 	}
 
@@ -79,7 +77,6 @@ function ModalDetailText({
 			{show && (
 				<div className="absolute w-full h-full top-0 flex justify-center">
 					<div className="w-full absolute z-9  h-full bg-gray-300 fixed opacity-40"></div>
-					{JSON.stringify(voices)}
 
 					<div
 						className="w-[90%] fixed top-0 flex items-center h-full p-4"
@@ -137,7 +134,7 @@ function ModalDetailText({
 									)}
 								</div>
 
-								<div style={{maxHeight:"150px",overflow:'auto'}}>
+								<div style={{ maxHeight: '150px', overflow: 'auto' }}>
 									{voices &&
 										voices.map((value) => {
 											return <div>{value.name}</div>;
