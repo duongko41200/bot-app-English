@@ -19,10 +19,7 @@ function ModalDetailText({
 }) {
 	const [show, setShow] = useState(false);
 	const [textVoice, setTextVoice] = useState('');
-
-	// const [response, setResponse] = useState(null);
-	// const [error, setError] = useState(null);
-	// const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+	let voices = window.speechSynthesis.getVoices();
 
 	const dispatch = useDispatch();
 	const audioRef = useRef(null);
@@ -32,20 +29,23 @@ function ModalDetailText({
 		onCancel();
 	};
 
-	const getTextByVoice = async () => {
-		console.log(' teksj:', textDetail.text);
-		const data = {
-			src: textDetail.text,
-		};
-
-		const resVoice = await OtherService.textToVoice(data);
-		console.log({ resVoice });
-		setTextVoice(resVoice[RES_DATA].metadata.voice);
-	};
+	function findFemaleVoice(voices) {
+		let femaleVoice = voices.find((voice) =>
+			voice.name.toLowerCase().includes('female')
+		);
+		if (femaleVoice) {
+			return femaleVoice;
+		} else {
+			console.warn(
+				'Giọng nói nữ không tìm thấy. Sẽ sử dụng giọng nói mặc định.'
+			);
+			return voices[0]; // Trả về giọng nói đầu tiên nếu không tìm thấy giọng nói nữ
+		}
+	}
 
 	const handleVolumeClick = () => {
 		let speech = new SpeechSynthesisUtterance();
-		window.speechSynthesis.cancel();
+		// window.speechSynthesis.cancel();
 
 		speech.lang = 'en';
 		speech.text = textDetail.text;
@@ -53,23 +53,10 @@ function ModalDetailText({
 		// speech.voice = 1;
 		speech.rate = 1;
 		speech.pitch = 1;
-		let voices = window.speechSynthesis.getVoices();
 
-		// console.log({ voices });
+		let selectedVoice = findFemaleVoice(voices);
 
-		let femaleVoice = voices.find(
-			(voice) =>
-				voice.name.includes('female') ||
-				voice.name.toLowerCase().includes('female')
-		);
-
-		if (femaleVoice) {
-			speech.voice = femaleVoice;
-		} else {
-			console.warn(
-				'Giọng nói nữ không tìm thấy. Sẽ sử dụng giọng nói mặc định.'
-			);
-		}
+		speech.voice = selectedVoice;
 
 		window.speechSynthesis.speak(speech);
 	};
