@@ -29,9 +29,9 @@ function ModalDetailText({
 		onCancel();
 	};
 
-	function findFemaleVoice(voices) {
+	function findFemaleVoice(voices, value) {
 		let femaleVoice = voices.find(
-			(voice) => voice.name.toLowerCase() == 'Anna'.toLowerCase()
+			(voice) => voice.name.toLowerCase() == value.name.toLowerCase()
 		);
 		if (femaleVoice) {
 			return femaleVoice;
@@ -56,7 +56,27 @@ function ModalDetailText({
 
 		console.log({ voices });
 
-		let selectedVoice = findFemaleVoice(voices);
+		let selectedVoice = findFemaleVoice(voices, { name: 'Anna' });
+
+		speech.voice = selectedVoice;
+
+		window.speechSynthesis.speak(speech);
+	};
+
+	const chargeVoices = (value) => {
+		let speech = new SpeechSynthesisUtterance();
+		// window.speechSynthesis.cancel();
+
+		speech.lang = 'en';
+		speech.text = textDetail.text;
+		speech.volume = 1;
+		// speech.voice = 1;
+		speech.rate = 1;
+		speech.pitch = 1;
+
+		console.log({ voices });
+
+		let selectedVoice = findFemaleVoice(voices, value);
 
 		speech.voice = selectedVoice;
 
@@ -137,7 +157,11 @@ function ModalDetailText({
 								<div style={{ maxHeight: '150px', overflow: 'auto' }}>
 									{voices &&
 										voices.map((value) => {
-											return <div>{value.name}</div>;
+											return (
+												<div onClick={() => chargeVoices(value)}>
+													{value.name}
+												</div>
+											);
 										})}
 								</div>
 							</div>
