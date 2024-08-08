@@ -51,12 +51,12 @@ function ModalDetailText({
 		speech.text = textDetail.text;
 		speech.volume = 1;
 		// speech.voice = 1;
-		speech.rate = 1;
+		speech.rate = 1.3;
 		speech.pitch = 1;
 
 		console.log({ voices });
 
-		let selectedVoice = findFemaleVoice(voices, { name: 'Anna' });
+		let selectedVoice = findFemaleVoice(voices, { name: 'Mei-Jia' });
 
 		speech.voice = selectedVoice;
 
@@ -154,7 +154,7 @@ function ModalDetailText({
 									)}
 								</div>
 
-								<div style={{ maxHeight: '150px', overflow: 'auto' }}>
+								{/* <div style={{ maxHeight: '150px', overflow: 'auto' }}>
 									{voices &&
 										voices.map((value) => {
 											return (
@@ -163,7 +163,7 @@ function ModalDetailText({
 												</div>
 											);
 										})}
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>
