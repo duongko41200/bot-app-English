@@ -11,19 +11,9 @@ import {
 import DetailChecking from './DetailChecking/DetailChecking.jsx';
 import { Box, Pagination, Stack } from '@mui/material';
 import { functionPagination } from '../../../utils/pagination.js';
+import { filterByDayBeforeToday } from '../../../utils/filterByDay.js';
 
-function convertToDate(dateString) {
-	const [year, month, day] = dateString.split('/').map(Number);
-	return new Date(year, month - 1, day);
-}
-function filterByDayBeforeToday(data) {
-	const today = new Date();
 
-	return data.filter((item) => {
-		const itemDate = convertToDate(item.day);
-		return itemDate <= today;
-	});
-}
 
 function transformData(data) {
 	// Initialize an object to group items by day

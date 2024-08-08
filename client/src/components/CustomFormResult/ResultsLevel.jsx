@@ -17,6 +17,7 @@ import { useStyles } from '../../style/general';
 import TextService from '../../services/API/tex.service';
 import dayjs from 'dayjs';
 import SpinnerLoading from '../ui/SpinnerLoading/SpinnerLoading';
+import { filterByDayBeforeToday } from '../../utils/filterByDay';
 
 function ResultsLevel1({
 	result,
@@ -95,7 +96,7 @@ function ResultsLevel1({
 				textData = textData.map((value) => {
 					if (value._id == valueReview._id) {
 						(value.dayReview = dayjs(new Date())
-							.add(parseInt(level) + 1, 'day')
+							.add(parseInt(level), 'day')
 							.format('YYYY/MM/DD')),
 							(value.repeat = valueReview.repeat + 1);
 					}
@@ -108,7 +109,12 @@ function ResultsLevel1({
 				'listChecking',
 				JSON.stringify(localStorageChecking)
 			);
-			setListChecking(localStorageChecking);
+
+			const listChekingFilterDay = filterByDayBeforeToday(
+				localStorageChecking
+			);
+
+			setListChecking(listChekingFilterDay);
 
 			closeModalBottom();
 			setSpinerSubmit(false);

@@ -44,7 +44,6 @@ function ModalDetailText({
 	};
 
 	const handleVolumeClick = () => {
-
 		let speech = new SpeechSynthesisUtterance();
 		window.speechSynthesis.cancel();
 
@@ -54,6 +53,23 @@ function ModalDetailText({
 		// speech.voice = 1;
 		speech.rate = 1;
 		speech.pitch = 1;
+		let voices = window.speechSynthesis.getVoices();
+
+		// console.log({ voices });
+
+		let femaleVoice = voices.find(
+			(voice) =>
+				voice.name.includes('female') ||
+				voice.name.toLowerCase().includes('female')
+		);
+
+		if (femaleVoice) {
+			speech.voice = femaleVoice;
+		} else {
+			console.warn(
+				'Giọng nói nữ không tìm thấy. Sẽ sử dụng giọng nói mặc định.'
+			);
+		}
 
 		window.speechSynthesis.speak(speech);
 	};
@@ -71,14 +87,7 @@ function ModalDetailText({
 		<>
 			{show && (
 				<div className="absolute w-full h-full top-0 flex justify-center">
-					<div className="w-full absolute z-9  h-full bg-gray-300 fixed opacity-40">
-						{/* <audio ref={audioRef} controls className="opacity-0">
-							<source
-								src={`data:audio/mpeg;base64,${textVoice}`}
-								type="audio/mpeg"
-							/>
-						</audio> */}
-					</div>
+					<div className="w-full absolute z-9  h-full bg-gray-300 fixed opacity-40"></div>
 
 					<div
 						className="w-[90%] fixed top-0 flex items-center h-full p-4"
