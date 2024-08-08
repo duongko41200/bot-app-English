@@ -30,8 +30,10 @@ function ModalDetailText({
 	};
 
 	function findFemaleVoice(voices) {
-		let femaleVoice = voices.find((voice) =>
-			voice.name.toLowerCase().includes('female')
+		let femaleVoice = voices.find(
+			(voice) =>
+				voice.name.toLowerCase() ==
+				'Google UK English Female'.toLowerCase()
 		);
 		if (femaleVoice) {
 			return femaleVoice;
@@ -39,7 +41,7 @@ function ModalDetailText({
 			console.warn(
 				'Giọng nói nữ không tìm thấy. Sẽ sử dụng giọng nói mặc định.'
 			);
-			return voices[0]; // Trả về giọng nói đầu tiên nếu không tìm thấy giọng nói nữ
+			return voices[6]; // Trả về giọng nói đầu tiên nếu không tìm thấy giọng nói nữ
 		}
 	}
 
@@ -53,6 +55,8 @@ function ModalDetailText({
 		// speech.voice = 1;
 		speech.rate = 1;
 		speech.pitch = 1;
+
+		console.log({ voices });
 
 		let selectedVoice = findFemaleVoice(voices);
 
