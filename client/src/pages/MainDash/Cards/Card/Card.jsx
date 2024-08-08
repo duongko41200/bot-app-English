@@ -5,6 +5,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import { UilTimes } from '@iconscout/react-unicons';
 import Chart from 'react-apexcharts';
+import dayjs from 'dayjs';
 
 // parent Card
 
@@ -31,8 +32,6 @@ const Card = (props) => {
 function CompactCard({ param, setExpanded }) {
 	const Png = param.png;
 
-
-	
 	return (
 		<motion.div
 			className="CompactCard"
@@ -44,17 +43,11 @@ function CompactCard({ param, setExpanded }) {
 			onClick={setExpanded}
 		>
 			<div className="radialBar">
-				{/* <CircularProgressbar
-          value={param.barValue}
-          text={`${param.barValue}%`}
-        /> */}
 				<div className="radialBar__left">
-					<div>Tháng {param.title}</div>
-					{/* <div>{param.title}</div> */}
+					<div>Tháng {dayjs(new Date()).format('MM')}</div>
 				</div>
 			</div>
 			<div className="detail">
-
 				<div className="detial__content">
 					<div className="detial__content--arrange">
 						<div>Tổng từ:</div>

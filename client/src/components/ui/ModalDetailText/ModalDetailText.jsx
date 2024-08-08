@@ -79,6 +79,7 @@ function ModalDetailText({
 			{show && (
 				<div className="absolute w-full h-full top-0 flex justify-center">
 					<div className="w-full absolute z-9  h-full bg-gray-300 fixed opacity-40"></div>
+					{JSON.stringify(voices)}
 
 					<div
 						className="w-[90%] fixed top-0 flex items-center h-full p-4"
@@ -134,6 +135,13 @@ function ModalDetailText({
 											<div>Cấp độ : {textDetail.repeat}</div>
 										</>
 									)}
+								</div>
+
+								<div style={{maxHeight:"150px",overflow:'auto'}}>
+									{voices &&
+										voices.map((value) => {
+											return <div>{value.name}</div>;
+										})}
 								</div>
 							</div>
 						</div>
