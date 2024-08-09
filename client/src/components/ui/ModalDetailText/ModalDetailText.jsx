@@ -51,7 +51,7 @@ function ModalDetailText({
 		speech.text = textDetail.text;
 		speech.volume = 1;
 		// speech.voice = 1;
-		speech.rate = 1.3;
+		speech.rate = 1.1;
 		speech.pitch = 1;
 
 		console.log({ voices });
